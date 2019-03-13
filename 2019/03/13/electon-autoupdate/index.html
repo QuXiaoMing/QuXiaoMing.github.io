@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="网上关于 Electron 应用自动更新的文章并不多，许多都已经过时，且较为繁琐。本文将介绍，通过 Electron-Vue +  autoUpdater + electron-release-server 快速搭建自动更新服务。">
+<meta name="description" content="网上关于 Electron 应用自动更新的文章并不多，许多都已经过时，且较为繁琐。本文将介绍，通过 Electron-Vue + autoUpdater + electron-release-server 快速搭建自动更新服务。">
 <meta name="keywords" content="electron">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Electron autoUpdate 配置自动更新">
 <meta property="og:url" content="shellming.com/2019/03/13/electon-autoupdate/index.html">
 <meta property="og:site_name" content="Shellming&#39;s Note">
-<meta property="og:description" content="网上关于 Electron 应用自动更新的文章并不多，许多都已经过时，且较为繁琐。本文将介绍，通过 Electron-Vue +  autoUpdater + electron-release-server 快速搭建自动更新服务。">
+<meta property="og:description" content="网上关于 Electron 应用自动更新的文章并不多，许多都已经过时，且较为繁琐。本文将介绍，通过 Electron-Vue + autoUpdater + electron-release-server 快速搭建自动更新服务。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-03-13T02:08:02.665Z">
+<meta property="og:updated_time" content="2019-03-13T07:12:34.784Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Electron autoUpdate 配置自动更新">
-<meta name="twitter:description" content="网上关于 Electron 应用自动更新的文章并不多，许多都已经过时，且较为繁琐。本文将介绍，通过 Electron-Vue +  autoUpdater + electron-release-server 快速搭建自动更新服务。">
+<meta name="twitter:description" content="网上关于 Electron 应用自动更新的文章并不多，许多都已经过时，且较为繁琐。本文将介绍，通过 Electron-Vue + autoUpdater + electron-release-server 快速搭建自动更新服务。">
 
 
 
@@ -161,7 +161,7 @@
       </a>
     </div>
       
-        <p class="site-subtitle">屠龙少年在燃烧</p>
+        <h1 class="site-subtitle" itemprop="description">Talk To The World</h1>
       
   </div>
 
@@ -250,7 +250,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Electron autoUpdate 配置自动更新</h1>
+          <h2 class="post-title" itemprop="name headline">Electron autoUpdate 配置自动更新</h2>
         
 
         <div class="post-meta">
@@ -300,10 +300,10 @@
       
 
       
-        <p>网上关于 Electron 应用自动更新的文章并不多，许多都已经过时，且较为繁琐。<br>本文将介绍，通过 <code>Electron-Vue</code> +  <code>autoUpdater</code> + <code>electron-release-server</code> 快速搭建自动更新服务。</p>
+        <p>网上关于 Electron 应用自动更新的文章并不多，许多都已经过时，且较为繁琐。<br>本文将介绍，通过 <code>Electron-Vue</code> + <code>autoUpdater</code> + <code>electron-release-server</code> 快速搭建自动更新服务。</p>
 <a id="more"></a>
 <h2 id="1-配置版本管理服务器"><a href="#1-配置版本管理服务器" class="headerlink" title="1 配置版本管理服务器"></a>1 配置版本管理服务器</h2><p>自动更新需要一个服务器存放 Electron 应用的安装包。本地应用在启动时检测服务器上是否有新版本。</p>
-<p>这里选择的是 <code>electron-release-server</code> 作为托管的electron应用程序的发布服务器, 兼容自动更新器。</p>
+<p>这里选择的是 <code>electron-release-server</code> 作为托管的 electron 应用程序的发布服务器, 兼容自动更新器。</p>
 <blockquote>
 <p>Electron-release-server: A node web server which serves &amp; manages releases of your Electron App, and is fully compatible with Squirrel Auto-updater (which is built into Electron).</p>
 </blockquote>
@@ -314,7 +314,7 @@
 <h2 id="2-编译安装包"><a href="#2-编译安装包" class="headerlink" title="2 编译安装包"></a>2 编译安装包</h2><h3 id="2-1-初始化项目"><a href="#2-1-初始化项目" class="headerlink" title="2.1 初始化项目"></a>2.1 初始化项目</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装 vue-cli 和 脚手架样板代码</span></span><br><span class="line">npm install -g vue-cli</span><br><span class="line">vue init simulatedgreg/electron-vue my-project</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> my-project</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装依赖并编译你的程序</span></span><br><span class="line">yarn <span class="comment"># 或者 npm install</span></span><br></pre></td></tr></table></figure>
 <h3 id="2-2-开启自动更新"><a href="#2-2-开启自动更新" class="headerlink" title="2.2 开启自动更新"></a>2.2 开启自动更新</h3><p>安装依赖后，在主进程 main/index.js 里，增加自动更新代码。</p>
 <p>在 <code>src/mian/index.js</code> 中设置更新地址</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/mian/index.js</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> &#123; autoUpdater &#125; <span class="keyword">from</span> <span class="string">'electron-updater'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 设置检测更新地址</span></span><br><span class="line"><span class="comment">// `Update URLs provided: /update/:platform/:version[/:channel]`</span></span><br><span class="line">autoUpdater.setFeedURL(<span class="string">'http://your.server.address:1337/update/windows_32/'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 文件下载完成： 重启服务</span></span><br><span class="line">autoUpdater.on(<span class="string">'update-downloaded'</span>, () =&gt; &#123;</span><br><span class="line">  autoUpdater.quitAndInstall()</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 生产环境中检查更新</span></span><br><span class="line">app.on(<span class="string">'ready'</span>, () =&gt; &#123;</span><br><span class="line">  <span class="keyword">if</span> (process.env.NODE_ENV === <span class="string">'production'</span>)  autoUpdater.checkForUpdates()</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/mian/index.js</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> &#123;autoUpdater&#125; <span class="keyword">from</span> <span class="string">'electron-updater'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 设置检测更新地址</span></span><br><span class="line"><span class="comment">// `Update URLs provided: /update/:platform/:version[/:channel]`</span></span><br><span class="line">autoUpdater.setFeedURL(<span class="string">'http://your.server.address:1337/update/windows_32/'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 文件下载完成： 重启服务</span></span><br><span class="line">autoUpdater.on(<span class="string">'update-downloaded'</span>, () =&gt; &#123;</span><br><span class="line">    autoUpdater.quitAndInstall();</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 生产环境中检查更新</span></span><br><span class="line">app.on(<span class="string">'ready'</span>, () =&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> (process.env.NODE_ENV === <span class="string">'production'</span>) autoUpdater.checkForUpdates();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 <p>通过设置 <code>package.json</code> 的 <code>version</code> 来设置应用程序的版本。</p>
 <p>版本号的设定需要符合语义化规则 <a href="https://semver.org/lang/zh-CN/" target="_blank" rel="noopener">Semantic Versioning 2.0.0 </a></p>
 <h3 id="2-3-编译文件"><a href="#2-3-编译文件" class="headerlink" title="2.3 编译文件"></a>2.3 编译文件</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn run build <span class="comment"># 或者 npm run build</span></span><br></pre></td></tr></table></figure>
@@ -323,31 +323,35 @@
 <p>你还可以在服务器上对各个版本的应用进行管理。</p>
 <p>到此，一个完整的 Electron 自动更新服务已经配置完成。</p>
 <p>当本地应用版本低于对应服务器上应用版本时，程序会自动下载安装包，重启并更新应用。整个更新过程都在后台进行，并且不会删除用户数据。</p>
-<h2 id="4-踩坑"><a href="#4-踩坑" class="headerlink" title="4 踩坑"></a>4 踩坑</h2><h3 id="4-1-Cannot-find-channel-“latest-yml”-update"><a href="#4-1-Cannot-find-channel-“latest-yml”-update" class="headerlink" title="4.1 Cannot find channel “latest.yml” update"></a>4.1 Cannot find channel “latest.yml” update</h3><p>更新地址设置错误，或者服务器配置失败都有可能导致这个错误。<br><strong>解决方法：设置正确的setFeedURL： <code>/update/:platform/:version[/:channel]</code></strong><br>在浏览器访问正确的 <code>feedURL/latest.yml</code> 可以看到最新版本的信息</p>
+<h2 id="4-踩坑"><a href="#4-踩坑" class="headerlink" title="4 踩坑"></a>4 踩坑</h2><p><strong> 4.1 Cannot find channel “latest.yml” update </strong></p>
+<p>更新地址设置错误，或者服务器配置失败都有可能导致这个错误。<br><strong>解决方法：设置正确的 setFeedURL： <code>/update/:platform/:version[/:channel]</code></strong><br>在浏览器访问正确的 <code>feedURL/latest.yml</code> 可以看到最新版本的信息</p>
 <blockquote>
 <p>version: 1.8.0 releaseDate: Mon Feb 05 2018 17:19:31 GMT+0800 (CST) path: /download/1.8.0/windows_32/ctron-vue%20Setup%201.8.0.exe sha2: f5d0037020f2cea7254fb9ec2a4bb3c67250aa366f7aadf57a7cab9b38b124c0</p>
 </blockquote>
-<h3 id="4-2-Update-info-doesn’t-contain-nor-sha256-neither-sha512-checksum"><a href="#4-2-Update-info-doesn’t-contain-nor-sha256-neither-sha512-checksum" class="headerlink" title="4.2 Update info doesn’t contain nor sha256 neither sha512 checksum"></a>4.2 Update info doesn’t contain nor sha256 neither sha512 checksum</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Found version 1.8.0 (url: )</span><br><span class="line">  update-available &#123; version: <span class="string">'1.8.0'</span>,</span><br><span class="line">    releaseDate: <span class="string">'Mon Feb 05 2018 17:19:31 GMT+0800 (CST)'</span>,</span><br><span class="line">    path: <span class="string">'/download/1.8.0/windows_32/ctron-vue%20Setup%201.8.0.exe'</span>,</span><br><span class="line">    sha2: <span class="string">'f5d0037020f2cea7254fb9ec2a4bb3c67250aa366f7aadf57a7cab9b38b124c0'</span> &#125;</span><br><span class="line">  Downloading update from</span><br><span class="line"></span><br><span class="line">  Error: Error: Update info doesn<span class="string">'t contain nor sha256 neither sha512 checksum: &#123;</span></span><br><span class="line"><span class="string">    "url": "/download/1.8.0/windows_32/ctron-vue%20Setup%201.8.0.exe"</span></span><br><span class="line"><span class="string">  &#125;</span></span><br></pre></td></tr></table></figure>
-<p>更新信息不包含sha256和ha512校验</p>
+<p><strong> 4.2 Update info doesn’t contain nor sha256 neither sha512 checksum </strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Found version 1.8.0 (url: )</span><br><span class="line">  update-available &#123; version: <span class="string">'1.8.0'</span>,</span><br><span class="line">    releaseDate: <span class="string">'Mon Feb 05 2018 17:19:31 GMT+0800 (CST)'</span>,</span><br><span class="line">    path: <span class="string">'/download/1.8.0/windows_32/ctron-vue%20Setup%201.8.0.exe'</span>,</span><br><span class="line">    sha2: <span class="string">'f5d0037020f2cea7254fb9ec2a4bb3c67250aa366f7aadf57a7cab9b38b124c0'</span> &#125;</span><br><span class="line">  Downloading update from</span><br><span class="line"></span><br><span class="line">  Error: Error: Update info doesn<span class="string">'t contain nor sha256 neither sha512 checksum: &#123;</span></span><br><span class="line"><span class="string">    "url": "/download/1.8.0/windows_32/ctron-vue%20Setup%201.8.0.exe"</span></span><br><span class="line"><span class="string">  &#125;</span></span><br></pre></td></tr></table></figure>
+<p>更新信息不包含 sha256 和 ha512 校验</p>
 <p><strong>原因：服务器返回的文件 <code>fileInfo</code> 只有 <code>sha2</code> 字段，并不包含 <code>sha256</code> 、 <code>sha512</code> 字段，导致报错。</strong></p>
 <p><strong>临时解决办法： <code>node_modules\electron-updater\out\Provider.js</code> 找到下面代码，并注释掉。</strong></p>
 <p>这样会关闭对文件的校验，并不影响文件的更新，但可能会带来一些安全隐患。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (fileInfo.sha2 == <span class="literal">null</span> &amp;&amp; fileInfo.sha512 == <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="keyword">throw</span> (<span class="number">0</span>, (_builderUtilRuntime  _load_builderUtilRuntime()).newError)(<span class="string">`Update info doesn't contain nor sha256 neither sha512 checksum <span class="subst">$&#123;(<span class="number">0</span>, (_builderUtilRuntime  _load_builderUtilRuntime()).safeStringifyJson)(fileInfo)&#125;</span>`</span>, ERR_UPDATER_NO_CHECKSUM);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="4-3-downgrade-is-disallowed-electron"><a href="#4-3-downgrade-is-disallowed-electron" class="headerlink" title="4.3 downgrade is disallowed electron"></a>4.3 downgrade is disallowed electron</h3><p>不允许降级操作。</p>
+<p><strong> 4.3 downgrade is disallowed electron </strong></p>
+<p>不允许降级操作。</p>
 <p>笔者发现在检查更新的时候，electron 会把 electron 的版本当作当前应用版本（package.json）。</p>
-<p>当前应用是基于 <a href="mailto:electron@1.7.5" target="_blank" rel="noopener">electron@1.7.5</a>，应用版本为1.0.0，而服务器上应用版本低于1.7.5，进而提示不允许降级操作。</p>
-<p>这个bug是由于 electron 配置启动地址错误造成的。</p>
+<p>当前应用是基于 <a href="mailto:electron@1.7.5" target="_blank" rel="noopener">electron@1.7.5</a>，应用版本为 1.0.0，而服务器上应用版本低于 1.7.5，进而提示不允许降级操作。</p>
+<p>这个 bug 是由于 electron 配置启动地址错误造成的。</p>
 <p><strong>把 <code>/.electron-vue/dev-runner.js</code> 中 <code>startElectron</code> 路径 <code>path.join(__dirname, &#39;../dist/electron/main.js&#39;)</code> 改成 <code>&#39;.&#39;</code></strong></p>
 <p>重启应用就能正确的获取应用版本了。</p>
-<h3 id="4-4-Critical-dependency-the-request-of-a-dependency-is-an-expression"><a href="#4-4-Critical-dependency-the-request-of-a-dependency-is-an-expression" class="headerlink" title="4.4 Critical dependency: the request of a dependency is an expression"></a>4.4 Critical dependency: the request of a dependency is an expression</h3><p>electron-debug 通过动态路径的方法来引入模块，但webpack并不支持动态路径。</p>
-<p>作者认为这是 webpack 的原因，并且不想修复这个issue 。。</p>
+<p><strong> 4.4 Critical dependency: the request of a dependency is an expression </strong></p>
+<p>electron-debug 通过动态路径的方法来引入模块，但 webpack 并不支持动态路径。</p>
+<p>作者认为这是 webpack 的原因，并且不想修复这个 issue 。。</p>
 <p><strong>解决办法： 使用 electron-debug V1.4.0</strong></p>
 <blockquote>
 <p>That’s caused by electron-debug trying to require a module using a dynamic path, which webpack doesn’t support. Is not an electron-vue issue.</p>
 <p>Sorry, I’m not going to change my code because of webpack. See: webpack/webpack#196</p>
 </blockquote>
 <hr>
-<p>写这篇文章主要是为了记录配置electron自动更新服务过程，以及遇到的一些问题。其中难免有一些疏忽和遗漏，欢迎大家在遇到问题时在下方留言，进行交流。</p>
+<p>写这篇文章主要是为了记录配置 electron 自动更新服务过程，以及遇到的一些问题。其中难免有一些疏忽和遗漏，遇到问题可在下方留言。</p>
 
       
     </div>
@@ -453,7 +457,7 @@
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
               <p class="site-author-name" itemprop="name">Shellming</p>
-              <p class="site-description motion-element" itemprop="description">Shellming的个人博客</p>
+              <p class="site-description motion-element" itemprop="description"></p>
           </div>
 
           <nav class="site-state motion-element">
@@ -509,7 +513,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-配置版本管理服务器"><span class="nav-number">1.</span> <span class="nav-text">1 配置版本管理服务器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-安装数据库"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 安装数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-安装-Electron-release-server"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 安装 Electron-release-server</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-编译安装包"><span class="nav-number">2.</span> <span class="nav-text">2 编译安装包</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-初始化项目"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 初始化项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-开启自动更新"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 开启自动更新</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-编译文件"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 编译文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-上传安装包"><span class="nav-number">3.</span> <span class="nav-text">3 上传安装包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-踩坑"><span class="nav-number">4.</span> <span class="nav-text">4 踩坑</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-Cannot-find-channel-“latest-yml”-update"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 Cannot find channel “latest.yml” update</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-Update-info-doesn’t-contain-nor-sha256-neither-sha512-checksum"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 Update info doesn’t contain nor sha256 neither sha512 checksum</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-downgrade-is-disallowed-electron"><span class="nav-number">4.3.</span> <span class="nav-text">4.3 downgrade is disallowed electron</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-Critical-dependency-the-request-of-a-dependency-is-an-expression"><span class="nav-number">4.4.</span> <span class="nav-text">4.4 Critical dependency: the request of a dependency is an expression</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-配置版本管理服务器"><span class="nav-number">1.</span> <span class="nav-text">1 配置版本管理服务器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-安装数据库"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 安装数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-安装-Electron-release-server"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 安装 Electron-release-server</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-编译安装包"><span class="nav-number">2.</span> <span class="nav-text">2 编译安装包</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-初始化项目"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 初始化项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-开启自动更新"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 开启自动更新</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-编译文件"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 编译文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-上传安装包"><span class="nav-number">3.</span> <span class="nav-text">3 上传安装包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-踩坑"><span class="nav-number">4.</span> <span class="nav-text">4 踩坑</span></a></li></ol></div>
             
 
           </div>
@@ -531,7 +535,7 @@
       <div class="footer-inner">
         <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
-    <i class="fa fa-user"></i>
+    <i class="fa fa-magic"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">Shellming</span>
 
@@ -539,15 +543,9 @@
 </div>
 
 
-  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
 
 
 
-  <span class="post-meta-divider">|</span>
-
-
-
-  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
 
 
 
