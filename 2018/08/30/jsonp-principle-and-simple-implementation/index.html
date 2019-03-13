@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="JSONP全称 JSON with Padding，用于解决 AJAX 跨域问题的一种方案。 由于同源策略的限制，浏览器只允许 XmlHttpRequest 请求当前源（域名、协议、端口）的资源，而对请求 script 资源没有限制。通过请求 script 标签实现跨域请求，然后在服务端输出 JSON 数据并执行回调函数，这种跨域的数据的方式被称为 JSONP。">
+<meta name="description" content="JSONP 全称 JSON with Padding，用于解决 AJAX 跨域问题的一种方案。 由于同源策略的限制，浏览器只允许 XmlHttpRequest 请求当前源（域名、协议、端口）的资源，而对请求 script 资源没有限制。通过请求 script 标签实现跨域请求，然后在服务端输出 JSON 数据并执行回调函数，这种跨域的数据的方式被称为 JSONP。">
 <meta name="keywords" content="javascript">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JSONP原理及简单实现">
 <meta property="og:url" content="shellming.com/2018/08/30/jsonp-principle-and-simple-implementation/index.html">
 <meta property="og:site_name" content="Shellming&#39;s Note">
-<meta property="og:description" content="JSONP全称 JSON with Padding，用于解决 AJAX 跨域问题的一种方案。 由于同源策略的限制，浏览器只允许 XmlHttpRequest 请求当前源（域名、协议、端口）的资源，而对请求 script 资源没有限制。通过请求 script 标签实现跨域请求，然后在服务端输出 JSON 数据并执行回调函数，这种跨域的数据的方式被称为 JSONP。">
+<meta property="og:description" content="JSONP 全称 JSON with Padding，用于解决 AJAX 跨域问题的一种方案。 由于同源策略的限制，浏览器只允许 XmlHttpRequest 请求当前源（域名、协议、端口）的资源，而对请求 script 资源没有限制。通过请求 script 标签实现跨域请求，然后在服务端输出 JSON 数据并执行回调函数，这种跨域的数据的方式被称为 JSONP。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-03-13T07:33:27.454Z">
+<meta property="og:updated_time" content="2019-03-13T07:38:28.561Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JSONP原理及简单实现">
-<meta name="twitter:description" content="JSONP全称 JSON with Padding，用于解决 AJAX 跨域问题的一种方案。 由于同源策略的限制，浏览器只允许 XmlHttpRequest 请求当前源（域名、协议、端口）的资源，而对请求 script 资源没有限制。通过请求 script 标签实现跨域请求，然后在服务端输出 JSON 数据并执行回调函数，这种跨域的数据的方式被称为 JSONP。">
+<meta name="twitter:description" content="JSONP 全称 JSON with Padding，用于解决 AJAX 跨域问题的一种方案。 由于同源策略的限制，浏览器只允许 XmlHttpRequest 请求当前源（域名、协议、端口）的资源，而对请求 script 资源没有限制。通过请求 script 标签实现跨域请求，然后在服务端输出 JSON 数据并执行回调函数，这种跨域的数据的方式被称为 JSONP。">
 
 
 
@@ -300,7 +300,7 @@
       
 
       
-        <h1 id="JSONP"><a href="#JSONP" class="headerlink" title="JSONP"></a>JSONP</h1><p>全称 JSON with Padding，用于解决 AJAX 跨域问题的一种方案。</p>
+        <p><code>JSONP</code> 全称 JSON with Padding，用于解决 AJAX 跨域问题的一种方案。</p>
 <p>由于同源策略的限制，浏览器只允许 XmlHttpRequest 请求当前源（域名、协议、端口）的资源，而对请求 script 资源没有限制。通过请求 script 标签实现跨域请求，然后在服务端输出 JSON 数据并执行回调函数，这种跨域的数据的方式被称为 JSONP。</p>
 <a id="more"></a>
 <h1 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h1><p>1.首先在客户端注册一个 callback 方法，放到 window 对象上，如：</p>
@@ -484,7 +484,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#JSONP"><span class="nav-number">1.</span> <span class="nav-text">JSONP</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实现原理"><span class="nav-number">2.</span> <span class="nav-text">实现原理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Code"><span class="nav-number">3.</span> <span class="nav-text">Code</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#注意"><span class="nav-number">4.</span> <span class="nav-text">注意</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#实现原理"><span class="nav-number">1.</span> <span class="nav-text">实现原理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Code"><span class="nav-number">2.</span> <span class="nav-text">Code</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#注意"><span class="nav-number">3.</span> <span class="nav-text">注意</span></a></li></ol></div>
             
 
           </div>
