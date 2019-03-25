@@ -87,13 +87,10 @@
 <meta property="og:site_name" content="Shellming&#39;s Note">
 <meta property="og:description" content="Loadsh 是一个一致性、模块化、高性能的 JavaScript 实用工具库。在数据操作时，我们经常会用的 loadsh 封装好的一些工具方法，但是并不想把整个包打包进项目里面。以下提供几个按需打包 lodash 的方法。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="/img/webpack-lodash/before.png">
-<meta property="og:image" content="/img/webpack-lodash/after.png">
-<meta property="og:updated_time" content="2019-03-25T06:54:08.054Z">
+<meta property="og:updated_time" content="2019-03-25T07:02:21.334Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Webpack 按需打包 Loadsh">
 <meta name="twitter:description" content="Loadsh 是一个一致性、模块化、高性能的 JavaScript 实用工具库。在数据操作时，我们经常会用的 loadsh 封装好的一些工具方法，但是并不想把整个包打包进项目里面。以下提供几个按需打包 lodash 的方法。">
-<meta name="twitter:image" content="/img/webpack-lodash/before.png">
 
 
 
@@ -311,7 +308,7 @@
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;isEmpty, isObject, cloneDeep&#125; <span class="keyword">from</span> <span class="string">'lodash'</span>;</span><br></pre></td></tr></table></figure>
 <p><strong>存在问题：</strong></p>
 <p>当我们仅使用 lodash 其中一两个方法的时候，webpack 会将这个库打包进去，造成了不必要的资源浪费；</p>
-<p>从 <code>vue-cli@3</code> 提供的打包分析工具可以看到，打包后 lodash 有 <strong>70.7kb</strong>。<br><img src="/img/webpack-lodash/before.png" alt="优化前"></p>
+<p>从 <code>vue-cli@3</code> 提供的打包分析工具可以看到，打包后 lodash 有 <strong>70.7kb</strong>。</p>
 <p><strong>解决办法有 3 种：</strong></p>
 <h3 id="1-单独引入"><a href="#1-单独引入" class="headerlink" title="1. 单独引入"></a>1. 单独引入</h3><p>Lodash 中的每个函数在 NPM 都有一个单独的发布模块，我们可以只引入我们需要的模块。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> isEqual <span class="keyword">from</span> <span class="string">'lodash.isequal'</span>;</span><br><span class="line"><span class="comment">// 或者</span></span><br><span class="line"><span class="keyword">import</span> difference <span class="keyword">from</span> <span class="string">'lodash/difference'</span>;</span><br></pre></td></tr></table></figure>
@@ -324,7 +321,8 @@
 <h3 id="3-使用-lodash-es"><a href="#3-使用-lodash-es" class="headerlink" title="3.使用 lodash-es"></a>3.使用 lodash-es</h3><p>tree-shaking 作为 rollup 的一个杀手级特性，能够利用 ES6 的静态引入规范，减少包的体积，避免不必要的代码引入，webpack2 也很快引入了这个特性。</p>
 <p>要用到 tree-shaking，必然要保证引用的模块都是 ES6 规范的。lodash-es 是着具备 ES6 模块化的版本，只需要直接引入就可以。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;isEmpty, isObject, cloneDeep&#125; <span class="keyword">from</span> <span class="string">'lodash-es'</span>;</span><br></pre></td></tr></table></figure>
-<p>可以看到，使用优化后，lodash 从原来的 <strong>70.7kb</strong> 减少到了<strong>20.2kb</strong>效果还是很明显的。<br><img src="/img/webpack-lodash/after.png" alt="优化后"><br><strong>Referance</strong>：</p>
+<p>可以看到，使用优化后，lodash 从原来的 <strong>70.7kb</strong> 减少到了<strong>20.2kb</strong>效果还是很明显的。</p>
+<p><strong>Referance</strong>：</p>
 <p><a href="https://www.jb51.net/article/113235.htm" target="_blank" rel="noopener">https://www.jb51.net/article/113235.htm</a></p>
 <p><a href="https://www.npmjs.com/package/lodash-webpack-plugin" target="_blank" rel="noopener">https://www.npmjs.com/package/lodash-webpack-plugin</a></p>
 
