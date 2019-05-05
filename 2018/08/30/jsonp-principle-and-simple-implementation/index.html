@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Shellming&#39;s Note">
 <meta property="og:description" content="JSONP 全称 JSON with Padding，用于解决 AJAX 跨域问题的一种方案。 由于同源策略的限制，浏览器只允许 XmlHttpRequest 请求当前源（域名、协议、端口）的资源，而对请求 script 资源没有限制。通过请求 script 标签实现跨域请求，然后在服务端输出 JSON 数据并执行回调函数，这种跨域的数据的方式被称为 JSONP。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-03-13T07:38:28.561Z">
+<meta property="og:updated_time" content="2019-05-05T03:22:41.942Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JSONP原理及简单实现">
 <meta name="twitter:description" content="JSONP 全称 JSON with Padding，用于解决 AJAX 跨域问题的一种方案。 由于同源策略的限制，浏览器只允许 XmlHttpRequest 请求当前源（域名、协议、端口）的资源，而对请求 script 资源没有限制。通过请求 script 标签实现跨域请求，然后在服务端输出 JSON 数据并执行回调函数，这种跨域的数据的方式被称为 JSONP。">
@@ -191,12 +191,32 @@
         </li>
       
         
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
         <li class="menu-item menu-item-archives">
           <a href="/archives/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
             
             归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
           </a>
         </li>
       
@@ -274,6 +294,28 @@
           
           
 
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -394,8 +436,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/10/02/vue-data-binding/" rel="prev" title="重复造轮子：从0开始实现Vue数据绑定">
-                重复造轮子：从0开始实现Vue数据绑定 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/03/25/webpack-lodash/" rel="prev" title="Webpack 按需打包 Loadsh">
+                Webpack 按需打包 Loadsh <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -476,12 +518,21 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
             
 
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
             
 
             
@@ -489,7 +540,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
