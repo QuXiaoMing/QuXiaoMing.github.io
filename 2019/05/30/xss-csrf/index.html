@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="js,web安全,">
 
 
 
@@ -79,20 +79,18 @@
 
 
 
-<meta name="description" content="结束石林的行程后，我们踏上了前往彝族自治县的旅途。">
+<meta name="description" content="在 Web 安全领域中，XSS 和 CSRF 是最常见的攻击方式。本文将会简单介绍 XSS 和 CSRF 的攻防问题。">
+<meta name="keywords" content="js,web安全">
 <meta property="og:type" content="article">
-<meta property="og:title" content="云南之行">
-<meta property="og:url" content="shellming.com/2019/05/01/trip-to-Yunnan/index.html">
+<meta property="og:title" content="Web安全：什么是 XSS 和 CSRF">
+<meta property="og:url" content="shellming.com/2019/05/30/xss-csrf/index.html">
 <meta property="og:site_name" content="Shellming&#39;s Note">
-<meta property="og:description" content="结束石林的行程后，我们踏上了前往彝族自治县的旅途。">
+<meta property="og:description" content="在 Web 安全领域中，XSS 和 CSRF 是最常见的攻击方式。本文将会简单介绍 XSS 和 CSRF 的攻防问题。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="/img/trip-to-Yunnan/1.jpg">
-<meta property="og:image" content="/img/trip-to-Yunnan/2.jpg">
-<meta property="og:updated_time" content="2019-05-05T06:27:51.617Z">
+<meta property="og:updated_time" content="2019-05-30T02:01:41.020Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="云南之行">
-<meta name="twitter:description" content="结束石林的行程后，我们踏上了前往彝族自治县的旅途。">
-<meta name="twitter:image" content="/img/trip-to-Yunnan/1.jpg">
+<meta name="twitter:title" content="Web安全：什么是 XSS 和 CSRF">
+<meta name="twitter:description" content="在 Web 安全领域中，XSS 和 CSRF 是最常见的攻击方式。本文将会简单介绍 XSS 和 CSRF 的攻防问题。">
 
 
 
@@ -122,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="shellming.com/2019/05/01/trip-to-Yunnan/">
+  <link rel="canonical" href="shellming.com/2019/05/30/xss-csrf/">
 
 
 
 
 
-  <title>云南之行 | Shellming's Note</title>
+  <title>Web安全：什么是 XSS 和 CSRF | Shellming's Note</title>
   
 
 
@@ -255,7 +253,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="shellming.com/2019/05/01/trip-to-Yunnan/">
+    <link itemprop="mainEntityOfPage" href="shellming.com/2019/05/30/xss-csrf/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Shellming">
@@ -272,7 +270,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">云南之行</h2>
+          <h2 class="post-title" itemprop="name headline">Web安全：什么是 XSS 和 CSRF</h2>
         
 
         <div class="post-meta">
@@ -284,8 +282,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-01T23:29:04+08:00">
-                2019-05-01
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-30T10:00:03+08:00">
+                2019-05-30
               </time>
             
 
@@ -309,8 +307,19 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/杂记/" itemprop="url" rel="index">
-                    <span itemprop="name">杂记</span>
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/面试/" itemprop="url" rel="index">
+                    <span itemprop="name">面试</span>
                   </a>
                 </span>
 
@@ -327,8 +336,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/05/01/trip-to-Yunnan/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/05/01/trip-to-Yunnan/" itemprop="commentCount"></span>
+                <a href="/2019/05/30/xss-csrf/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/05/30/xss-csrf/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -361,14 +370,53 @@
       
 
       
-        <p>结束石林的行程后，我们踏上了前往彝族自治县的旅途。</p>
-<p><img src="/img/trip-to-Yunnan/1.jpg" alt="image"></p>
+        <p>在 Web 安全领域中，XSS 和 CSRF 是最常见的攻击方式。本文将会简单介绍 XSS 和 CSRF 的攻防问题。</p>
 <a id="more"></a>
-<p>经过一上午的游玩确实有些乏了，伴着汽车的轰鸣声我们进入了梦乡。</p>
-<p>大巴在十万大山里穿行，醒来时天空已经乌云密布，眼看就要下雨，黑压压的天空透露出压抑的气息，俨然末日降临。望眼都是茂密的树林和远近错落的山峰，大巴在山林间的高速公路中穿行，显得无比的渺小，心中油然升起对大自然的敬畏。</p>
-<p>导游是个彝族大哥，住在云南与缅甸的交接处，他和我们讲起云南少数民族与大山的连结。他们生在大山，长在大山，在大山中他们能找到他们生活所需的所有物资，对大山有深厚的感情。云南 92%以上的面积的是大山，造成了交通闭塞，同时很多传统的文化习俗也得以保留。云南的少数民族数目比国家法定的 56 个还要多，他们错落在大山之间形成了各自独特的文化。例如为我们所知的走婚就是摩梭人的婚姻习俗。</p>
-<p>走婚的男女，维系关系的要素是感情，一旦发生感情转淡或性格不合，可以随时切断关系，因此感情自由度较高，女方占主要地位，女方一旦不再为男方开门，走婚关系就宣告结束。不过这种婚姻制度他们也在一夫一妻制与物质的冲击下逐渐湮灭，只有很少部分地区还保留着这种单纯的婚姻制度。</p>
-<p>导游大哥口才非常棒，从云南的地理位置讲到云南少数民族的传统文化，讲云南的历史背景，讲了一寸山河一寸血，十万青年十万兵的抗日战争云南人民作出的贡献，讲了中国远征军赴缅甸作战的抗战，讲了很多我们在历史书上看不到的东西。导游大哥一路上妙语连珠，让人忍俊不禁，独特的名族风俗让人感叹真是世界之大无奇不有。<br><img src="/img/trip-to-Yunnan/2.jpg" alt="image"><br>在导游大哥的解说下 4 个小时的车程感觉并不漫长。到达目的地天空已经开始放晴，灰色的天空中露出了一抹蓝天，之前的压抑早已不知所踪。接下来等着我们的是彝族的篝火晚会。</p>
+<h3 id="XSS-Cross-Site-Script-跨站脚本攻击"><a href="#XSS-Cross-Site-Script-跨站脚本攻击" class="headerlink" title="XSS (Cross Site Script) 跨站脚本攻击"></a>XSS (Cross Site Script) 跨站脚本攻击</h3><p>XSS 攻击是指攻击者在网站上注入恶意的客户端代码，通过恶意脚本对客户端网页进行篡改，从而在用户浏览网页时，对用户浏览器进行控制或者获取用户隐私数据的一种攻击方式。</p>
+<p>攻击者对客户端网页注入的恶意脚本一般包括 JavaScript，有时也会包含 HTML 和 Flash。有很多种方式进行 XSS 攻击，但它们的共同点为：将一些隐私数据像 cookie、session 发送给攻击者，将受害者重定向到一个由攻击者控制的网站，在受害者的机器上进行一些恶意操作。</p>
+<p>XSS 攻击可以分为 3 类：反射型（非持久型）、存储型（持久型）、基于 DOM。</p>
+<p><strong>主要是通过输入框等形式提交 js 脚本，最终在页面上被执行。</strong></p>
+<h4 id="XSS-攻击的防范"><a href="#XSS-攻击的防范" class="headerlink" title="XSS 攻击的防范"></a>XSS 攻击的防范</h4><p>现在主流的浏览器内置了防范 XSS 的措施，例如 CSP。但对于开发者来说，也应该寻找可靠的解决方案来防止 XSS 攻击。</p>
+<p><strong>HttpOnly 防止劫取 Cookie</strong></p>
+<p>HttpOnly 最早由微软提出，至今已经成为一个标准。浏览器将禁止页面的 Javascript 访问带有 HttpOnly 属性的 Cookie。</p>
+<p>上文有说到，攻击者可以通过注入恶意脚本获取用户的 Cookie 信息。通常 Cookie 中都包含了用户的登录凭证信息，攻击者在获取到 Cookie 之后，则可以发起 Cookie 劫持攻击。所以，严格来说，HttpOnly 并非阻止 XSS 攻击，而是能阻止 XSS 攻击后的 Cookie 劫持攻击。</p>
+<p><strong>输入检查</strong></p>
+<p>++不要相信用户的任何输入。++ 对于用户的任何输入要进行检查、过滤和转义。建立可信任的字符和 HTML 标签白名单，对于不在白名单之列的字符或者标签进行过滤或编码。</p>
+<p>在 XSS 防御中，输入检查一般是检查用户输入的数据中是否包含 &lt;，&gt; 等特殊字符，如果存在，则对特殊字符进行过滤或编码，这种方式也称为 XSS Filter。</p>
+<p>而在一些前端框架中，都会有一份 decodingMap， 用于对用户输入所包含的特殊字符或标签进行编码或过滤，如 &lt;，&gt;，script，防止 XSS 攻击：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// vuejs 中的 decodingMap</span><br><span class="line">// 在 vuejs 中，如果输入带 script 标签的内容，会直接过滤掉</span><br><span class="line">const decodingMap = &#123;</span><br><span class="line">  &apos;&amp;lt;&apos;: &apos;&lt;&apos;,</span><br><span class="line">  &apos;&amp;gt;&apos;: &apos;&gt;&apos;,</span><br><span class="line">  &apos;&amp;quot;&apos;: &apos;&quot;&apos;,</span><br><span class="line">  &apos;&amp;amp;&apos;: &apos;&amp;&apos;,</span><br><span class="line">  &apos;&amp;#10;&apos;: &apos;\n&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>输出检查</strong></p>
+<p>用户的输入会存在问题，服务端的输出也会存在问题。一般来说，除富文本的输出外，在变量输出到 HTML 页面时，可以使用编码或转义的方式来防御 XSS 攻击。例如利用 sanitize-html 对输出内容进行有规则的过滤之后再输出到页面中。</p>
+<h3 id="CSRF-Cross-Site-Request-Forgery"><a href="#CSRF-Cross-Site-Request-Forgery" class="headerlink" title="CSRF (Cross Site Request Forgery)"></a>CSRF (Cross Site Request Forgery)</h3><p>CSRF，即 Cross Site Request Forgery，中译是跨站请求伪造，是一种劫持受信任用户向服务器发送非预期请求的攻击方式。</p>
+<p>通常情况下，CSRF 攻击是攻击者借助受害者的 Cookie 骗取服务器的信任，可以在受害者毫不知情的情况下以受害者名义伪造请求发送给受攻击服务器，从而在并未授权的情况下执行在权限保护之下的操作。</p>
+<p>在用户已经登录目标站的前提下，访问到了攻击者的钓鱼网站，攻击者直接通过 url 调用目标站的接口，伪造用户的行为进行攻击，通常这个行为用户是不知情的。</p>
+<h4 id="CSRF-攻击的防范"><a href="#CSRF-攻击的防范" class="headerlink" title="CSRF 攻击的防范"></a>CSRF 攻击的防范</h4><p>当前，对 CSRF 攻击的防范措施主要有如下几种方式。</p>
+<p><strong>验证码
+</strong><br>验证码被认为是对抗 CSRF 攻击最简洁而有效的防御方法。</p>
+<p>从上述示例中可以看出，CSRF 攻击往往是在用户不知情的情况下构造了网络请求。而验证码会强制用户必须与应用进行交互，才能完成最终请求。因为通常情况下，验证码能够很好地遏制 CSRF 攻击。</p>
+<p>但验证码并不是万能的，因为出于用户考虑，不能给网站所有的操作都加上验证码。因此，验证码只能作为防御 CSRF 的一种辅助手段，而不能作为最主要的解决方案。</p>
+<p><strong>Referer Check</strong></p>
+<p>根据 HTTP 协议，在 HTTP 头中有一个字段叫 Referer，它记录了该 HTTP 请求的来源地址。通过 Referer Check，可以检查请求是否来自合法的”源”。</p>
+<p>比如，如果用户要删除自己的帖子，那么先要登录 <a href="http://www.c.com，然后找到对应的页面，发起删除帖子的请求。此时，Referer" target="_blank" rel="noopener">www.c.com，然后找到对应的页面，发起删除帖子的请求。此时，Referer</a> 的值是 <a href="http://www.c.com；当请求是从" target="_blank" rel="noopener">http://www.c.com；当请求是从</a> <a href="http://www.a.com" target="_blank" rel="noopener">www.a.com</a> 发起时，Referer 的值是 <a href="http://www.a.com" target="_blank" rel="noopener">http://www.a.com</a> 了。因此，要防御 CSRF 攻击，只需要对于每一个删帖请求验证其 Referer 值，如果是以 <a href="http://www.c.com" target="_blank" rel="noopener">www.c.com</a> 开头的域名，则说明该请求是来自网站自己的请求，是合法的。如果 Referer 是其他网站的话，则有可能是 CSRF 攻击，可以拒绝该请求。</p>
+<p>针对上文的例子，可以在服务端增加如下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">if (req.headers.referer !== &apos;http://www.c.com:8002/&apos;) &#123;</span><br><span class="line">    res.write(&apos;csrf 攻击&apos;);</span><br><span class="line">    return;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Referer Check 不仅能防范 CSRF 攻击，另一个应用场景是 “防止图片盗链”。</p>
+<p><strong>添加 token 验证</strong><br>CSRF 攻击之所以能够成功，是因为攻击者可以完全伪造用户的请求，该请求中所有的用户验证信息都是存在于 Cookie 中，因此攻击者可以在不知道这些验证信息的情况下直接利用用户自己的 Cookie 来通过安全验证。要抵御 CSRF，关键在于在请求中放入攻击者所不能伪造的信息，并且该信息不存在于 Cookie 之中。可以在 HTTP 请求中以参数的形式加入一个随机产生的 token，并在服务器端建立一个拦截器来验证这个 token，如果请求中没有 token 或者 token 内容不正确，则认为可能是 CSRF 攻击而拒绝该请求。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>本文主要介绍了 XSS 和 CSRF 的攻击原理和防御措施。当然，在 Web 安全领域，除了这两种常见的攻击方式，也存在这 SQL 注入等其它攻击方式，这不在本文的讨论范围之内，如果你对其感兴趣，可以阅读 SQL 注入技术专题的专栏详细了解相关信息。最后，总结一下 XSS 攻击和 CSRF 攻击的常见防御措施：</p>
+<ol>
+<li>防御 XSS 攻击<ul>
+<li>HttpOnly 防止劫取 Cookie</li>
+<li>用户的输入检查</li>
+<li>服务端的输出检查</li>
+</ul>
+</li>
+<li>防御 CSRF 攻击<ul>
+<li>验证码</li>
+<li>Referer Check</li>
+<li>Token 验证</li>
+</ul>
+</li>
+</ol>
 
       
     </div>
@@ -389,7 +437,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="shellming.com/2019/05/01/trip-to-Yunnan/" title="云南之行">shellming.com/2019/05/01/trip-to-Yunnan/</a>
+    <a href="shellming.com/2019/05/30/xss-csrf/" title="Web安全：什么是 XSS 和 CSRF">shellming.com/2019/05/30/xss-csrf/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -402,6 +450,14 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/js/" rel="tag"># js</a>
+          
+            <a href="/tags/web安全/" rel="tag"># web安全</a>
+          
+        </div>
+      
 
       
       
@@ -411,8 +467,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/04/23/vue-permission/" rel="next" title="Vue 项目实现按钮级别权限管理">
-                <i class="fa fa-chevron-left"></i> Vue 项目实现按钮级别权限管理
+              <a href="/2019/05/29/click-300ms-delay-on-mobile/" rel="next" title="关于移动端Click 300ms延迟">
+                <i class="fa fa-chevron-left"></i> 关于移动端Click 300ms延迟
               </a>
             
           </div>
@@ -420,10 +476,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/05/05/git-ssh-pwd/" rel="prev" title="解决Git Pull,push每次都需要输入密码问题">
-                解决Git Pull,push每次都需要输入密码问题 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -478,8 +530,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -539,6 +600,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#XSS-Cross-Site-Script-跨站脚本攻击"><span class="nav-number">1.</span> <span class="nav-text">XSS (Cross Site Script) 跨站脚本攻击</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#XSS-攻击的防范"><span class="nav-number">1.1.</span> <span class="nav-text">XSS 攻击的防范</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CSRF-Cross-Site-Request-Forgery"><span class="nav-number">2.</span> <span class="nav-text">CSRF (Cross Site Request Forgery)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#CSRF-攻击的防范"><span class="nav-number">2.1.</span> <span class="nav-text">CSRF 攻击的防范</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
