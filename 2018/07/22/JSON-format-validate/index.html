@@ -133,10 +133,10 @@
 
 
       <!-- 页面访问量 -->
-      <span id="url2018/07/22/JSON-format-validate/" class="leancloud-visitors" data-flag-title="Your Article Title">
+      <span>
             |
-            <span class="post-meta-item-text">阅读量 </span>
-            <span class="leancloud-visitors-count">0</span>
+            <span>阅读量 </span>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
         </span>
       
     <div class="article-category">
@@ -185,6 +185,12 @@
     <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
     <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
     <script>
+        var notify = 'true' == true ? true : false;
+        var verify = 'false' == true ? true : false;
+        var GUEST_INFO = ['nick', 'mail', 'link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item) {
+            return GUEST_INFO.indexOf(item) > -1;
+        });
         new Valine({
             el: '#vcomment',
             notify: 'true',
@@ -194,6 +200,7 @@
             placeholder: 'Just go go',
             avatar: 'robohash',
             visitor: 'true',
+            guest_info: guest_info,
         });
     </script>
 </section>
