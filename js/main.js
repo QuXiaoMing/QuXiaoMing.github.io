@@ -111,3 +111,32 @@ $(document).ready(function() {
     }
   }
 });
+
+$(function () {
+  if(location.pathname !=='/') return;
+  $.get("/data/shanbayToday.json", function (data) {
+    var data = data.data;
+    // var str =  data.content+'\n'
+    // + data.translation+"\n---- "
+    // +data.author +'\n'
+    var str =  data.content+'\n'
+    + data.translation+"\n---- "
+    
+    var options = {
+      strings: [ 
+        str + "Who??^1000",
+        str + "It's me ^3000",
+        str +'Haha, make a joke',
+        str +data.author,
+        // str+"Welcome to my blog. ^1000",
+        // str+"Here you can learn the JavaScript",
+        // str+"Here you can learn the Css",
+      ],
+      typeSpeed: 20,
+      startDelay:300,
+      // loop: true,
+    }
+    console.log("TCL: options", options)
+    var typed = new Typed(".description .prompt", options);
+  })
+});

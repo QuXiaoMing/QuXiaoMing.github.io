@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="Shellming&#39;s Note">
 <meta property="og:description" content="如果我们 git clone 的下载代码的时候是连接的https://而不是git@git (ssh)的形式，当我们操作 git pull/push 到远程的时候，总是提示我们输入账号和密码才能操作成功，频繁的输入账号和密码会很麻烦。">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-05-05T06:26:20.005Z">
+<meta property="og:updated_time" content="2019-09-17T08:15:47.001Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="解决Git Pull,push每次都需要输入密码问题">
 <meta name="twitter:description" content="如果我们 git clone 的下载代码的时候是连接的https://而不是git@git (ssh)的形式，当我们操作 git pull/push 到远程的时候，总是提示我们输入账号和密码才能操作成功，频繁的输入账号和密码会很麻烦。">
@@ -159,7 +159,8 @@
   <div class="content" itemprop="articleBody">
     <p>如果我们 git clone 的下载代码的时候是连接的https://而不是git@git (ssh)的形式，当我们操作 git pull/push 到远程的时候，总是提示我们输入账号和密码才能操作成功，频繁的输入账号和密码会很麻烦。</p>
 <a id="more"></a>
-<h2 id="1-本地保存帐号密码"><a href="#1-本地保存帐号密码" class="headerlink" title="1. 本地保存帐号密码"></a>1. 本地保存帐号密码</h2><p>git bash 进入你的项目目录，输入：<br>git config –global credential.helper store</p>
+<h2 id="1-本地保存帐号密码"><a href="#1-本地保存帐号密码" class="headerlink" title="1. 本地保存帐号密码"></a>1. 本地保存帐号密码</h2><p>git bash 进入你的项目目录，输入：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global credential.helper store</span><br></pre></td></tr></table></figure>
 <p>然后你会在你本地生成一个文本，上边记录你的账号和密码。当然这些你可以不用关心。<br>然后你使用上述的命令配置好之后，再操作一次 git pull，然后它会提示你输入账号密码，这一次之后就不需要再次输入密码了。</p>
 <h2 id="2-使用-SSH-连接"><a href="#2-使用-SSH-连接" class="headerlink" title="2. 使用 SSH 连接"></a>2. 使用 SSH 连接</h2><ol>
 <li>Git Bash 进入 ssh 目录</li>
@@ -324,6 +325,7 @@
 <!-- 不蒜子 http://busuanzi.ibruce.info/  -->
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/smoothscroll/1.4.10/SmoothScroll.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/typed.js/2.0.10/typed.min.js"></script>
 <script>
   var a_idx = 0;
     jQuery(document).ready(function($) {
