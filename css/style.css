@@ -1082,6 +1082,21 @@ article .content h2:before {
   font-weight: bold;
   font-size: 1.2rem;
 }
+article .content h3,
+article .content h4 {
+  position: relative;
+  text-indent: 1em;
+}
+article .content h3:before,
+article .content h4:before {
+  position: absolute;
+  top: -4px;
+  left: -1rem;
+  color: #2bbc8a;
+  content: "#";
+  font-weight: bold;
+  font-size: 1.2rem;
+}
 article .content img,
 article .content video {
   display: block;
