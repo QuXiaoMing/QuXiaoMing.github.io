@@ -1474,6 +1474,48 @@ article .content .caption {
 #categories .category-list .category-list-item .category-list-count:after {
   content: ")";
 }
+.blog-post-comments.v .power {
+    display: none;
+}
+
+.blog-post-comments.v a:hover {
+    color: #1abc9c;
+}
+
+.blog-post-comments.v * {
+    color: #c9cacc;
+}
+
+.blog-post-comments.v .vwrap {
+    background: #2a2c2f;
+    border: none;
+}
+
+.blog-post-comments.v .vwrap .vheader .vinput {
+    border-bottom: 1px #dedede double;
+}
+
+.blog-post-comments.v .vempty pre {
+    color: #555;
+}
+
+.blog-post-comments.v .vlist .vcard .vh .vmeta .vat,
+.blog-post-comments.v .vlist .vcard .vhead .vnick:hover {
+    color: #1abc9c;
+}
+
+.blog-post-comments.v .vlist .vcard .vquote {
+    border-left: 1px dashed #2a2c2f;
+}
+
+.blog-post-comments.v .vlist .vcard .vh {
+    border-bottom: 1px dashed #2a2c2f;
+}
+
+.blog-post-comments.v .vlist .vcard .vhead .vsys {
+    background: 0 0;
+}
+
 .highlight {
   background: #474949;
   color: #d1d9e1;
