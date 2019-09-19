@@ -72,7 +72,9 @@
        
         <li><a href="/about/">About</a></li>
        
-        <li><a href="/archives/">Writing</a></li>
+        <li><a href="/archives/">Articles</a></li>
+       
+        <li><a href="/messages/">Messages</a></li>
        
         <li><a href="/projects_url">Projects</a></li>
       
@@ -100,6 +102,33 @@
   </div>
 </article>
 
+<section id="comments" style="margin: 3em 0 2em 0;">
+    <div id="vcomment" class="comment blog-post-comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+    <script>
+        var notify = 'true' == true ? true : false;
+        var verify = 'false' == true ? true : false;
+        var GUEST_INFO = ['nick', 'mail', 'link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item) {
+            return GUEST_INFO.indexOf(item) > -1;
+        });
+        new Valine({
+            el: '#vcomment',
+            notify: 'true',
+            verify: 'false',
+            app_id: 'gCOkdeheUVzc54vgcF73qQ2f-MdYXbMMI',
+            app_key: 'UkoAS1QnpdJgr9DOPHcKMT7m',
+            placeholder: 'Just go go',
+            avatar: 'robohash',
+            visitor: 'true',
+            guest_info: guest_info,
+        });
+    </script>
+</section>
+
+
+
         
         <footer id="footer">
     <div class="footer-left">
@@ -115,7 +144,9 @@
                 
                 <li><a href="/about/">About</a></li>
                 
-                <li><a href="/archives/">Writing</a></li>
+                <li><a href="/archives/">Articles</a></li>
+                
+                <li><a href="/messages/">Messages</a></li>
                 
                 <li><a href="/projects_url">Projects</a></li>
                 
