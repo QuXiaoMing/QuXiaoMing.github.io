@@ -136,7 +136,6 @@ $(function () {
       startDelay:300,
       // loop: true,
     }
-    console.log("TCL: options", options)
     var typed = new Typed(".description .prompt", options);
   })
 });

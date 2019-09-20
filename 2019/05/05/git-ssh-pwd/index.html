@@ -335,12 +335,14 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/smoothscroll/1.4.10/SmoothScroll.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.bootcss.com/typed.js/2.0.10/typed.min.js"></script>
 <script>
-  var a_idx = 0;
+  var a_idx = 1;
     jQuery(document).ready(function($) {
-        $("body").click(function(e) {
-            var a = new Array("富强", "民主", "文明", "和谐", "自由", "平等", "公正" ,"法治", "爱国", "敬业", "诚信", "友善");
-            var $i = $("<span />").text(a[a_idx]);
-            a_idx = (a_idx + 1) % a.length;
+        $("html").click(function(e) {
+            // var a = new Array("富强", "民主", "文明", "和谐", "自由", "平等", "公正" ,"法治", "爱国", "敬业", "诚信", "友善");
+            // var $i = $("<span />").text(a[a_idx]);
+            var $i = $('<span />').text('+' + a_idx + 'S');
+            
+            a_idx = (a_idx + 1);
             var x = e.pageX,
                 y = e.pageY;
             $i.css({
