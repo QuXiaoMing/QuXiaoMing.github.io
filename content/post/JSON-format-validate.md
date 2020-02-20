@@ -10,7 +10,7 @@ categories:
 Javascript 目前没有提供判断 JSON 数据格式是否正确的方法。
 在得到 JSON 数据后，若 JSON 格式错误，程序不能正常解析，抛出 `Uncaught SyntaxError` 将导致程序终止运行。在解析 JSON 数据之前进行校验，可避免这种情况的发生。
 
-<!-- more -->
+<!--more-->
 
 ## 什么是 JSON
 

@@ -15,7 +15,7 @@ themesDir = "./themes"
 
 
 [permalinks]
-    post = "/:year/:month/:day/:slug"
+    post = "/:year/:month/:day/:filename"
 
 [params]
     # Tell me who you are
@@ -33,7 +33,7 @@ themesDir = "./themes"
     # define which types of pages should be shown. By default the type with the most regular pages
     mainSections = ["post"]
     disable_profile = false
-    disable_widgets = true
+    disable_widgets = false
 
     # Format dates with Go's time formatting
     date_format = "2006-01-02"

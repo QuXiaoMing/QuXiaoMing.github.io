@@ -10,7 +10,7 @@ categories:
 路由的概念来源于服务端，在服务端中路由描述的是 URL 与处理函数之间的映射关系。
 在 Web 前端单页应用 SPA(Single Page Application)中，路由描述的是 URL 与 UI 之间的映射关系，这种映射是单向的，即 URL 变化引起 UI 更新（无需刷新页面）。
 
-<!-- more -->
+<!--more-->
 
 前端路由的两种模式：
 

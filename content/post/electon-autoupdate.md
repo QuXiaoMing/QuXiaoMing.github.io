@@ -10,7 +10,7 @@ categories:
 网上关于 Electron 应用自动更新的文章并不多，许多都已经过时，且较为繁琐。
 本文将介绍，通过 `Electron-Vue` + `autoUpdater` + `electron-release-server` 快速搭建自动更新服务。
 
-<!-- more -->
+<!--more-->
 
 ## 1 配置版本管理服务器
 

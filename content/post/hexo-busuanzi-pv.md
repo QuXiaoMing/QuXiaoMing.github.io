@@ -1,5 +1,6 @@
 ---
 title: Hexo使用不蒜子增加访问统计功能
+banner: 'banners/placeholder.png'
 date: 2019-09-17 17:30:57
 tags: 
     - hexo
@@ -11,7 +12,7 @@ categories:
 
 在 `scripts.ejs` 插入不蒜子 js
 
-<!-- more -->
+<!--more-->
 
 ```html
 <!-- scripts.ejs 不蒜子 http://busuanzi.ibruce.info/  -->
