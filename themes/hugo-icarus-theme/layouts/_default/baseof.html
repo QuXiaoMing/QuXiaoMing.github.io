@@ -1,0 +1,23 @@
+{{ partial "head" . }}
+
+<div id="container">
+	{{ partialCached "header" . }}
+   	
+   	<div class="outer">
+	{{ if not .Site.Params.disable_profile }}
+    	{{ partialCached "profile" . }}
+    {{ end }}
+
+    <section id="main">
+    {{ block "main" . }}{{ end }}
+    </section>
+
+   	{{ if not .Site.Params.disable_widgets }}
+    	{{ partial "sidebar" . }}
+    {{ end }}
+	</div>
+</div>
+
+{{ partialCached "footer" . }}
+</body>
+</html>
