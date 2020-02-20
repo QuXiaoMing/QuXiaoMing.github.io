@@ -1,16 +1,17 @@
 <article class="archive-article archive-type-post">
     <div class="archive-article-inner">
-        <header class="archive-article-header">
-            <h1 itemprop="name">
-            <a class="archive-article-title" href="{{ .Permalink }}">{{ .Title }}</a>
-            </h1>
-            <div class="archive-article-date">
-                <i class="fa fa-calendar"></i>
-                <time datetime="{{ .Date }}" itemprop="datePublished">{{ .Date.Format .Site.Params.date_format }}</time>
-            </div>
-            <div class="summary">
+        <div class="article-entry">
+            <header class="archive-article-header">
+                <h1 itemprop="name">
+                    <a class="article-title" href="{{ .Permalink }}">{{ .Title }}</a>
+                </h1>
+                <div class="archive-article-date">
+                    <i class="fa fa-calendar"></i>
+                    <time datetime="{{ .Date }}"
+                        itemprop="datePublished">{{ .Date.Format .Site.Params.date_format }}</time>
+                </div>
                 {{.Summary}}
-            </div>
+        </div>
         </header>
     </div>
 </article>
