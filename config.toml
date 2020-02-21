@@ -1,4 +1,4 @@
-baseurl = "./"
+baseurl = "/"
 languageCode = "zh-cn"
 title = "Shellming's Note"
 # Enable comments by entering your Disqus shortname
