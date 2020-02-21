@@ -2,7 +2,7 @@ baseurl = "https://shellming.com"
 languageCode = "zh-cn"
 title = "Shellming's Note"
 # Enable comments by entering your Disqus shortname
-disqusShortname = "spf13"
+disqusShortname = ""
 # Enable Google Analytics by entering your tracking code
 googleAnalytics = ""
 # Define the number of posts per page
