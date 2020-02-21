@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>git on Shellming&#39;s Note</title>
+    <link>https://shellming.com/tags/git/</link>
+    <description>Recent content in git on Shellming&#39;s Note</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sun, 05 May 2019 14:22:16 +0000</lastBuildDate>
+    
+	<atom:link href="https://shellming.com/tags/git/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>解决git pull,push每次都需要输入密码问题</title>
+      <link>https://shellming.com/2019/05/05/git-ssh-pwd/</link>
+      <pubDate>Sun, 05 May 2019 14:22:16 +0000</pubDate>
+      
+      <guid>https://shellming.com/2019/05/05/git-ssh-pwd/</guid>
+      <description>&lt;p&gt;如果我们 git clone 的下载代码的时候是连接的https://而不是git@git (ssh)的形式，当我们操作 git pull/push 到远程的时候，总是提示我们输入账号和密码才能操作成功，频繁的输入账号和密码会很麻烦。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

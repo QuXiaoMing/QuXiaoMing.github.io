@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>webpack on Shellming&#39;s Note</title>
+    <link>https://shellming.com/tags/webpack/</link>
+    <description>Recent content in webpack on Shellming&#39;s Note</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 25 Mar 2019 14:42:56 +0000</lastBuildDate>
+    
+	<atom:link href="https://shellming.com/tags/webpack/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>webpack 按需打包 loadsh</title>
+      <link>https://shellming.com/2019/03/25/webpack-lodash/</link>
+      <pubDate>Mon, 25 Mar 2019 14:42:56 +0000</pubDate>
+      
+      <guid>https://shellming.com/2019/03/25/webpack-lodash/</guid>
+      <description>&lt;p&gt;&lt;code&gt;Loadsh&lt;/code&gt; 是一个一致性、模块化、高性能的 JavaScript 实用工具库。在数据操作时，我们经常会用的 loadsh 封装好的一些工具方法，但是并不想把整个包打包进项目里面。
+以下提供几个按需打包 lodash 的方法。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

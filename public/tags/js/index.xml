@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>js on Shellming&#39;s Note</title>
+    <link>https://shellming.com/tags/js/</link>
+    <description>Recent content in js on Shellming&#39;s Note</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 30 May 2019 10:00:03 +0000</lastBuildDate>
+    
+	<atom:link href="https://shellming.com/tags/js/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>web安全：什么是 XSS 和 CSRF</title>
+      <link>https://shellming.com/2019/05/30/xss-csrf/</link>
+      <pubDate>Thu, 30 May 2019 10:00:03 +0000</pubDate>
+      
+      <guid>https://shellming.com/2019/05/30/xss-csrf/</guid>
+      <description>&lt;p&gt;在 Web 安全领域中，XSS 和 CSRF 是最常见的攻击方式。本文将会简单介绍 XSS 和 CSRF 的攻防问题。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>前端路由原理解析和实现</title>
+      <link>https://shellming.com/2019/05/17/front-end-router/</link>
+      <pubDate>Fri, 17 May 2019 11:14:26 +0000</pubDate>
+      
+      <guid>https://shellming.com/2019/05/17/front-end-router/</guid>
+      <description>&lt;p&gt;路由的概念来源于服务端，在服务端中路由描述的是 URL 与处理函数之间的映射关系。
+在 Web 前端单页应用 SPA(Single Page Application)中，路由描述的是 URL 与 UI 之间的映射关系，这种映射是单向的，即 URL 变化引起 UI 更新（无需刷新页面）。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>用 Vue 编写抽象组件</title>
+      <link>https://shellming.com/2019/05/06/vue-absract-components/</link>
+      <pubDate>Mon, 06 May 2019 11:37:44 +0000</pubDate>
+      
+      <guid>https://shellming.com/2019/05/06/vue-absract-components/</guid>
+      <description>&lt;p&gt;看过 Vue 源码的同学可以知道，&lt;code&gt;&amp;lt;keep-alive&amp;gt;&lt;/code&gt;、&lt;code&gt;&amp;lt;transition&amp;gt;&lt;/code&gt;、&lt;code&gt;&amp;lt;transition-group&amp;gt;&lt;/code&gt;等组件
+组件的实现是一个对象，注意它有一个属性 &lt;code&gt;abstract&lt;/code&gt; 为 &lt;code&gt;true&lt;/code&gt;，表明是它一个&lt;code&gt;抽象组件&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;Vue 的文档没有提这个概念，在抽象组件的&lt;strong&gt;生命周期&lt;/strong&gt;过程中，我们可以对包裹的子组件&lt;strong&gt;监听的事件进行拦截&lt;/strong&gt;，也可以对子组件进行 &lt;strong&gt;Dom 操作&lt;/strong&gt;，从而可以对我们需要的功能进行封装，而不需要关心子组件的具体实现。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

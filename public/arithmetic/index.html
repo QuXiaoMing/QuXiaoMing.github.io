@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>剑指offer &middot; Shellming&#39;s Note</title>
+    <meta name="generator" content="Hugo 0.64.1" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Shellming">
+    
+      <meta name="description" content="技术无止境">
+    
+    
+    <link rel="canonical" href="https://shellming.com/arithmetic/"/>
+    <link rel="icon" href="https://shellming.com/favicon.ico">
+    <link rel="apple-touch-icon" href="https://shellming.com/apple-touch-icon.png"/>
+    <link rel="stylesheet" href="https://shellming.com/css/style.css">
+    <link rel="stylesheet" href="https://shellming.com/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://shellming.com/css/monokai.css">
+    <link rel="stylesheet" href="https://shellming.com/fancybox/jquery.fancybox.css">
+    
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css'>
+    <meta property="og:title" content="剑指offer" />
+<meta property="og:description" content="# 题名 题解 通过率     面试题03 数组中重复的数字 148 70.5%   面试题04 二维数组中的查找 83 42.5%   面试题05 替换空格 120 80.6%   面试题06 从尾到头打印链表 107 78.1%   面试题07 重建二叉树 65 71.8%   面试题09 用两个栈实现队列 57 75.8%   面试题10- I 斐波那契数列 70 33.8%   面试题10- II 青蛙跳台阶问题 49 44.8%   面试题11 旋转数组的最小数字 49 46.9%   面试题12 矩阵中的路径 35 46." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://shellming.com/arithmetic/" />
+<meta property="article:published_time" content="2020-02-20T19:48:13+08:00" />
+<meta property="article:modified_time" content="2020-02-20T19:48:13+08:00" />
+
+    
+    <meta itemprop="name" content="剑指offer">
+<meta itemprop="description" content="# 题名 题解 通过率     面试题03 数组中重复的数字 148 70.5%   面试题04 二维数组中的查找 83 42.5%   面试题05 替换空格 120 80.6%   面试题06 从尾到头打印链表 107 78.1%   面试题07 重建二叉树 65 71.8%   面试题09 用两个栈实现队列 57 75.8%   面试题10- I 斐波那契数列 70 33.8%   面试题10- II 青蛙跳台阶问题 49 44.8%   面试题11 旋转数组的最小数字 49 46.9%   面试题12 矩阵中的路径 35 46.">
+<meta itemprop="datePublished" content="2020-02-20T19:48:13&#43;08:00" />
+<meta itemprop="dateModified" content="2020-02-20T19:48:13&#43;08:00" />
+<meta itemprop="wordCount" content="345">
+
+
+
+<meta itemprop="keywords" content="剑指offer,arithmetic," />
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="剑指offer"/>
+<meta name="twitter:description" content="# 题名 题解 通过率     面试题03 数组中重复的数字 148 70.5%   面试题04 二维数组中的查找 83 42.5%   面试题05 替换空格 120 80.6%   面试题06 从尾到头打印链表 107 78.1%   面试题07 重建二叉树 65 71.8%   面试题09 用两个栈实现队列 57 75.8%   面试题10- I 斐波那契数列 70 33.8%   面试题10- II 青蛙跳台阶问题 49 44.8%   面试题11 旋转数组的最小数字 49 46.9%   面试题12 矩阵中的路径 35 46."/>
+
+    
+
+    
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+</head>
+<body>
+<div class="container">
+
+
+<div id="container">
+	<header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="https://shellming.com" id="logo">
+          
+          <i class="logo" style="background-image: url('https://shellming.com/css/images/logo.png')"></i>
+          
+          <span class="site-title">Shellming&#39;s Note</span>
+      </a>
+      <nav id="main-nav">
+          
+          
+          <a class="main-nav-link" href="https://shellming.com/">首页</a>
+          
+          
+          
+          <a class="main-nav-link" href="https://shellming.com/arithmetic/">算法</a>
+          
+          
+          
+          <a class="main-nav-link" href="https://shellming.com/archives/">归档</a>
+          
+          
+          
+          <a class="main-nav-link" href="https://shellming.com/patterns/">设计模式</a>
+          
+          
+
+          
+          <a class="main-nav-link" href="/about/">关于</a>
+          
+
+          
+          
+          
+          
+          
+          
+          
+          
+          
+      </nav>
+        <nav id="sub-nav">
+          <div class="profile" id="profile-nav">
+            <a id="profile-anchor" href="javascript:;"><img class="avatar" src="https://shellming.com/css/images/avatar.png"><i class="fa fa-caret-down"></i></a>
+          </div>
+        </nav>
+        <div id="search-form-wrap">
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form">
+              <input type="search" name="q" class="search-form-input" placeholder="Search">
+              <button type="submit" class="search-form-submit">
+              </button>
+              <input type="hidden" name="sitesearch" value="https://shellming.com" />
+         </form>
+        </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tbody>
+          <tr>
+          
+          
+          <td><a class="main-nav-link" href="https://shellming.com/">首页</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="https://shellming.com/arithmetic/">算法</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="https://shellming.com/archives/">归档</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="https://shellming.com/patterns/">设计模式</a></td>
+          
+          
+
+          
+          <td><a class="main-nav-link" href="/about/">关于</a></td>
+          
+
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <td>
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form">
+          <input type="search" name="q" class="search-form-input" placeholder="Search">
+          <input type="hidden" name="sitesearch" value="https://shellming.com" />
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</header>
+
+   	
+   	<div class="outer">
+	
+    	<aside id="profile">
+  <div class="inner profile-inner">
+    <div class="base-info profile-block">
+      
+      <img id="avatar" src="https://www.gravatar.com/avatar/3a363cc9096ed48e714938b526692a71?s=100&d=identicon"/>
+      
+      <h2 id="name">Shellming</h2>
+      <h3 id="title">Web Developer</h3>
+      <span id="location"><i class="fa fa-map-marker"></i>ChangSha</span>
+      
+          <a id="follow" href="https://github.com/quxiaoming">
+              Follow
+          </a>
+      
+    </div>
+    <div class="article-info profile-block">
+      <div class="article-info-block">
+        17
+        <span>Posts</span>
+      </div>
+      <div class="article-info-block">
+        
+          15
+        
+        <span>
+            Tags
+        </span>
+      </div>
+    </div>
+    <div class="profile-block social-links">
+      <table>
+        <tr>
+          
+<td><a href="//github.com/quxiaoming" target="_blank" title="GitHub"><i class="fa fa-github"></i></a></td>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          <td><a href="https://shellming.com/index.xml" target="_blank" title="RSS"><i class="fa fa-rss"></i></a></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</aside>
+
+    
+
+    <section id="main">
+    
+    <article id="page-undefined" class="article article-type-page" itemscope="" itemprop="blogPost">
+    <div class="article-inner">
+        
+
+        <header class="article-header">
+    <a href="https://shellming.com/arithmetic/">
+    <h1 class="article-title" itemprop="name">
+        剑指offer
+    </h1>
+    </a>
+    <div class="article-meta">
+
+        
+        <div class="article-date">
+            <i class="fa fa-calendar"></i>
+            <time datetime="2020-02-20 19:48:13 &#43;0800 CST" itemprop="datePublished">2020-02-20</time>
+            &middot;
+            345
+            words
+            &middot;
+            2
+            minute read
+        </div>
+        
+        
+
+        
+            
+            
+            <div class="article-category">
+                <i class="fa fa-tags"></i>
+                
+                
+                <a class="article-category-link" href="https://shellming.com/tags/%E5%89%91%E6%8C%87offer">剑指offer</a>
+                &middot;
+                
+                
+                <a class="article-category-link" href="https://shellming.com/tags/arithmetic">arithmetic</a>
+                
+                
+            </div>
+            
+        
+    </div>
+</header>
+
+        <div class="article-entry" itemprop="articleBody">
+            <table>
+<thead>
+<tr>
+<th>#</th>
+<th>题名</th>
+<th>题解</th>
+<th>通过率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>面试题03</td>
+<td>数组中重复的数字</td>
+<td>148</td>
+<td>70.5%</td>
+</tr>
+<tr>
+<td>面试题04</td>
+<td>二维数组中的查找</td>
+<td>83</td>
+<td>42.5%</td>
+</tr>
+<tr>
+<td>面试题05</td>
+<td>替换空格</td>
+<td>120</td>
+<td>80.6%</td>
+</tr>
+<tr>
+<td>面试题06</td>
+<td>从尾到头打印链表</td>
+<td>107</td>
+<td>78.1%</td>
+</tr>
+<tr>
+<td>面试题07</td>
+<td>重建二叉树</td>
+<td>65</td>
+<td>71.8%</td>
+</tr>
+<tr>
+<td>面试题09</td>
+<td>用两个栈实现队列</td>
+<td>57</td>
+<td>75.8%</td>
+</tr>
+<tr>
+<td>面试题10- I</td>
+<td>斐波那契数列</td>
+<td>70</td>
+<td>33.8%</td>
+</tr>
+<tr>
+<td>面试题10- II</td>
+<td>青蛙跳台阶问题</td>
+<td>49</td>
+<td>44.8%</td>
+</tr>
+<tr>
+<td>面试题11</td>
+<td>旋转数组的最小数字</td>
+<td>49</td>
+<td>46.9%</td>
+</tr>
+<tr>
+<td>面试题12</td>
+<td>矩阵中的路径</td>
+<td>35</td>
+<td>46.4%</td>
+</tr>
+<tr>
+<td>面试题13</td>
+<td>机器人的运动范围</td>
+<td>42</td>
+<td>47.0%</td>
+</tr>
+<tr>
+<td>面试题14- I</td>
+<td>剪绳子</td>
+<td>34</td>
+<td>56.8%</td>
+</tr>
+<tr>
+<td>面试题14- II</td>
+<td>剪绳子 II</td>
+<td>20</td>
+<td>32.4%</td>
+</tr>
+<tr>
+<td>面试题15</td>
+<td>二进制中1的个数</td>
+<td>66</td>
+<td>77.6%</td>
+</tr>
+<tr>
+<td>面试题16</td>
+<td>数值的整数次方</td>
+<td>25</td>
+<td>33.0%</td>
+</tr>
+<tr>
+<td>面试题17</td>
+<td>打印从1到最大的n位数</td>
+<td>61</td>
+<td>81.8%</td>
+</tr>
+<tr>
+<td>面试题18</td>
+<td>删除链表的节点</td>
+<td>68</td>
+<td>62.1%</td>
+</tr>
+<tr>
+<td>面试题19</td>
+<td>正则表达式匹配</td>
+<td>17</td>
+<td>38.4%</td>
+</tr>
+<tr>
+<td>面试题20</td>
+<td>表示数值的字符串</td>
+<td>15</td>
+<td>19.1%</td>
+</tr>
+<tr>
+<td>面试题21</td>
+<td>调整数组顺序使奇数位于偶数前面</td>
+<td>64</td>
+<td>67.8%</td>
+</tr>
+<tr>
+<td>面试题22</td>
+<td>链表中倒数第k个节点</td>
+<td>84</td>
+<td>80.8%</td>
+</tr>
+<tr>
+<td>面试题24</td>
+<td>反转链表</td>
+<td>67</td>
+<td>77.0%</td>
+</tr>
+<tr>
+<td>面试题25</td>
+<td>合并两个排序的链表</td>
+<td>47</td>
+<td>77.1%</td>
+</tr>
+<tr>
+<td>面试题26</td>
+<td>树的子结构</td>
+<td>37</td>
+<td>42.8%</td>
+</tr>
+<tr>
+<td>面试题27</td>
+<td>二叉树的镜像</td>
+<td>58</td>
+<td>80.2%</td>
+</tr>
+<tr>
+<td>面试题28</td>
+<td>对称的二叉树</td>
+<td>35</td>
+<td>61.1%</td>
+</tr>
+<tr>
+<td>面试题29</td>
+<td>顺时针打印矩阵</td>
+<td>39</td>
+<td>41.3%</td>
+</tr>
+<tr>
+<td>面试题30</td>
+<td>包含min函数的栈</td>
+<td>24</td>
+<td>60.4%</td>
+</tr>
+<tr>
+<td>面试题31</td>
+<td>栈的压入、弹出序列</td>
+<td>29</td>
+<td>58.6%</td>
+</tr>
+<tr>
+<td>面试题32 - I</td>
+<td>从上到下打印二叉树</td>
+<td>36</td>
+<td>67.5%</td>
+</tr>
+<tr>
+<td>面试题32 - II</td>
+<td>从上到下打印二叉树 II</td>
+<td>39</td>
+<td>72.1%</td>
+</tr>
+<tr>
+<td>面试题32 - III</td>
+<td>从上到下打印二叉树 III</td>
+<td>34</td>
+<td>62.0%</td>
+</tr>
+<tr>
+<td>面试题33</td>
+<td>二叉搜索树的后序遍历序列</td>
+<td>36</td>
+<td>50.0%</td>
+</tr>
+<tr>
+<td>面试题34</td>
+<td>二叉树中和为某一值的路径</td>
+<td>23</td>
+<td>56.0%</td>
+</tr>
+<tr>
+<td>面试题35</td>
+<td>复杂链表的复制</td>
+<td>26</td>
+<td>71.0%</td>
+</tr>
+<tr>
+<td>面试题36</td>
+<td>二叉搜索树与双向链表</td>
+<td>21</td>
+<td>59.1%</td>
+</tr>
+<tr>
+<td>面试题37</td>
+<td>序列化二叉树</td>
+<td>17</td>
+<td>51.1%</td>
+</tr>
+<tr>
+<td>面试题38</td>
+<td>字符串的排列</td>
+<td>24</td>
+<td>53.6%</td>
+</tr>
+<tr>
+<td>面试题39</td>
+<td>数组中出现次数超过一半的数字</td>
+<td>38</td>
+<td>67.3%</td>
+</tr>
+<tr>
+<td>面试题40</td>
+<td>最小的k个数</td>
+<td>54</td>
+<td>60.1%</td>
+</tr>
+<tr>
+<td>面试题41</td>
+<td>数据流中的中位数</td>
+<td>12</td>
+<td>58.8%</td>
+</tr>
+<tr>
+<td>面试题42</td>
+<td>连续子数组的最大和</td>
+<td>33</td>
+<td>60.7%</td>
+</tr>
+<tr>
+<td>面试题43</td>
+<td>1～n整数中1出现的次数</td>
+<td>12</td>
+<td>39.4%</td>
+</tr>
+<tr>
+<td>面试题44</td>
+<td>数字序列中某一位的数字</td>
+<td>14</td>
+<td>39.6%</td>
+</tr>
+<tr>
+<td>面试题45</td>
+<td>把数组排成最小的数</td>
+<td>29</td>
+<td>52.5%</td>
+</tr>
+<tr>
+<td>面试题46</td>
+<td>把数字翻译成字符串</td>
+<td>21</td>
+<td>50.1%</td>
+</tr>
+<tr>
+<td>面试题47</td>
+<td>礼物的最大价值</td>
+<td>36</td>
+<td>69.7%</td>
+</tr>
+<tr>
+<td>面试题48</td>
+<td>最长不含重复字符的子字符串</td>
+<td>29</td>
+<td>42.8%</td>
+</tr>
+<tr>
+<td>面试题49</td>
+<td>丑数</td>
+<td>17</td>
+<td>62.7%</td>
+</tr>
+<tr>
+<td>面试题50</td>
+<td>第一个只出现一次的字符</td>
+<td>41</td>
+<td>59.9%</td>
+</tr>
+<tr>
+<td>面试题51</td>
+<td>数组中的逆序对</td>
+<td>28</td>
+<td>46.8%</td>
+</tr>
+<tr>
+<td>面试题52</td>
+<td>两个链表的第一个公共节点</td>
+<td>31</td>
+<td>66.8%</td>
+</tr>
+<tr>
+<td>面试题53 - I</td>
+<td>在排序数组中查找数字 I</td>
+<td>41</td>
+<td>51.5%</td>
+</tr>
+<tr>
+<td>面试题53 - II</td>
+<td>0～n-1中缺失的数字</td>
+<td>42</td>
+<td>45.1%</td>
+</tr>
+<tr>
+<td>面试题54</td>
+<td>二叉搜索树的第k大节点</td>
+<td>43</td>
+<td>71.8%</td>
+</tr>
+<tr>
+<td>面试题55 - I</td>
+<td>二叉树的深度</td>
+<td>50</td>
+<td>80.2%</td>
+</tr>
+<tr>
+<td>面试题55 - II</td>
+<td>平衡二叉树</td>
+<td>29</td>
+<td>62.8%</td>
+</tr>
+<tr>
+<td>面试题56 - I</td>
+<td>数组中数字出现的次数</td>
+<td>22</td>
+<td>67.6%</td>
+</tr>
+<tr>
+<td>面试题56 - II</td>
+<td>数组中数字出现的次数 II</td>
+<td>31</td>
+<td>78.9%</td>
+</tr>
+<tr>
+<td>面试题57</td>
+<td>和为s的两个数字</td>
+<td>26</td>
+<td>66.9%</td>
+</tr>
+<tr>
+<td>面试题57 - II</td>
+<td>和为s的连续正数序列</td>
+<td>35</td>
+<td>69.0%</td>
+</tr>
+<tr>
+<td>面试题58 - I</td>
+<td>翻转单词顺序</td>
+<td>28</td>
+<td>40.6%</td>
+</tr>
+<tr>
+<td>面试题58 - II</td>
+<td>左旋转字符串</td>
+<td>78</td>
+<td>84.8%</td>
+</tr>
+<tr>
+<td>面试题59 - I</td>
+<td>滑动窗口的最大值</td>
+<td>38</td>
+<td>44.4%</td>
+</tr>
+<tr>
+<td>面试题59 - II</td>
+<td>队列的最大值</td>
+<td>18</td>
+<td>47.4%</td>
+</tr>
+<tr>
+<td>面试题60</td>
+<td>n个骰子的点数</td>
+<td>19</td>
+<td>59.4%</td>
+</tr>
+<tr>
+<td>面试题61</td>
+<td>扑克牌中的顺子</td>
+<td>32</td>
+<td>42.7%</td>
+</tr>
+<tr>
+<td>面试题62</td>
+<td>圆圈中最后剩下的数字</td>
+<td>19</td>
+<td>54.9%</td>
+</tr>
+<tr>
+<td>面试题63</td>
+<td>股票的最大利润</td>
+<td>29</td>
+<td>63.2%</td>
+</tr>
+<tr>
+<td>面试题64</td>
+<td>求1+2+…+n</td>
+<td>57</td>
+<td>87.5%</td>
+</tr>
+<tr>
+<td>面试题65</td>
+<td>不用加减乘除做加法</td>
+<td>20</td>
+<td>56.3%</td>
+</tr>
+<tr>
+<td>面试题66</td>
+<td>构建乘积数组</td>
+<td>22</td>
+<td>57.6%</td>
+</tr>
+<tr>
+<td>面试题67</td>
+<td>把字符串转换成整数</td>
+<td>23</td>
+<td>24.0%</td>
+</tr>
+<tr>
+<td>面试题68 - I</td>
+<td>二叉搜索树的最近公共祖先</td>
+<td>23</td>
+<td>69.1%</td>
+</tr>
+<tr>
+<td>面试题68 - II</td>
+<td>二叉树的最近公共祖先</td>
+<td>22</td>
+<td>67.9%</td>
+</tr>
+</tbody>
+</table>
+
+        </div>
+        <footer class="article-footer">
+    <a data-url="https://shellming.com/arithmetic/" data-id="e995430bccfee0d6b6f87d3609b40cb1" class="article-share-link">
+        <i class="fa fa-share"></i>
+        Share
+    </a>
+    
+
+    <script>
+    (function ($) {
+        
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+    </script>
+</footer>
+
+    </div>
+
+    
+<nav id="article-nav">
+    
+    <a href="https://shellming.com/archives/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">
+          Older
+      </strong>
+      <div class="article-nav-title">归档</div>
+    </a>
+    
+
+    
+</nav>
+
+
+</article>
+
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<div id="vcomments"></div>
+<script>
+    new Valine({
+        el: '#vcomments',
+        appId: '10pTmVxVzTqI8OkoPFKCsDvx-9Nh9j0Va',
+        appKey: 'If1jPmGxr84EsmWbcCU1n50F',
+        notify: false,
+        verify: false,
+        placeholder: 'Just go go',
+        avatar: 'mm', 
+        pageSize: 10, 
+    })
+</script>
+
+    </section>
+
+   	
+    	<aside id="sidebar">
+    
+    
+
+
+<div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+        <ul class="category-list">
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/categories/%E5%89%8D%E7%AB%AF">
+                    前端
+                </a>
+                <span class="category-list-count">13</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/categories/%E5%8D%9A%E5%AE%A2">
+                    博客
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE">
+                    大数据
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/categories/%E6%9D%82%E8%AE%B0">
+                    杂记
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/categories/%E7%AC%94%E8%AE%B0">
+                    笔记
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/categories/%E9%9D%A2%E8%AF%95">
+                    面试
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+        </ul>
+    </div>
+</div>
+
+
+
+
+    
+
+
+<div class="widget-wrap">
+    <h3 class="widget-title">
+        Tags
+    </h3>
+    <div class="widget">
+        <ul class="category-list">
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/arithmetic">
+                    arithmetic
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/bigdata">
+                    bigdata
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/css">
+                    css
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/electron">
+                    electron
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/git">
+                    git
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/hexo">
+                    hexo
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/html">
+                    html
+                </a>
+                <span class="category-list-count">2</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/javascript">
+                    javascript
+                </a>
+                <span class="category-list-count">5</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/js">
+                    js
+                </a>
+                <span class="category-list-count">3</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/vue">
+                    vue
+                </a>
+                <span class="category-list-count">5</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/webpack">
+                    webpack
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/web%E5%AE%89%E5%85%A8">
+                    web安全
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/windows">
+                    windows
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/%E5%89%91%E6%8C%87offer">
+                    剑指offer
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/%E7%A7%BB%E5%8A%A8%E7%AB%AF">
+                    移动端
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+        </ul>
+    </div>
+</div>
+
+
+
+
+    
+
+
+<div class="widget-wrap">
+    <h3 class="widget-title">
+        Tag cloud
+    </h3>
+    <div class="widget tagcloud">
+        
+        
+        <a href="https://shellming.com/tags/arithmetic" style="font-size: 12px;">arithmetic</a>
+        
+        
+        <a href="https://shellming.com/tags/bigdata" style="font-size: 12px;">bigdata</a>
+        
+        
+        <a href="https://shellming.com/tags/css" style="font-size: 12px;">css</a>
+        
+        
+        <a href="https://shellming.com/tags/electron" style="font-size: 12px;">electron</a>
+        
+        
+        <a href="https://shellming.com/tags/git" style="font-size: 12px;">git</a>
+        
+        
+        <a href="https://shellming.com/tags/hexo" style="font-size: 12px;">hexo</a>
+        
+        
+        <a href="https://shellming.com/tags/html" style="font-size: 12px;">html</a>
+        
+        
+        <a href="https://shellming.com/tags/javascript" style="font-size: 12px;">javascript</a>
+        
+        
+        <a href="https://shellming.com/tags/js" style="font-size: 12px;">js</a>
+        
+        
+        <a href="https://shellming.com/tags/vue" style="font-size: 12px;">vue</a>
+        
+        
+        <a href="https://shellming.com/tags/webpack" style="font-size: 12px;">webpack</a>
+        
+        
+        <a href="https://shellming.com/tags/web%E5%AE%89%E5%85%A8" style="font-size: 12px;">web安全</a>
+        
+        
+        <a href="https://shellming.com/tags/windows" style="font-size: 12px;">windows</a>
+        
+        
+        <a href="https://shellming.com/tags/%E5%89%91%E6%8C%87offer" style="font-size: 12px;">剑指offer</a>
+        
+        
+        <a href="https://shellming.com/tags/%E7%A7%BB%E5%8A%A8%E7%AB%AF" style="font-size: 12px;">移动端</a>
+        
+    </div>
+</div>
+
+
+
+
+
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+
+    
+	</div>
+</div>
+
+<footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020
+      Powered by <a href="//gohugo.io">Hugo</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://shellming.com/fancybox/jquery.fancybox.pack.js"></script>
+<script src="https://shellming.com/js/script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+
+
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']]}
+  });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+
+
+</body>
+</html>

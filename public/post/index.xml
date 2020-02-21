@@ -1,61 +1,183 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on Icarus</title>
-    <link>https://example.org/post/</link>
-    <description>Recent content in Posts on Icarus</description>
+    <title>Posts on Shellming&#39;s Note</title>
+    <link>https://shellming.com/post/</link>
+    <description>Recent content in Posts on Shellming&#39;s Note</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Thu, 20 Feb 2020 19:46:03 +0800</lastBuildDate>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 17 Sep 2019 17:30:57 +0000</lastBuildDate>
     
-	<atom:link href="https://example.org/post/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://shellming.com/post/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Hello World</title>
-      <link>https://example.org/2020/02/20/hello-world/</link>
-      <pubDate>Thu, 20 Feb 2020 19:46:03 +0800</pubDate>
+      <title>Hexo使用不蒜子增加访问统计功能</title>
+      <link>https://shellming.com/2019/09/17/hexo-busuanzi-pv/</link>
+      <pubDate>Tue, 17 Sep 2019 17:30:57 +0000</pubDate>
       
-      <guid>https://example.org/2020/02/20/hello-world/</guid>
-      <description></description>
+      <guid>https://shellming.com/2019/09/17/hexo-busuanzi-pv/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;不蒜子：两行代码 搞定计数&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;在 &lt;code&gt;scripts.ejs&lt;/code&gt; 插入不蒜子 js&lt;/p&gt;</description>
     </item>
     
     <item>
-      <title>Markdown Cheat Sheet</title>
-      <link>https://example.org/2017/05/20/markdown-cheat-sheet/</link>
-      <pubDate>Sat, 20 May 2017 12:10:51 +0200</pubDate>
+      <title>vue 刷新当前页面</title>
+      <link>https://shellming.com/2019/06/03/vue-reload-page/</link>
+      <pubDate>Mon, 03 Jun 2019 10:57:26 +0000</pubDate>
       
-      <guid>https://example.org/2017/05/20/markdown-cheat-sheet/</guid>
-      <description>&lt;p&gt;This note demonstrates some of what &lt;a href=&#34;http://daringfireball.net/projects/markdown/&#34;&gt;Markdown&lt;/a&gt; is capable of doing.&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;Note: Feel free to play with this page. Unlike regular notes, this doesn&amp;rsquo;t automatically save itself.&lt;/em&gt;&lt;/p&gt;</description>
+      <guid>https://shellming.com/2019/06/03/vue-reload-page/</guid>
+      <description>&lt;p&gt;在不刷新页面的情况下，更新页面。这个 issue 两年前就提出来了，之前的文章里面也提供了一个 解决方案。在这里分享一下，我目前使用的新方案。&lt;/p&gt;</description>
     </item>
     
     <item>
-      <title>Using the gallery shortcode</title>
-      <link>https://example.org/2017/05/20/using-the-gallery-shortcode/</link>
-      <pubDate>Sat, 20 May 2017 12:00:23 +0200</pubDate>
+      <title>web安全：什么是 XSS 和 CSRF</title>
+      <link>https://shellming.com/2019/05/30/xss-csrf/</link>
+      <pubDate>Thu, 30 May 2019 10:00:03 +0000</pubDate>
       
-      <guid>https://example.org/2017/05/20/using-the-gallery-shortcode/</guid>
-      <description>&lt;p&gt;This way you can easily include a gallery into your page. Copy the code below into your content file and enter the relative paths to your images.&lt;/p&gt;</description>
+      <guid>https://shellming.com/2019/05/30/xss-csrf/</guid>
+      <description>&lt;p&gt;在 Web 安全领域中，XSS 和 CSRF 是最常见的攻击方式。本文将会简单介绍 XSS 和 CSRF 的攻防问题。&lt;/p&gt;</description>
     </item>
     
     <item>
-      <title>Formulas with MathJax</title>
-      <link>https://example.org/2017/05/20/formulas-with-mathjax/</link>
-      <pubDate>Sat, 20 May 2017 11:58:06 +0200</pubDate>
+      <title>关于移动端click 300ms延迟</title>
+      <link>https://shellming.com/2019/05/29/click-300ms-delay-on-mobile/</link>
+      <pubDate>Wed, 29 May 2019 11:28:26 +0000</pubDate>
       
-      <guid>https://example.org/2017/05/20/formulas-with-mathjax/</guid>
-      <description>&lt;p&gt;Mathematical equations in form of LaTeX or MathML code can be rendered with the support of &lt;a href=&#34;https://www.mathjax.org&#34;&gt;MathJax&lt;/a&gt;. MathML works out of the box. If you&amp;rsquo;re using LaTeX you need to wrap your equation with &lt;code&gt;$$&lt;/code&gt; as shown in the following example:&lt;/p&gt;</description>
+      <guid>https://shellming.com/2019/05/29/click-300ms-delay-on-mobile/</guid>
+      <description>&lt;p&gt;为了解决移动端适配的问题，提出了 viewport 的解决方案，基于 无障碍(accessibility)（需要代理）交互设计师为了更好的用户体验，特地提供了 双击缩放 的手势支持。移动浏览器 会在 touchend 和 click 事件之间，等待 300 - 350 ms，判断用户是否会进行双击手势用以缩放文字。&lt;/p&gt;</description>
     </item>
     
     <item>
-      <title>How to add pages to the menu</title>
-      <link>https://example.org/2015/10/02/how-to-add-pages-to-the-menu/</link>
-      <pubDate>Fri, 02 Oct 2015 21:49:20 +0200</pubDate>
+      <title>前端路由原理解析和实现</title>
+      <link>https://shellming.com/2019/05/17/front-end-router/</link>
+      <pubDate>Fri, 17 May 2019 11:14:26 +0000</pubDate>
       
-      <guid>https://example.org/2015/10/02/how-to-add-pages-to-the-menu/</guid>
-      <description>I&amp;rsquo;m a linked post in the menu. You can add other posts by adding the following line to the frontmatter:
-menu = &amp;quot;main&amp;quot; </description>
+      <guid>https://shellming.com/2019/05/17/front-end-router/</guid>
+      <description>&lt;p&gt;路由的概念来源于服务端，在服务端中路由描述的是 URL 与处理函数之间的映射关系。
+在 Web 前端单页应用 SPA(Single Page Application)中，路由描述的是 URL 与 UI 之间的映射关系，这种映射是单向的，即 URL 变化引起 UI 更新（无需刷新页面）。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>浏览器网页链接打开本地exe客户端程序</title>
+      <link>https://shellming.com/2019/05/08/browser-link-opens-client-exe/</link>
+      <pubDate>Wed, 08 May 2019 10:27:35 +0000</pubDate>
+      
+      <guid>https://shellming.com/2019/05/08/browser-link-opens-client-exe/</guid>
+      <description>&lt;p&gt;我们经常可以看到在浏览器打开客户端的场景：浏览器打开 QQ 聊天窗口，百度网盘打开网盘客户端下载等。&lt;/p&gt;
+&lt;p&gt;我们如何使用浏览器网页链接打开本地 exe 客户端程序？&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>用 Vue 编写抽象组件</title>
+      <link>https://shellming.com/2019/05/06/vue-absract-components/</link>
+      <pubDate>Mon, 06 May 2019 11:37:44 +0000</pubDate>
+      
+      <guid>https://shellming.com/2019/05/06/vue-absract-components/</guid>
+      <description>&lt;p&gt;看过 Vue 源码的同学可以知道，&lt;code&gt;&amp;lt;keep-alive&amp;gt;&lt;/code&gt;、&lt;code&gt;&amp;lt;transition&amp;gt;&lt;/code&gt;、&lt;code&gt;&amp;lt;transition-group&amp;gt;&lt;/code&gt;等组件
+组件的实现是一个对象，注意它有一个属性 &lt;code&gt;abstract&lt;/code&gt; 为 &lt;code&gt;true&lt;/code&gt;，表明是它一个&lt;code&gt;抽象组件&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;Vue 的文档没有提这个概念，在抽象组件的&lt;strong&gt;生命周期&lt;/strong&gt;过程中，我们可以对包裹的子组件&lt;strong&gt;监听的事件进行拦截&lt;/strong&gt;，也可以对子组件进行 &lt;strong&gt;Dom 操作&lt;/strong&gt;，从而可以对我们需要的功能进行封装，而不需要关心子组件的具体实现。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>解决git pull,push每次都需要输入密码问题</title>
+      <link>https://shellming.com/2019/05/05/git-ssh-pwd/</link>
+      <pubDate>Sun, 05 May 2019 14:22:16 +0000</pubDate>
+      
+      <guid>https://shellming.com/2019/05/05/git-ssh-pwd/</guid>
+      <description>&lt;p&gt;如果我们 git clone 的下载代码的时候是连接的https://而不是git@git (ssh)的形式，当我们操作 git pull/push 到远程的时候，总是提示我们输入账号和密码才能操作成功，频繁的输入账号和密码会很麻烦。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>云南之行</title>
+      <link>https://shellming.com/2019/05/01/trip-to-yunnan/</link>
+      <pubDate>Wed, 01 May 2019 23:29:04 +0000</pubDate>
+      
+      <guid>https://shellming.com/2019/05/01/trip-to-yunnan/</guid>
+      <description>&lt;p&gt;结束石林的行程后，我们踏上了前往彝族自治县的旅途。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://shellming.com/img/trip-to-Yunnan/1.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Vue 项目实现按钮级别权限管理</title>
+      <link>https://shellming.com/2019/04/23/vue-permission/</link>
+      <pubDate>Tue, 23 Apr 2019 10:39:55 +0000</pubDate>
+      
+      <guid>https://shellming.com/2019/04/23/vue-permission/</guid>
+      <description>&lt;p&gt;在项目中经常有需求要根据用户的权限对界面上的元素进行控制，这里介绍了一直简单的实现，仅供参考。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>大数据学习笔记（基本概念）</title>
+      <link>https://shellming.com/2019/04/01/big-data/</link>
+      <pubDate>Mon, 01 Apr 2019 16:49:44 +0000</pubDate>
+      
+      <guid>https://shellming.com/2019/04/01/big-data/</guid>
+      <description>&lt;p&gt;&lt;strong&gt;什么是大数据：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;大数据&lt;/strong&gt; ：大数据是一个概念也是一门技术，是在以 &lt;code&gt;Hadoop&lt;/code&gt; 为代表的 &lt;code&gt;大数据平台框架&lt;/code&gt; 上进行各种数据分析的技术。&lt;/p&gt;
+&lt;p&gt;大数据包括了以&lt;code&gt;Hadoop和Spark为代表&lt;/code&gt;的 &lt;code&gt;基础大数据框架&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;还包括了&lt;strong&gt;实时数据处理&lt;/strong&gt;，离线数据处理；数据分析，数据挖掘和用机器算法进行预测分析等技术。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>webpack 按需打包 loadsh</title>
+      <link>https://shellming.com/2019/03/25/webpack-lodash/</link>
+      <pubDate>Mon, 25 Mar 2019 14:42:56 +0000</pubDate>
+      
+      <guid>https://shellming.com/2019/03/25/webpack-lodash/</guid>
+      <description>&lt;p&gt;&lt;code&gt;Loadsh&lt;/code&gt; 是一个一致性、模块化、高性能的 JavaScript 实用工具库。在数据操作时，我们经常会用的 loadsh 封装好的一些工具方法，但是并不想把整个包打包进项目里面。
+以下提供几个按需打包 lodash 的方法。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>JSONP原理及简单实现</title>
+      <link>https://shellming.com/2018/08/30/jsonp-principle-and-simple-implementation/</link>
+      <pubDate>Thu, 30 Aug 2018 01:40:13 +0000</pubDate>
+      
+      <guid>https://shellming.com/2018/08/30/jsonp-principle-and-simple-implementation/</guid>
+      <description>&lt;p&gt;&lt;code&gt;JSONP&lt;/code&gt; 全称 JSON with Padding，用于解决 AJAX 跨域问题的一种方案。&lt;/p&gt;
+&lt;p&gt;由于同源策略的限制，浏览器只允许 XmlHttpRequest 请求当前源（域名、协议、端口）的资源，而对请求 script 资源没有限制。通过请求 script 标签实现跨域请求，然后在服务端输出 JSON 数据并执行回调函数，这种跨域的数据的方式被称为 JSONP。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>JSON格式化校验的方法</title>
+      <link>https://shellming.com/2018/07/22/json-format-validate/</link>
+      <pubDate>Sun, 22 Jul 2018 16:40:13 +0000</pubDate>
+      
+      <guid>https://shellming.com/2018/07/22/json-format-validate/</guid>
+      <description>&lt;p&gt;Javascript 目前没有提供判断 JSON 数据格式是否正确的方法。
+在得到 JSON 数据后，若 JSON 格式错误，程序不能正常解析，抛出 &lt;code&gt;Uncaught SyntaxError&lt;/code&gt; 将导致程序终止运行。在解析 JSON 数据之前进行校验，可避免这种情况的发生。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>重复造轮子：从0开始实现Vue数据绑定</title>
+      <link>https://shellming.com/2017/08/02/vue-data-binding/</link>
+      <pubDate>Wed, 02 Aug 2017 03:08:36 +0000</pubDate>
+      
+      <guid>https://shellming.com/2017/08/02/vue-data-binding/</guid>
+      <description>&lt;p&gt;随着前端模块化、工程化的进行，Vue, React, Angular 等框架越来越流行，MVC（MVVM）的设计模式也越来深入人心。这类框架将开发者从繁琐的 dom 操作中解放出来，推动了开发者去了解和使用抽象程度更高的领域。包括但不限于数据结构，设计模式，数据流，抽象数据类型，抽象过程等。&lt;/p&gt;
+&lt;p&gt;那么这类框架是如何实现数据驱动的呢？ 以 Vue 为例。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Vue2.4组件间通信新姿势</title>
+      <link>https://shellming.com/2017/07/23/new-component-communication-methods-in-vue2_40/</link>
+      <pubDate>Sun, 23 Jul 2017 13:08:36 +0000</pubDate>
+      
+      <guid>https://shellming.com/2017/07/23/new-component-communication-methods-in-vue2_40/</guid>
+      <description>&lt;p&gt;Vue 应用在组件化之后，通常存在着 父子组件、兄弟组件、跨级组件 等组件关系，那么组件之间如何进行通信；Vue2.4 提供了两种新的组件通讯方法。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Electron autoUpdate 配置自动更新</title>
+      <link>https://shellming.com/1/01/01/electon-autoupdate/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://shellming.com/1/01/01/electon-autoupdate/</guid>
+      <description>&lt;p&gt;网上关于 Electron 应用自动更新的文章并不多，许多都已经过时，且较为繁琐。
+本文将介绍，通过 &lt;code&gt;Electron-Vue&lt;/code&gt; + &lt;code&gt;autoUpdater&lt;/code&gt; + &lt;code&gt;electron-release-server&lt;/code&gt; 快速搭建自动更新服务。&lt;/p&gt;</description>
     </item>
     
   </channel>

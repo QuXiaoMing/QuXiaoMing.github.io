@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>html on Shellming&#39;s Note</title>
+    <link>https://shellming.com/tags/html/</link>
+    <description>Recent content in html on Shellming&#39;s Note</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 29 May 2019 11:28:26 +0000</lastBuildDate>
+    
+	<atom:link href="https://shellming.com/tags/html/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>关于移动端click 300ms延迟</title>
+      <link>https://shellming.com/2019/05/29/click-300ms-delay-on-mobile/</link>
+      <pubDate>Wed, 29 May 2019 11:28:26 +0000</pubDate>
+      
+      <guid>https://shellming.com/2019/05/29/click-300ms-delay-on-mobile/</guid>
+      <description>&lt;p&gt;为了解决移动端适配的问题，提出了 viewport 的解决方案，基于 无障碍(accessibility)（需要代理）交互设计师为了更好的用户体验，特地提供了 双击缩放 的手势支持。移动浏览器 会在 touchend 和 click 事件之间，等待 300 - 350 ms，判断用户是否会进行双击手势用以缩放文字。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>浏览器网页链接打开本地exe客户端程序</title>
+      <link>https://shellming.com/2019/05/08/browser-link-opens-client-exe/</link>
+      <pubDate>Wed, 08 May 2019 10:27:35 +0000</pubDate>
+      
+      <guid>https://shellming.com/2019/05/08/browser-link-opens-client-exe/</guid>
+      <description>&lt;p&gt;我们经常可以看到在浏览器打开客户端的场景：浏览器打开 QQ 聊天窗口，百度网盘打开网盘客户端下载等。&lt;/p&gt;
+&lt;p&gt;我们如何使用浏览器网页链接打开本地 exe 客户端程序？&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

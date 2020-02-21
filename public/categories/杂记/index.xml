@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>杂记 on Shellming&#39;s Note</title>
+    <link>https://shellming.com/categories/%E6%9D%82%E8%AE%B0/</link>
+    <description>Recent content in 杂记 on Shellming&#39;s Note</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 01 May 2019 23:29:04 +0000</lastBuildDate>
+    
+	<atom:link href="https://shellming.com/categories/%E6%9D%82%E8%AE%B0/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>云南之行</title>
+      <link>https://shellming.com/2019/05/01/trip-to-yunnan/</link>
+      <pubDate>Wed, 01 May 2019 23:29:04 +0000</pubDate>
+      
+      <guid>https://shellming.com/2019/05/01/trip-to-yunnan/</guid>
+      <description>&lt;p&gt;结束石林的行程后，我们踏上了前往彝族自治县的旅途。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://shellming.com/img/trip-to-Yunnan/1.jpg&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

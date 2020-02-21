@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>JSONP原理及简单实现 &middot; Shellming&#39;s Note</title>
+    <meta name="generator" content="Hugo 0.64.1" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Shellming">
+    
+      <meta name="description" content="技术无止境">
+    
+    
+    <link rel="canonical" href="https://shellming.com/2018/08/30/jsonp-principle-and-simple-implementation/"/>
+    <link rel="icon" href="https://shellming.com/favicon.ico">
+    <link rel="apple-touch-icon" href="https://shellming.com/apple-touch-icon.png"/>
+    <link rel="stylesheet" href="https://shellming.com/css/style.css">
+    <link rel="stylesheet" href="https://shellming.com/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://shellming.com/css/monokai.css">
+    <link rel="stylesheet" href="https://shellming.com/fancybox/jquery.fancybox.css">
+    
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css'>
+    <meta property="og:title" content="JSONP原理及简单实现" />
+<meta property="og:description" content="JSONP 全称 JSON with Padding，用于解决 AJAX 跨域问题的一种方案。
+由于同源策略的限制，浏览器只允许 XmlHttpRequest 请求当前源（域名、协议、端口）的资源，而对请求 script 资源没有限制。通过请求 script 标签实现跨域请求，然后在服务端输出 JSON 数据并执行回调函数，这种跨域的数据的方式被称为 JSONP。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://shellming.com/2018/08/30/jsonp-principle-and-simple-implementation/" />
+<meta property="article:published_time" content="2018-08-30T01:40:13+00:00" />
+<meta property="article:modified_time" content="2018-08-30T01:40:13+00:00" />
+
+    
+    <meta itemprop="name" content="JSONP原理及简单实现">
+<meta itemprop="description" content="JSONP 全称 JSON with Padding，用于解决 AJAX 跨域问题的一种方案。
+由于同源策略的限制，浏览器只允许 XmlHttpRequest 请求当前源（域名、协议、端口）的资源，而对请求 script 资源没有限制。通过请求 script 标签实现跨域请求，然后在服务端输出 JSON 数据并执行回调函数，这种跨域的数据的方式被称为 JSONP。">
+<meta itemprop="datePublished" content="2018-08-30T01:40:13&#43;00:00" />
+<meta itemprop="dateModified" content="2018-08-30T01:40:13&#43;00:00" />
+<meta itemprop="wordCount" content="304">
+
+
+
+<meta itemprop="keywords" content="javascript," />
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="JSONP原理及简单实现"/>
+<meta name="twitter:description" content="JSONP 全称 JSON with Padding，用于解决 AJAX 跨域问题的一种方案。
+由于同源策略的限制，浏览器只允许 XmlHttpRequest 请求当前源（域名、协议、端口）的资源，而对请求 script 资源没有限制。通过请求 script 标签实现跨域请求，然后在服务端输出 JSON 数据并执行回调函数，这种跨域的数据的方式被称为 JSONP。"/>
+
+    
+
+    
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+</head>
+<body>
+<div class="container">
+
+
+<div id="container">
+	<header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="https://shellming.com" id="logo">
+          
+          <i class="logo" style="background-image: url('https://shellming.com/css/images/logo.png')"></i>
+          
+          <span class="site-title">Shellming&#39;s Note</span>
+      </a>
+      <nav id="main-nav">
+          
+          
+          <a class="main-nav-link" href="https://shellming.com/">首页</a>
+          
+          
+          
+          <a class="main-nav-link" href="https://shellming.com/arithmetic/">算法</a>
+          
+          
+          
+          <a class="main-nav-link" href="https://shellming.com/archives/">归档</a>
+          
+          
+          
+          <a class="main-nav-link" href="https://shellming.com/patterns/">设计模式</a>
+          
+          
+
+          
+          <a class="main-nav-link" href="/about/">关于</a>
+          
+
+          
+          
+          
+          
+          
+          
+          
+          
+          
+      </nav>
+        <nav id="sub-nav">
+          <div class="profile" id="profile-nav">
+            <a id="profile-anchor" href="javascript:;"><img class="avatar" src="https://shellming.com/css/images/avatar.png"><i class="fa fa-caret-down"></i></a>
+          </div>
+        </nav>
+        <div id="search-form-wrap">
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form">
+              <input type="search" name="q" class="search-form-input" placeholder="Search">
+              <button type="submit" class="search-form-submit">
+              </button>
+              <input type="hidden" name="sitesearch" value="https://shellming.com" />
+         </form>
+        </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tbody>
+          <tr>
+          
+          
+          <td><a class="main-nav-link" href="https://shellming.com/">首页</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="https://shellming.com/arithmetic/">算法</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="https://shellming.com/archives/">归档</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="https://shellming.com/patterns/">设计模式</a></td>
+          
+          
+
+          
+          <td><a class="main-nav-link" href="/about/">关于</a></td>
+          
+
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <td>
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form">
+          <input type="search" name="q" class="search-form-input" placeholder="Search">
+          <input type="hidden" name="sitesearch" value="https://shellming.com" />
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</header>
+
+   	
+   	<div class="outer">
+	
+    	<aside id="profile">
+  <div class="inner profile-inner">
+    <div class="base-info profile-block">
+      
+      <img id="avatar" src="https://www.gravatar.com/avatar/3a363cc9096ed48e714938b526692a71?s=100&d=identicon"/>
+      
+      <h2 id="name">Shellming</h2>
+      <h3 id="title">Web Developer</h3>
+      <span id="location"><i class="fa fa-map-marker"></i>ChangSha</span>
+      
+          <a id="follow" href="https://github.com/quxiaoming">
+              Follow
+          </a>
+      
+    </div>
+    <div class="article-info profile-block">
+      <div class="article-info-block">
+        17
+        <span>Posts</span>
+      </div>
+      <div class="article-info-block">
+        
+          15
+        
+        <span>
+            Tags
+        </span>
+      </div>
+    </div>
+    <div class="profile-block social-links">
+      <table>
+        <tr>
+          
+<td><a href="//github.com/quxiaoming" target="_blank" title="GitHub"><i class="fa fa-github"></i></a></td>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          <td><a href="https://shellming.com/index.xml" target="_blank" title="RSS"><i class="fa fa-rss"></i></a></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</aside>
+
+    
+
+    <section id="main">
+    
+    <article id="page-undefined" class="article article-type-page" itemscope="" itemprop="blogPost">
+    <div class="article-inner">
+        
+
+        <header class="article-header">
+    <a href="https://shellming.com/2018/08/30/jsonp-principle-and-simple-implementation/">
+    <h1 class="article-title" itemprop="name">
+        JSONP原理及简单实现
+    </h1>
+    </a>
+    <div class="article-meta">
+
+        
+        <div class="article-date">
+            <i class="fa fa-calendar"></i>
+            <time datetime="2018-08-30 01:40:13 &#43;0000 UTC" itemprop="datePublished">2018-08-30</time>
+            &middot;
+            304
+            words
+            &middot;
+            2
+            minute read
+        </div>
+        
+        
+            
+            
+            <div class="article-category">
+                <i class="fa fa-folder"></i>
+                
+                
+                <a class="article-category-link" href="https://shellming.com/categories/%E5%89%8D%E7%AB%AF">前端</a>
+                
+                
+            </div>
+            
+        
+
+        
+            
+            
+            <div class="article-category">
+                <i class="fa fa-tags"></i>
+                
+                
+                <a class="article-category-link" href="https://shellming.com/tags/javascript">javascript</a>
+                
+                
+            </div>
+            
+        
+    </div>
+</header>
+
+        <div class="article-entry" itemprop="articleBody">
+            <p><code>JSONP</code> 全称 JSON with Padding，用于解决 AJAX 跨域问题的一种方案。</p>
+<p>由于同源策略的限制，浏览器只允许 XmlHttpRequest 请求当前源（域名、协议、端口）的资源，而对请求 script 资源没有限制。通过请求 script 标签实现跨域请求，然后在服务端输出 JSON 数据并执行回调函数，这种跨域的数据的方式被称为 JSONP。</p>
+<h1 id="实现原理">实现原理</h1>
+<p>1.首先在客户端注册一个 callback 方法，放到 window 对象上，如：</p>
+<pre><code>callbackFunction (json) {
+    console.log(JSON)
+}
+</code></pre><p>然后把 callback 的名字（callbackFunction）传给服务器。</p>
+<p>2.服务器先生成 JOSN 数据。</p>
+<p>3.将 JOSN 数据直接以入参的方式，放置到 function 中，这样就生成了一段 js 语法的文档（如 callbackFunction(JOSN)），返回给客户端。</p>
+<p>4.客户端浏览器，将返回的 JS 标签插入 DOM，解析 script 标签后，会执行 callbackFunction(JOSN)。</p>
+<p>通过这种方式，即可实现跨域获取数据。</p>
+<h1 id="code">Code</h1>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">import</span> {<span style="color:#a6e22e">JSONP</span>} <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;./JSONP&#39;</span>;
+<span style="color:#75715e">// 调用
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">JSONP</span>({
+    <span style="color:#a6e22e">url</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;url&#39;</span>,
+    <span style="color:#a6e22e">data</span><span style="color:#f92672">:</span> {
+        <span style="color:#a6e22e">key1</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;key1&#39;</span>
+    },
+    <span style="color:#a6e22e">callback</span>(<span style="color:#a6e22e">data</span>) {
+        <span style="color:#75715e">// data 是服务端返回的数据
+</span><span style="color:#75715e"></span>    }
+});
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#75715e">// JSONP.js
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">let</span> <span style="color:#a6e22e">JSONP</span> <span style="color:#f92672">=</span> (<span style="color:#a6e22e">config</span> <span style="color:#f92672">=</span> {}) =&gt; {
+    <span style="color:#66d9ef">let</span> {<span style="color:#a6e22e">data</span>, <span style="color:#a6e22e">url</span>, <span style="color:#a6e22e">callback</span>} <span style="color:#f92672">=</span> <span style="color:#a6e22e">config</span>;
+    <span style="color:#75715e">// 拼接请求Url
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#a6e22e">url</span>) <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> Error(<span style="color:#e6db74">&#39;url is required!&#39;</span>);
+    <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">name</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">`</span><span style="color:#e6db74">id_</span><span style="color:#e6db74">${</span><span style="color:#66d9ef">new</span> Date().<span style="color:#a6e22e">getTime</span>()<span style="color:#e6db74">}</span><span style="color:#e6db74">_</span><span style="color:#e6db74">${</span>Math.<span style="color:#a6e22e">random</span>()
+        .<span style="color:#a6e22e">toString</span>()
+        .<span style="color:#a6e22e">substr</span>(<span style="color:#ae81ff">2</span>)<span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>;
+    <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">srcUrl</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">getSrcUrl</span>(<span style="color:#a6e22e">url</span>, {
+        <span style="color:#a6e22e">data</span>,
+        <span style="color:#a6e22e">callback</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">name</span>
+    });
+
+    <span style="color:#75715e">// 插入Script标签
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">script</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">createElement</span>(<span style="color:#e6db74">&#39;script&#39;</span>);
+    <span style="color:#a6e22e">script</span>.<span style="color:#a6e22e">type</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;text/javascript&#39;</span>;
+    <span style="color:#a6e22e">script</span>.<span style="color:#a6e22e">src</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">srcUrl</span>;
+    <span style="color:#a6e22e">script</span>.<span style="color:#a6e22e">id</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">name</span>;
+
+    <span style="color:#75715e">// CallBack 放到 window 对象，调用后销毁
+</span><span style="color:#75715e"></span>    window[<span style="color:#a6e22e">name</span>] <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">json</span>) {
+        <span style="color:#75715e">// 执行这个函数后，要销毁这个函数
+</span><span style="color:#75715e"></span>        window[<span style="color:#a6e22e">name</span>] <span style="color:#f92672">=</span> <span style="color:#66d9ef">undefined</span>;
+        <span style="color:#75715e">// 获取这个script的元素
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">elem</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">getElementById</span>(<span style="color:#a6e22e">name</span>);
+        <span style="color:#75715e">// 删除head里面插入的script，这三步都是为了不影响污染整个DOM啊
+</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">removeElem</span>(<span style="color:#a6e22e">elem</span>);
+        <span style="color:#75715e">// 执行传入的的函数
+</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">callback</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#66d9ef">typeof</span> <span style="color:#a6e22e">callback</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;function&#39;</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">callback</span>(<span style="color:#a6e22e">json</span>);
+    };
+
+    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">head</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">getElementsByTagName</span>(<span style="color:#e6db74">&#39;head&#39;</span>);
+    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">head</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">head</span>[<span style="color:#ae81ff">0</span>]) {
+        <span style="color:#a6e22e">head</span>[<span style="color:#ae81ff">0</span>].<span style="color:#a6e22e">appendChild</span>(<span style="color:#a6e22e">script</span>);
+    }
+};
+
+<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">getSrcUrl</span> <span style="color:#f92672">=</span> (<span style="color:#a6e22e">url</span>, <span style="color:#a6e22e">data</span>) =&gt; {
+    <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">_url</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">url</span> <span style="color:#f92672">+</span> (<span style="color:#a6e22e">url</span>.<span style="color:#a6e22e">indexOf</span>(<span style="color:#e6db74">&#39;?&#39;</span>) <span style="color:#f92672">===</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">?</span> <span style="color:#e6db74">&#39;?&#39;</span> <span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;&amp;&#39;</span>);
+    <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">ret</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&#39;</span>;
+    <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">typeof</span> <span style="color:#a6e22e">data</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;string&#39;</span>) {
+        <span style="color:#a6e22e">ret</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">data</span>;
+    } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">typeof</span> <span style="color:#a6e22e">data</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;object&#39;</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">key</span> <span style="color:#66d9ef">in</span> <span style="color:#a6e22e">data</span>) {
+            <span style="color:#a6e22e">ret</span> <span style="color:#f92672">+=</span> <span style="color:#e6db74">&#39;&amp;&#39;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">key</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;=&#39;</span> <span style="color:#f92672">+</span> encodeURIComponent(<span style="color:#a6e22e">data</span>[<span style="color:#a6e22e">key</span>]);
+        }
+    }
+    <span style="color:#a6e22e">ret</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">ret</span>.<span style="color:#a6e22e">substr</span>(<span style="color:#ae81ff">1</span>);
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">_url</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">ret</span>;
+};
+
+<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">removeElem</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">elem</span> =&gt; {
+    <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">parent</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">elem</span>.<span style="color:#a6e22e">parentNode</span>;
+    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">parent</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">parent</span>.<span style="color:#a6e22e">nodeType</span> <span style="color:#f92672">!==</span> <span style="color:#ae81ff">11</span>) {
+        <span style="color:#a6e22e">parent</span>.<span style="color:#a6e22e">removeChild</span>(<span style="color:#a6e22e">elem</span>);
+    }
+};
+
+<span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#a6e22e">JSONP</span>;
+</code></pre></div><h1 id="注意">注意</h1>
+<ol>
+<li>在 jquery 中，JSOP 被封装在 <code>$.ajax()</code> 方法中，但是他的实现原理与 <code>ajax</code> 完全不同。</li>
+<li>JSONP 的兼容性较好，在更加古老的浏览器中都可以运行，不需要 XMLHttpRequest 或 ActiveX 的支持。</li>
+<li>JSONP 只支持 GET 请求而不支持 POST 等其它类型的 HTTP 请求。</li>
+<li>JSONP 在调用失败的时候不会返回各种 HTTP 状态码（解决方法：添加 timeout 参数，虽然 JSONP 请求本身的错误没有被捕获，但是最终会因为超时而执行 error 回调）。</li>
+<li>在使用 JSONP 的时候必须要保证使用的 JSONP 服务必须是安全可信的。万一提供 JSONP 的服务存在页面注入漏洞，它返回的 javascript 都将被执行，若被注入这是非常危险的。</li>
+</ol>
+        </div>
+        <footer class="article-footer">
+    <a data-url="https://shellming.com/2018/08/30/jsonp-principle-and-simple-implementation/" data-id="536794d12de13498182ce0a334d0a520" class="article-share-link">
+        <i class="fa fa-share"></i>
+        Share
+    </a>
+    
+
+    <script>
+    (function ($) {
+        
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+    </script>
+</footer>
+
+    </div>
+
+    
+<nav id="article-nav">
+    
+    <a href="https://shellming.com/2018/07/22/json-format-validate/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">
+          Older
+      </strong>
+      <div class="article-nav-title">JSON格式化校验的方法</div>
+    </a>
+    
+
+    
+    <a href="https://shellming.com/2019/03/25/webpack-lodash/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">
+          Newer
+      </strong>
+      <div class="article-nav-title">webpack 按需打包 loadsh</div>
+    </a>
+    
+</nav>
+
+
+</article>
+
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<div id="vcomments"></div>
+<script>
+    new Valine({
+        el: '#vcomments',
+        appId: '10pTmVxVzTqI8OkoPFKCsDvx-9Nh9j0Va',
+        appKey: 'If1jPmGxr84EsmWbcCU1n50F',
+        notify: false,
+        verify: false,
+        placeholder: 'Just go go',
+        avatar: 'mm', 
+        pageSize: 10, 
+    })
+</script>
+
+    </section>
+
+   	
+    	<aside id="sidebar">
+    
+    
+
+
+<div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+        <ul class="category-list">
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/categories/%E5%89%8D%E7%AB%AF">
+                    前端
+                </a>
+                <span class="category-list-count">13</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/categories/%E5%8D%9A%E5%AE%A2">
+                    博客
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE">
+                    大数据
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/categories/%E6%9D%82%E8%AE%B0">
+                    杂记
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/categories/%E7%AC%94%E8%AE%B0">
+                    笔记
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/categories/%E9%9D%A2%E8%AF%95">
+                    面试
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+        </ul>
+    </div>
+</div>
+
+
+
+
+    
+
+
+<div class="widget-wrap">
+    <h3 class="widget-title">
+        Tags
+    </h3>
+    <div class="widget">
+        <ul class="category-list">
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/arithmetic">
+                    arithmetic
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/bigdata">
+                    bigdata
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/css">
+                    css
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/electron">
+                    electron
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/git">
+                    git
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/hexo">
+                    hexo
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/html">
+                    html
+                </a>
+                <span class="category-list-count">2</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/javascript">
+                    javascript
+                </a>
+                <span class="category-list-count">5</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/js">
+                    js
+                </a>
+                <span class="category-list-count">3</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/vue">
+                    vue
+                </a>
+                <span class="category-list-count">5</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/webpack">
+                    webpack
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/web%E5%AE%89%E5%85%A8">
+                    web安全
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/windows">
+                    windows
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/%E5%89%91%E6%8C%87offer">
+                    剑指offer
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/%E7%A7%BB%E5%8A%A8%E7%AB%AF">
+                    移动端
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+        </ul>
+    </div>
+</div>
+
+
+
+
+    
+
+
+<div class="widget-wrap">
+    <h3 class="widget-title">
+        Tag cloud
+    </h3>
+    <div class="widget tagcloud">
+        
+        
+        <a href="https://shellming.com/tags/arithmetic" style="font-size: 12px;">arithmetic</a>
+        
+        
+        <a href="https://shellming.com/tags/bigdata" style="font-size: 12px;">bigdata</a>
+        
+        
+        <a href="https://shellming.com/tags/css" style="font-size: 12px;">css</a>
+        
+        
+        <a href="https://shellming.com/tags/electron" style="font-size: 12px;">electron</a>
+        
+        
+        <a href="https://shellming.com/tags/git" style="font-size: 12px;">git</a>
+        
+        
+        <a href="https://shellming.com/tags/hexo" style="font-size: 12px;">hexo</a>
+        
+        
+        <a href="https://shellming.com/tags/html" style="font-size: 12px;">html</a>
+        
+        
+        <a href="https://shellming.com/tags/javascript" style="font-size: 12px;">javascript</a>
+        
+        
+        <a href="https://shellming.com/tags/js" style="font-size: 12px;">js</a>
+        
+        
+        <a href="https://shellming.com/tags/vue" style="font-size: 12px;">vue</a>
+        
+        
+        <a href="https://shellming.com/tags/webpack" style="font-size: 12px;">webpack</a>
+        
+        
+        <a href="https://shellming.com/tags/web%E5%AE%89%E5%85%A8" style="font-size: 12px;">web安全</a>
+        
+        
+        <a href="https://shellming.com/tags/windows" style="font-size: 12px;">windows</a>
+        
+        
+        <a href="https://shellming.com/tags/%E5%89%91%E6%8C%87offer" style="font-size: 12px;">剑指offer</a>
+        
+        
+        <a href="https://shellming.com/tags/%E7%A7%BB%E5%8A%A8%E7%AB%AF" style="font-size: 12px;">移动端</a>
+        
+    </div>
+</div>
+
+
+
+
+
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+
+    
+	</div>
+</div>
+
+<footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020
+      Powered by <a href="//gohugo.io">Hugo</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://shellming.com/fancybox/jquery.fancybox.pack.js"></script>
+<script src="https://shellming.com/js/script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+
+
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']]}
+  });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+
+
+</body>
+</html>

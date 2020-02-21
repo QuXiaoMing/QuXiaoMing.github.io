@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>vue on Shellming&#39;s Note</title>
+    <link>https://shellming.com/tags/vue/</link>
+    <description>Recent content in vue on Shellming&#39;s Note</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 03 Jun 2019 10:57:26 +0000</lastBuildDate>
+    
+	<atom:link href="https://shellming.com/tags/vue/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>vue 刷新当前页面</title>
+      <link>https://shellming.com/2019/06/03/vue-reload-page/</link>
+      <pubDate>Mon, 03 Jun 2019 10:57:26 +0000</pubDate>
+      
+      <guid>https://shellming.com/2019/06/03/vue-reload-page/</guid>
+      <description>&lt;p&gt;在不刷新页面的情况下，更新页面。这个 issue 两年前就提出来了，之前的文章里面也提供了一个 解决方案。在这里分享一下，我目前使用的新方案。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>用 Vue 编写抽象组件</title>
+      <link>https://shellming.com/2019/05/06/vue-absract-components/</link>
+      <pubDate>Mon, 06 May 2019 11:37:44 +0000</pubDate>
+      
+      <guid>https://shellming.com/2019/05/06/vue-absract-components/</guid>
+      <description>&lt;p&gt;看过 Vue 源码的同学可以知道，&lt;code&gt;&amp;lt;keep-alive&amp;gt;&lt;/code&gt;、&lt;code&gt;&amp;lt;transition&amp;gt;&lt;/code&gt;、&lt;code&gt;&amp;lt;transition-group&amp;gt;&lt;/code&gt;等组件
+组件的实现是一个对象，注意它有一个属性 &lt;code&gt;abstract&lt;/code&gt; 为 &lt;code&gt;true&lt;/code&gt;，表明是它一个&lt;code&gt;抽象组件&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;Vue 的文档没有提这个概念，在抽象组件的&lt;strong&gt;生命周期&lt;/strong&gt;过程中，我们可以对包裹的子组件&lt;strong&gt;监听的事件进行拦截&lt;/strong&gt;，也可以对子组件进行 &lt;strong&gt;Dom 操作&lt;/strong&gt;，从而可以对我们需要的功能进行封装，而不需要关心子组件的具体实现。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Vue 项目实现按钮级别权限管理</title>
+      <link>https://shellming.com/2019/04/23/vue-permission/</link>
+      <pubDate>Tue, 23 Apr 2019 10:39:55 +0000</pubDate>
+      
+      <guid>https://shellming.com/2019/04/23/vue-permission/</guid>
+      <description>&lt;p&gt;在项目中经常有需求要根据用户的权限对界面上的元素进行控制，这里介绍了一直简单的实现，仅供参考。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>重复造轮子：从0开始实现Vue数据绑定</title>
+      <link>https://shellming.com/2017/08/02/vue-data-binding/</link>
+      <pubDate>Wed, 02 Aug 2017 03:08:36 +0000</pubDate>
+      
+      <guid>https://shellming.com/2017/08/02/vue-data-binding/</guid>
+      <description>&lt;p&gt;随着前端模块化、工程化的进行，Vue, React, Angular 等框架越来越流行，MVC（MVVM）的设计模式也越来深入人心。这类框架将开发者从繁琐的 dom 操作中解放出来，推动了开发者去了解和使用抽象程度更高的领域。包括但不限于数据结构，设计模式，数据流，抽象数据类型，抽象过程等。&lt;/p&gt;
+&lt;p&gt;那么这类框架是如何实现数据驱动的呢？ 以 Vue 为例。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Vue2.4组件间通信新姿势</title>
+      <link>https://shellming.com/2017/07/23/new-component-communication-methods-in-vue2_40/</link>
+      <pubDate>Sun, 23 Jul 2017 13:08:36 +0000</pubDate>
+      
+      <guid>https://shellming.com/2017/07/23/new-component-communication-methods-in-vue2_40/</guid>
+      <description>&lt;p&gt;Vue 应用在组件化之后，通常存在着 父子组件、兄弟组件、跨级组件 等组件关系，那么组件之间如何进行通信；Vue2.4 提供了两种新的组件通讯方法。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

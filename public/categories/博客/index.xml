@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>博客 on Shellming&#39;s Note</title>
+    <link>https://shellming.com/categories/%E5%8D%9A%E5%AE%A2/</link>
+    <description>Recent content in 博客 on Shellming&#39;s Note</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 17 Sep 2019 17:30:57 +0000</lastBuildDate>
+    
+	<atom:link href="https://shellming.com/categories/%E5%8D%9A%E5%AE%A2/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Hexo使用不蒜子增加访问统计功能</title>
+      <link>https://shellming.com/2019/09/17/hexo-busuanzi-pv/</link>
+      <pubDate>Tue, 17 Sep 2019 17:30:57 +0000</pubDate>
+      
+      <guid>https://shellming.com/2019/09/17/hexo-busuanzi-pv/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;不蒜子：两行代码 搞定计数&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;在 &lt;code&gt;scripts.ejs&lt;/code&gt; 插入不蒜子 js&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

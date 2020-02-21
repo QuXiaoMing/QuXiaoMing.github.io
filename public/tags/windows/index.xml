@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>windows on Shellming&#39;s Note</title>
+    <link>https://shellming.com/tags/windows/</link>
+    <description>Recent content in windows on Shellming&#39;s Note</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 08 May 2019 10:27:35 +0000</lastBuildDate>
+    
+	<atom:link href="https://shellming.com/tags/windows/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>浏览器网页链接打开本地exe客户端程序</title>
+      <link>https://shellming.com/2019/05/08/browser-link-opens-client-exe/</link>
+      <pubDate>Wed, 08 May 2019 10:27:35 +0000</pubDate>
+      
+      <guid>https://shellming.com/2019/05/08/browser-link-opens-client-exe/</guid>
+      <description>&lt;p&gt;我们经常可以看到在浏览器打开客户端的场景：浏览器打开 QQ 聊天窗口，百度网盘打开网盘客户端下载等。&lt;/p&gt;
+&lt;p&gt;我们如何使用浏览器网页链接打开本地 exe 客户端程序？&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

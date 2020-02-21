@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>前端路由原理解析和实现 &middot; Shellming&#39;s Note</title>
+    <meta name="generator" content="Hugo 0.64.1" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Shellming">
+    
+      <meta name="description" content="技术无止境">
+    
+    
+    <link rel="canonical" href="https://shellming.com/2019/05/17/front-end-router/"/>
+    <link rel="icon" href="https://shellming.com/favicon.ico">
+    <link rel="apple-touch-icon" href="https://shellming.com/apple-touch-icon.png"/>
+    <link rel="stylesheet" href="https://shellming.com/css/style.css">
+    <link rel="stylesheet" href="https://shellming.com/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://shellming.com/css/monokai.css">
+    <link rel="stylesheet" href="https://shellming.com/fancybox/jquery.fancybox.css">
+    
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css'>
+    <meta property="og:title" content="前端路由原理解析和实现" />
+<meta property="og:description" content="路由的概念来源于服务端，在服务端中路由描述的是 URL 与处理函数之间的映射关系。
+在 Web 前端单页应用 SPA(Single Page Application)中，路由描述的是 URL 与 UI 之间的映射关系，这种映射是单向的，即 URL 变化引起 UI 更新（无需刷新页面）。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://shellming.com/2019/05/17/front-end-router/" />
+<meta property="article:published_time" content="2019-05-17T11:14:26+00:00" />
+<meta property="article:modified_time" content="2019-05-17T11:14:26+00:00" />
+
+    
+    <meta itemprop="name" content="前端路由原理解析和实现">
+<meta itemprop="description" content="路由的概念来源于服务端，在服务端中路由描述的是 URL 与处理函数之间的映射关系。
+在 Web 前端单页应用 SPA(Single Page Application)中，路由描述的是 URL 与 UI 之间的映射关系，这种映射是单向的，即 URL 变化引起 UI 更新（无需刷新页面）。">
+<meta itemprop="datePublished" content="2019-05-17T11:14:26&#43;00:00" />
+<meta itemprop="dateModified" content="2019-05-17T11:14:26&#43;00:00" />
+<meta itemprop="wordCount" content="273">
+
+
+
+<meta itemprop="keywords" content="js," />
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="前端路由原理解析和实现"/>
+<meta name="twitter:description" content="路由的概念来源于服务端，在服务端中路由描述的是 URL 与处理函数之间的映射关系。
+在 Web 前端单页应用 SPA(Single Page Application)中，路由描述的是 URL 与 UI 之间的映射关系，这种映射是单向的，即 URL 变化引起 UI 更新（无需刷新页面）。"/>
+
+    
+
+    
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+</head>
+<body>
+<div class="container">
+
+
+<div id="container">
+	<header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="https://shellming.com" id="logo">
+          
+          <i class="logo" style="background-image: url('https://shellming.com/css/images/logo.png')"></i>
+          
+          <span class="site-title">Shellming&#39;s Note</span>
+      </a>
+      <nav id="main-nav">
+          
+          
+          <a class="main-nav-link" href="https://shellming.com/">首页</a>
+          
+          
+          
+          <a class="main-nav-link" href="https://shellming.com/arithmetic/">算法</a>
+          
+          
+          
+          <a class="main-nav-link" href="https://shellming.com/archives/">归档</a>
+          
+          
+          
+          <a class="main-nav-link" href="https://shellming.com/patterns/">设计模式</a>
+          
+          
+
+          
+          <a class="main-nav-link" href="/about/">关于</a>
+          
+
+          
+          
+          
+          
+          
+          
+          
+          
+          
+      </nav>
+        <nav id="sub-nav">
+          <div class="profile" id="profile-nav">
+            <a id="profile-anchor" href="javascript:;"><img class="avatar" src="https://shellming.com/css/images/avatar.png"><i class="fa fa-caret-down"></i></a>
+          </div>
+        </nav>
+        <div id="search-form-wrap">
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form">
+              <input type="search" name="q" class="search-form-input" placeholder="Search">
+              <button type="submit" class="search-form-submit">
+              </button>
+              <input type="hidden" name="sitesearch" value="https://shellming.com" />
+         </form>
+        </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tbody>
+          <tr>
+          
+          
+          <td><a class="main-nav-link" href="https://shellming.com/">首页</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="https://shellming.com/arithmetic/">算法</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="https://shellming.com/archives/">归档</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="https://shellming.com/patterns/">设计模式</a></td>
+          
+          
+
+          
+          <td><a class="main-nav-link" href="/about/">关于</a></td>
+          
+
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <td>
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form">
+          <input type="search" name="q" class="search-form-input" placeholder="Search">
+          <input type="hidden" name="sitesearch" value="https://shellming.com" />
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</header>
+
+   	
+   	<div class="outer">
+	
+    	<aside id="profile">
+  <div class="inner profile-inner">
+    <div class="base-info profile-block">
+      
+      <img id="avatar" src="https://www.gravatar.com/avatar/3a363cc9096ed48e714938b526692a71?s=100&d=identicon"/>
+      
+      <h2 id="name">Shellming</h2>
+      <h3 id="title">Web Developer</h3>
+      <span id="location"><i class="fa fa-map-marker"></i>ChangSha</span>
+      
+          <a id="follow" href="https://github.com/quxiaoming">
+              Follow
+          </a>
+      
+    </div>
+    <div class="article-info profile-block">
+      <div class="article-info-block">
+        17
+        <span>Posts</span>
+      </div>
+      <div class="article-info-block">
+        
+          15
+        
+        <span>
+            Tags
+        </span>
+      </div>
+    </div>
+    <div class="profile-block social-links">
+      <table>
+        <tr>
+          
+<td><a href="//github.com/quxiaoming" target="_blank" title="GitHub"><i class="fa fa-github"></i></a></td>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          <td><a href="https://shellming.com/index.xml" target="_blank" title="RSS"><i class="fa fa-rss"></i></a></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</aside>
+
+    
+
+    <section id="main">
+    
+    <article id="page-undefined" class="article article-type-page" itemscope="" itemprop="blogPost">
+    <div class="article-inner">
+        
+
+        <header class="article-header">
+    <a href="https://shellming.com/2019/05/17/front-end-router/">
+    <h1 class="article-title" itemprop="name">
+        前端路由原理解析和实现
+    </h1>
+    </a>
+    <div class="article-meta">
+
+        
+        <div class="article-date">
+            <i class="fa fa-calendar"></i>
+            <time datetime="2019-05-17 11:14:26 &#43;0000 UTC" itemprop="datePublished">2019-05-17</time>
+            &middot;
+            273
+            words
+            &middot;
+            2
+            minute read
+        </div>
+        
+        
+            
+            
+            <div class="article-category">
+                <i class="fa fa-folder"></i>
+                
+                
+                <a class="article-category-link" href="https://shellming.com/categories/%E5%89%8D%E7%AB%AF">前端</a>
+                
+                
+            </div>
+            
+        
+
+        
+            
+            
+            <div class="article-category">
+                <i class="fa fa-tags"></i>
+                
+                
+                <a class="article-category-link" href="https://shellming.com/tags/js">js</a>
+                
+                
+            </div>
+            
+        
+    </div>
+</header>
+
+        <div class="article-entry" itemprop="articleBody">
+            <p>路由的概念来源于服务端，在服务端中路由描述的是 URL 与处理函数之间的映射关系。
+在 Web 前端单页应用 SPA(Single Page Application)中，路由描述的是 URL 与 UI 之间的映射关系，这种映射是单向的，即 URL 变化引起 UI 更新（无需刷新页面）。</p>
+<p>前端路由的两种模式：</p>
+<ul>
+<li>hash-router</li>
+<li>history-router</li>
+</ul>
+<h3 id="hash-router">hash-router</h3>
+<blockquote>
+<p>hash 属性是一个可读可写的字符串，该字符串是 URL 的锚部分（从 # 号开始的部分）。
+location.hash=anchorname</p>
+</blockquote>
+<p><strong>hashchange</strong></p>
+<blockquote>
+<p>The <code>hashchange</code> event is fired when the fragment identifier of the URL has changed (the part of the URL beginning with and following the # symbol).
+URL 片段标识符（开头的 URL 的一部分和<code>#</code>号后的部分)发生改变，会触发 <code>hashchange</code> 事件。</p>
+</blockquote>
+<p><strong>实现：</strong></p>
+<ol>
+<li>通过浏览器前进后退改变 url、通过<!-- raw HTML omitted -->标签改变 url、通过 window.url，这几种情况改变 url。</li>
+<li>通过 hashchange 事件监听 URL 的变化，触发 hashchange 事件。</li>
+<li>在 hashchange 事件中实现路由切换。</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">body</span>&gt;
+    &lt;<span style="color:#f92672">ul</span>&gt;
+        <span style="color:#75715e">&lt;!--</span><span style="color:#75715e"> 定义路由 </span><span style="color:#75715e">--&gt;</span>
+        &lt;<span style="color:#f92672">li</span>&gt;&lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;#/home&#34;</span>&gt;home&lt;/<span style="color:#f92672">a</span>&gt;&lt;/<span style="color:#f92672">li</span>&gt;
+        &lt;<span style="color:#f92672">li</span>&gt;&lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;#/about&#34;</span>&gt;about&lt;/<span style="color:#f92672">a</span>&gt;&lt;/<span style="color:#f92672">li</span>&gt;
+
+        <span style="color:#75715e">&lt;!--</span><span style="color:#75715e"> 渲染路由对应的 UI </span><span style="color:#75715e">--&gt;</span>
+        &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;routeView&#34;</span>&gt;&lt;/<span style="color:#f92672">div</span>&gt;
+    &lt;/<span style="color:#f92672">ul</span>&gt;
+&lt;/<span style="color:#f92672">body</span>&gt;
+&lt;<span style="color:#f92672">script</span>&gt;
+    <span style="color:#75715e">// 页面加载完不会触发 hashchange，这里主动触发一次 hashchange 事件
+</span><span style="color:#75715e"></span>    window.<span style="color:#a6e22e">addEventListener</span>(<span style="color:#e6db74">&#39;DOMContentLoaded&#39;</span>, <span style="color:#a6e22e">onLoad</span>);
+    <span style="color:#75715e">// 监听路由变化
+</span><span style="color:#75715e"></span>    window.<span style="color:#a6e22e">addEventListener</span>(<span style="color:#e6db74">&#39;hashchange&#39;</span>, <span style="color:#a6e22e">onHashChange</span>);
+
+    <span style="color:#75715e">// 路由视图
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">routerView</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span>;
+
+    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">onLoad</span>() {
+        <span style="color:#a6e22e">routerView</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">querySelector</span>(<span style="color:#e6db74">&#39;#routeView&#39;</span>);
+        <span style="color:#a6e22e">onHashChange</span>();
+    }
+
+    <span style="color:#75715e">// 路由变化时，根据路由渲染对应 UI
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">onHashChange</span>() {
+        <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#39;onHashChange&#39;</span>, <span style="color:#a6e22e">location</span>.<span style="color:#a6e22e">hash</span>);
+        <span style="color:#66d9ef">switch</span> (<span style="color:#a6e22e">location</span>.<span style="color:#a6e22e">hash</span>) {
+            <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#39;#/home&#39;</span><span style="color:#f92672">:</span>
+                <span style="color:#a6e22e">routerView</span>.<span style="color:#a6e22e">innerHTML</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Home&#39;</span>;
+                <span style="color:#66d9ef">return</span>;
+            <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#39;#/about&#39;</span><span style="color:#f92672">:</span>
+                <span style="color:#a6e22e">routerView</span>.<span style="color:#a6e22e">innerHTML</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;About&#39;</span>;
+                <span style="color:#66d9ef">return</span>;
+            <span style="color:#66d9ef">default</span><span style="color:#f92672">:</span>
+                <span style="color:#66d9ef">return</span>;
+        }
+    }
+&lt;/<span style="color:#f92672">script</span>&gt;
+</code></pre></div><h3 id="history-router">history-router</h3>
+<ul>
+<li>history 提供了 <code>pushState</code> 和 <code>replaceState</code> 两个方法，这两个方法改变 URL 的 path 部分不会引起页面刷新</li>
+<li>history 提供类似 <code>hashchange</code> 事件的 <code>popstate</code> 事件，但 <code>popstate</code> 事件有些不同：通过浏览器前进后退改变 URL 时会触发 <code>popstate</code> 事件，通过<code>pushState/replaceState</code>或<code>&lt;a&gt;</code>标签改变 URL 不会触发 <code>popstate</code> 事件。好在我们可以拦截 <code>pushState/replaceState</code>的调用和<!-- raw HTML omitted -->标签的点击事件来检测 URL 变化，所以监听 URL 变化可以实现，只是没有 hashchange 那么方便。</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">body</span>&gt;
+    &lt;<span style="color:#f92672">ul</span>&gt;
+        &lt;<span style="color:#f92672">li</span>&gt;&lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/home&#34;</span>&gt;home&lt;/<span style="color:#f92672">a</span>&gt;&lt;/<span style="color:#f92672">li</span>&gt;
+        &lt;<span style="color:#f92672">li</span>&gt;&lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/about&#34;</span>&gt;about&lt;/<span style="color:#f92672">a</span>&gt;&lt;/<span style="color:#f92672">li</span>&gt;
+
+        &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;routeView&#34;</span>&gt;&lt;/<span style="color:#f92672">div</span>&gt;
+    &lt;/<span style="color:#f92672">ul</span>&gt;
+&lt;/<span style="color:#f92672">body</span>&gt;
+
+&lt;<span style="color:#f92672">script</span>&gt;
+    <span style="color:#75715e">// 页面加载完不会触发 hashchange，这里主动触发一次 hashchange 事件
+</span><span style="color:#75715e"></span>    window.<span style="color:#a6e22e">addEventListener</span>(<span style="color:#e6db74">&#39;DOMContentLoaded&#39;</span>, <span style="color:#a6e22e">onLoad</span>);
+    <span style="color:#75715e">// 监听路由变化
+</span><span style="color:#75715e"></span>    window.<span style="color:#a6e22e">addEventListener</span>(<span style="color:#e6db74">&#39;popstate&#39;</span>, <span style="color:#a6e22e">onPopState</span>);
+
+    <span style="color:#75715e">// 路由视图
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">routerView</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span>;
+
+    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">onLoad</span>() {
+        <span style="color:#a6e22e">routerView</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">querySelector</span>(<span style="color:#e6db74">&#39;#routeView&#39;</span>);
+        <span style="color:#a6e22e">onPopState</span>();
+
+        <span style="color:#75715e">// 拦截 &lt;a&gt; 标签点击事件默认行为， 点击时使用 pushState 修改 URL并更新手动 UI，从而实现点击链接更新 URL 和 UI 的效果。
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">linkList</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">querySelectorAll</span>(<span style="color:#e6db74">&#39;a[href]&#39;</span>);
+        <span style="color:#a6e22e">linkList</span>.<span style="color:#a6e22e">forEach</span>(<span style="color:#a6e22e">el</span> =&gt;
+            <span style="color:#a6e22e">el</span>.<span style="color:#a6e22e">addEventListener</span>(<span style="color:#e6db74">&#39;click&#39;</span>, <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">e</span>) {
+                <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">preventDefault</span>();
+                <span style="color:#a6e22e">history</span>.<span style="color:#a6e22e">pushState</span>(<span style="color:#66d9ef">null</span>, <span style="color:#e6db74">&#39;&#39;</span>, <span style="color:#a6e22e">el</span>.<span style="color:#a6e22e">getAttribute</span>(<span style="color:#e6db74">&#39;href&#39;</span>));
+                <span style="color:#a6e22e">onPopState</span>();
+            })
+        );
+    }
+
+    <span style="color:#75715e">// 路由变化时，根据路由渲染对应 UI
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">onPopState</span>() {
+        <span style="color:#66d9ef">switch</span> (<span style="color:#a6e22e">location</span>.<span style="color:#a6e22e">pathname</span>) {
+            <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#39;/home&#39;</span><span style="color:#f92672">:</span>
+                <span style="color:#a6e22e">routerView</span>.<span style="color:#a6e22e">innerHTML</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Home&#39;</span>;
+                <span style="color:#66d9ef">return</span>;
+            <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#39;/about&#39;</span><span style="color:#f92672">:</span>
+                <span style="color:#a6e22e">routerView</span>.<span style="color:#a6e22e">innerHTML</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;About&#39;</span>;
+                <span style="color:#66d9ef">return</span>;
+            <span style="color:#66d9ef">default</span><span style="color:#f92672">:</span>
+                <span style="color:#66d9ef">return</span>;
+        }
+    }
+&lt;/<span style="color:#f92672">script</span>&gt;
+</code></pre></div><p>参考：
+<a href="https://juejin.im/post/5cd8d609e51d456e7b372155">前端路由原理解析和实现</a></p>
+        </div>
+        <footer class="article-footer">
+    <a data-url="https://shellming.com/2019/05/17/front-end-router/" data-id="7a74f965b5fd7d8ef03f20dc9cae825a" class="article-share-link">
+        <i class="fa fa-share"></i>
+        Share
+    </a>
+    
+
+    <script>
+    (function ($) {
+        
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+    </script>
+</footer>
+
+    </div>
+
+    
+<nav id="article-nav">
+    
+    <a href="https://shellming.com/2019/05/08/browser-link-opens-client-exe/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">
+          Older
+      </strong>
+      <div class="article-nav-title">浏览器网页链接打开本地exe客户端程序</div>
+    </a>
+    
+
+    
+    <a href="https://shellming.com/2019/05/29/click-300ms-delay-on-mobile/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">
+          Newer
+      </strong>
+      <div class="article-nav-title">关于移动端click 300ms延迟</div>
+    </a>
+    
+</nav>
+
+
+</article>
+
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<div id="vcomments"></div>
+<script>
+    new Valine({
+        el: '#vcomments',
+        appId: '10pTmVxVzTqI8OkoPFKCsDvx-9Nh9j0Va',
+        appKey: 'If1jPmGxr84EsmWbcCU1n50F',
+        notify: false,
+        verify: false,
+        placeholder: 'Just go go',
+        avatar: 'mm', 
+        pageSize: 10, 
+    })
+</script>
+
+    </section>
+
+   	
+    	<aside id="sidebar">
+    
+    
+
+
+<div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+        <ul class="category-list">
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/categories/%E5%89%8D%E7%AB%AF">
+                    前端
+                </a>
+                <span class="category-list-count">13</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/categories/%E5%8D%9A%E5%AE%A2">
+                    博客
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE">
+                    大数据
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/categories/%E6%9D%82%E8%AE%B0">
+                    杂记
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/categories/%E7%AC%94%E8%AE%B0">
+                    笔记
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/categories/%E9%9D%A2%E8%AF%95">
+                    面试
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+        </ul>
+    </div>
+</div>
+
+
+
+
+    
+
+
+<div class="widget-wrap">
+    <h3 class="widget-title">
+        Tags
+    </h3>
+    <div class="widget">
+        <ul class="category-list">
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/arithmetic">
+                    arithmetic
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/bigdata">
+                    bigdata
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/css">
+                    css
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/electron">
+                    electron
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/git">
+                    git
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/hexo">
+                    hexo
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/html">
+                    html
+                </a>
+                <span class="category-list-count">2</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/javascript">
+                    javascript
+                </a>
+                <span class="category-list-count">5</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/js">
+                    js
+                </a>
+                <span class="category-list-count">3</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/vue">
+                    vue
+                </a>
+                <span class="category-list-count">5</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/webpack">
+                    webpack
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/web%E5%AE%89%E5%85%A8">
+                    web安全
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/windows">
+                    windows
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/%E5%89%91%E6%8C%87offer">
+                    剑指offer
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/%E7%A7%BB%E5%8A%A8%E7%AB%AF">
+                    移动端
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+        </ul>
+    </div>
+</div>
+
+
+
+
+    
+
+
+<div class="widget-wrap">
+    <h3 class="widget-title">
+        Tag cloud
+    </h3>
+    <div class="widget tagcloud">
+        
+        
+        <a href="https://shellming.com/tags/arithmetic" style="font-size: 12px;">arithmetic</a>
+        
+        
+        <a href="https://shellming.com/tags/bigdata" style="font-size: 12px;">bigdata</a>
+        
+        
+        <a href="https://shellming.com/tags/css" style="font-size: 12px;">css</a>
+        
+        
+        <a href="https://shellming.com/tags/electron" style="font-size: 12px;">electron</a>
+        
+        
+        <a href="https://shellming.com/tags/git" style="font-size: 12px;">git</a>
+        
+        
+        <a href="https://shellming.com/tags/hexo" style="font-size: 12px;">hexo</a>
+        
+        
+        <a href="https://shellming.com/tags/html" style="font-size: 12px;">html</a>
+        
+        
+        <a href="https://shellming.com/tags/javascript" style="font-size: 12px;">javascript</a>
+        
+        
+        <a href="https://shellming.com/tags/js" style="font-size: 12px;">js</a>
+        
+        
+        <a href="https://shellming.com/tags/vue" style="font-size: 12px;">vue</a>
+        
+        
+        <a href="https://shellming.com/tags/webpack" style="font-size: 12px;">webpack</a>
+        
+        
+        <a href="https://shellming.com/tags/web%E5%AE%89%E5%85%A8" style="font-size: 12px;">web安全</a>
+        
+        
+        <a href="https://shellming.com/tags/windows" style="font-size: 12px;">windows</a>
+        
+        
+        <a href="https://shellming.com/tags/%E5%89%91%E6%8C%87offer" style="font-size: 12px;">剑指offer</a>
+        
+        
+        <a href="https://shellming.com/tags/%E7%A7%BB%E5%8A%A8%E7%AB%AF" style="font-size: 12px;">移动端</a>
+        
+    </div>
+</div>
+
+
+
+
+
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+
+    
+	</div>
+</div>
+
+<footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020
+      Powered by <a href="//gohugo.io">Hugo</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://shellming.com/fancybox/jquery.fancybox.pack.js"></script>
+<script src="https://shellming.com/js/script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+
+
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']]}
+  });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+
+
+</body>
+</html>

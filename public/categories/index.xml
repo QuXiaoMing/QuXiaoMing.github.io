@@ -1,22 +1,67 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Categories on Icarus</title>
-    <link>https://example.org/categories/</link>
-    <description>Recent content in Categories on Icarus</description>
+    <title>Categories on Shellming&#39;s Note</title>
+    <link>https://shellming.com/categories/</link>
+    <description>Recent content in Categories on Shellming&#39;s Note</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Fri, 02 Oct 2015 21:49:20 +0200</lastBuildDate>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 17 Sep 2019 17:30:57 +0000</lastBuildDate>
     
-	<atom:link href="https://example.org/categories/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://shellming.com/categories/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>programming</title>
-      <link>https://example.org/categories/programming/</link>
-      <pubDate>Fri, 02 Oct 2015 21:49:20 +0200</pubDate>
+      <title>博客</title>
+      <link>https://shellming.com/categories/%E5%8D%9A%E5%AE%A2/</link>
+      <pubDate>Tue, 17 Sep 2019 17:30:57 +0000</pubDate>
       
-      <guid>https://example.org/categories/programming/</guid>
+      <guid>https://shellming.com/categories/%E5%8D%9A%E5%AE%A2/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>前端</title>
+      <link>https://shellming.com/categories/%E5%89%8D%E7%AB%AF/</link>
+      <pubDate>Mon, 03 Jun 2019 10:57:26 +0000</pubDate>
+      
+      <guid>https://shellming.com/categories/%E5%89%8D%E7%AB%AF/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>面试</title>
+      <link>https://shellming.com/categories/%E9%9D%A2%E8%AF%95/</link>
+      <pubDate>Thu, 30 May 2019 10:00:03 +0000</pubDate>
+      
+      <guid>https://shellming.com/categories/%E9%9D%A2%E8%AF%95/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>笔记</title>
+      <link>https://shellming.com/categories/%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Sun, 05 May 2019 14:22:16 +0000</pubDate>
+      
+      <guid>https://shellming.com/categories/%E7%AC%94%E8%AE%B0/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>杂记</title>
+      <link>https://shellming.com/categories/%E6%9D%82%E8%AE%B0/</link>
+      <pubDate>Wed, 01 May 2019 23:29:04 +0000</pubDate>
+      
+      <guid>https://shellming.com/categories/%E6%9D%82%E8%AE%B0/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>大数据</title>
+      <link>https://shellming.com/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/</link>
+      <pubDate>Mon, 01 Apr 2019 16:49:44 +0000</pubDate>
+      
+      <guid>https://shellming.com/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/</guid>
       <description></description>
     </item>
     

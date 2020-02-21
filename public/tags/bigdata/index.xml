@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>bigData on Shellming&#39;s Note</title>
+    <link>https://shellming.com/tags/bigdata/</link>
+    <description>Recent content in bigData on Shellming&#39;s Note</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 01 Apr 2019 16:49:44 +0000</lastBuildDate>
+    
+	<atom:link href="https://shellming.com/tags/bigdata/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>大数据学习笔记（基本概念）</title>
+      <link>https://shellming.com/2019/04/01/big-data/</link>
+      <pubDate>Mon, 01 Apr 2019 16:49:44 +0000</pubDate>
+      
+      <guid>https://shellming.com/2019/04/01/big-data/</guid>
+      <description>&lt;p&gt;&lt;strong&gt;什么是大数据：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;大数据&lt;/strong&gt; ：大数据是一个概念也是一门技术，是在以 &lt;code&gt;Hadoop&lt;/code&gt; 为代表的 &lt;code&gt;大数据平台框架&lt;/code&gt; 上进行各种数据分析的技术。&lt;/p&gt;
+&lt;p&gt;大数据包括了以&lt;code&gt;Hadoop和Spark为代表&lt;/code&gt;的 &lt;code&gt;基础大数据框架&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;还包括了&lt;strong&gt;实时数据处理&lt;/strong&gt;，离线数据处理；数据分析，数据挖掘和用机器算法进行预测分析等技术。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

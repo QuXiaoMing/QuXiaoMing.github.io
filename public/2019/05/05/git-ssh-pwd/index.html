@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>解决git pull,push每次都需要输入密码问题 &middot; Shellming&#39;s Note</title>
+    <meta name="generator" content="Hugo 0.64.1" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Shellming">
+    
+      <meta name="description" content="技术无止境">
+    
+    
+    <link rel="canonical" href="https://shellming.com/2019/05/05/git-ssh-pwd/"/>
+    <link rel="icon" href="https://shellming.com/favicon.ico">
+    <link rel="apple-touch-icon" href="https://shellming.com/apple-touch-icon.png"/>
+    <link rel="stylesheet" href="https://shellming.com/css/style.css">
+    <link rel="stylesheet" href="https://shellming.com/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://shellming.com/css/monokai.css">
+    <link rel="stylesheet" href="https://shellming.com/fancybox/jquery.fancybox.css">
+    
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css'>
+    <meta property="og:title" content="解决git pull,push每次都需要输入密码问题" />
+<meta property="og:description" content="如果我们 git clone 的下载代码的时候是连接的https://而不是git@git (ssh)的形式，当我们操作 git pull/push 到远程的时候，总是提示我们输入账号和密码才能操作成功，频繁的输入账号和密码会很麻烦。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://shellming.com/2019/05/05/git-ssh-pwd/" />
+<meta property="article:published_time" content="2019-05-05T14:22:16+00:00" />
+<meta property="article:modified_time" content="2019-05-05T14:22:16+00:00" />
+
+    
+    <meta itemprop="name" content="解决git pull,push每次都需要输入密码问题">
+<meta itemprop="description" content="如果我们 git clone 的下载代码的时候是连接的https://而不是git@git (ssh)的形式，当我们操作 git pull/push 到远程的时候，总是提示我们输入账号和密码才能操作成功，频繁的输入账号和密码会很麻烦。">
+<meta itemprop="datePublished" content="2019-05-05T14:22:16&#43;00:00" />
+<meta itemprop="dateModified" content="2019-05-05T14:22:16&#43;00:00" />
+<meta itemprop="wordCount" content="64">
+
+
+
+<meta itemprop="keywords" content="git," />
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="解决git pull,push每次都需要输入密码问题"/>
+<meta name="twitter:description" content="如果我们 git clone 的下载代码的时候是连接的https://而不是git@git (ssh)的形式，当我们操作 git pull/push 到远程的时候，总是提示我们输入账号和密码才能操作成功，频繁的输入账号和密码会很麻烦。"/>
+
+    
+
+    
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+</head>
+<body>
+<div class="container">
+
+
+<div id="container">
+	<header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="https://shellming.com" id="logo">
+          
+          <i class="logo" style="background-image: url('https://shellming.com/css/images/logo.png')"></i>
+          
+          <span class="site-title">Shellming&#39;s Note</span>
+      </a>
+      <nav id="main-nav">
+          
+          
+          <a class="main-nav-link" href="https://shellming.com/">首页</a>
+          
+          
+          
+          <a class="main-nav-link" href="https://shellming.com/arithmetic/">算法</a>
+          
+          
+          
+          <a class="main-nav-link" href="https://shellming.com/archives/">归档</a>
+          
+          
+          
+          <a class="main-nav-link" href="https://shellming.com/patterns/">设计模式</a>
+          
+          
+
+          
+          <a class="main-nav-link" href="/about/">关于</a>
+          
+
+          
+          
+          
+          
+          
+          
+          
+          
+          
+      </nav>
+        <nav id="sub-nav">
+          <div class="profile" id="profile-nav">
+            <a id="profile-anchor" href="javascript:;"><img class="avatar" src="https://shellming.com/css/images/avatar.png"><i class="fa fa-caret-down"></i></a>
+          </div>
+        </nav>
+        <div id="search-form-wrap">
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form">
+              <input type="search" name="q" class="search-form-input" placeholder="Search">
+              <button type="submit" class="search-form-submit">
+              </button>
+              <input type="hidden" name="sitesearch" value="https://shellming.com" />
+         </form>
+        </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tbody>
+          <tr>
+          
+          
+          <td><a class="main-nav-link" href="https://shellming.com/">首页</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="https://shellming.com/arithmetic/">算法</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="https://shellming.com/archives/">归档</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="https://shellming.com/patterns/">设计模式</a></td>
+          
+          
+
+          
+          <td><a class="main-nav-link" href="/about/">关于</a></td>
+          
+
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <td>
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form">
+          <input type="search" name="q" class="search-form-input" placeholder="Search">
+          <input type="hidden" name="sitesearch" value="https://shellming.com" />
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</header>
+
+   	
+   	<div class="outer">
+	
+    	<aside id="profile">
+  <div class="inner profile-inner">
+    <div class="base-info profile-block">
+      
+      <img id="avatar" src="https://www.gravatar.com/avatar/3a363cc9096ed48e714938b526692a71?s=100&d=identicon"/>
+      
+      <h2 id="name">Shellming</h2>
+      <h3 id="title">Web Developer</h3>
+      <span id="location"><i class="fa fa-map-marker"></i>ChangSha</span>
+      
+          <a id="follow" href="https://github.com/quxiaoming">
+              Follow
+          </a>
+      
+    </div>
+    <div class="article-info profile-block">
+      <div class="article-info-block">
+        17
+        <span>Posts</span>
+      </div>
+      <div class="article-info-block">
+        
+          15
+        
+        <span>
+            Tags
+        </span>
+      </div>
+    </div>
+    <div class="profile-block social-links">
+      <table>
+        <tr>
+          
+<td><a href="//github.com/quxiaoming" target="_blank" title="GitHub"><i class="fa fa-github"></i></a></td>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          <td><a href="https://shellming.com/index.xml" target="_blank" title="RSS"><i class="fa fa-rss"></i></a></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</aside>
+
+    
+
+    <section id="main">
+    
+    <article id="page-undefined" class="article article-type-page" itemscope="" itemprop="blogPost">
+    <div class="article-inner">
+        
+
+        <header class="article-header">
+    <a href="https://shellming.com/2019/05/05/git-ssh-pwd/">
+    <h1 class="article-title" itemprop="name">
+        解决git pull,push每次都需要输入密码问题
+    </h1>
+    </a>
+    <div class="article-meta">
+
+        
+        <div class="article-date">
+            <i class="fa fa-calendar"></i>
+            <time datetime="2019-05-05 14:22:16 &#43;0000 UTC" itemprop="datePublished">2019-05-05</time>
+            &middot;
+            64
+            words
+            &middot;
+            1
+            minute read
+        </div>
+        
+        
+            
+            
+            <div class="article-category">
+                <i class="fa fa-folder"></i>
+                
+                
+                <a class="article-category-link" href="https://shellming.com/categories/%E7%AC%94%E8%AE%B0">笔记</a>
+                
+                
+            </div>
+            
+        
+
+        
+            
+            
+            <div class="article-category">
+                <i class="fa fa-tags"></i>
+                
+                
+                <a class="article-category-link" href="https://shellming.com/tags/git">git</a>
+                
+                
+            </div>
+            
+        
+    </div>
+</header>
+
+        <div class="article-entry" itemprop="articleBody">
+            <p>如果我们 git clone 的下载代码的时候是连接的https://而不是git@git (ssh)的形式，当我们操作 git pull/push 到远程的时候，总是提示我们输入账号和密码才能操作成功，频繁的输入账号和密码会很麻烦。</p>
+<h2 id="1-本地保存帐号密码">1. 本地保存帐号密码</h2>
+<p>git bash 进入你的项目目录，输入：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git config --global credential.helper store
+</code></pre></div><p>然后你会在你本地生成一个文本，上边记录你的账号和密码。当然这些你可以不用关心。
+然后你使用上述的命令配置好之后，再操作一次 git pull，然后它会提示你输入账号密码，这一次之后就不需要再次输入密码了。</p>
+<h2 id="2-使用-ssh-连接">2. 使用 SSH 连接</h2>
+<ol>
+<li>Git Bash 进入 ssh 目录</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cd ~/.ssh
+</code></pre></div><ol start="2">
+<li>生成 SSH key (文件名：id_rsa, id_rsa.pub)</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"> ssh-keygen -t rsa -C <span style="color:#e6db74">&#34;xxxxxx@yy.com&#34;</span>  <span style="color:#75715e">#建议填写自己真实有效的邮箱地址</span>
+</code></pre></div><ol start="3">
+<li>文本编辑器打开公钥 <code>id_rsa.pub</code> 复制内容，添加到 Github setting。</li>
+<li>测试</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ssh -T git@github.com
+</code></pre></div><blockquote>
+<p>You&rsquo;ve successfully authenticated, but GitHub does not provide shell access.</p>
+</blockquote>
+<p><strong>说明配置成功</strong></p>
+        </div>
+        <footer class="article-footer">
+    <a data-url="https://shellming.com/2019/05/05/git-ssh-pwd/" data-id="90da06e6c4ea15612fc39e2260f9736e" class="article-share-link">
+        <i class="fa fa-share"></i>
+        Share
+    </a>
+    
+
+    <script>
+    (function ($) {
+        
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+    </script>
+</footer>
+
+    </div>
+
+    
+<nav id="article-nav">
+    
+    <a href="https://shellming.com/2019/05/01/trip-to-yunnan/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">
+          Older
+      </strong>
+      <div class="article-nav-title">云南之行</div>
+    </a>
+    
+
+    
+    <a href="https://shellming.com/2019/05/06/vue-absract-components/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">
+          Newer
+      </strong>
+      <div class="article-nav-title">用 Vue 编写抽象组件</div>
+    </a>
+    
+</nav>
+
+
+</article>
+
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<div id="vcomments"></div>
+<script>
+    new Valine({
+        el: '#vcomments',
+        appId: '10pTmVxVzTqI8OkoPFKCsDvx-9Nh9j0Va',
+        appKey: 'If1jPmGxr84EsmWbcCU1n50F',
+        notify: false,
+        verify: false,
+        placeholder: 'Just go go',
+        avatar: 'mm', 
+        pageSize: 10, 
+    })
+</script>
+
+    </section>
+
+   	
+    	<aside id="sidebar">
+    
+    
+
+
+<div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+        <ul class="category-list">
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/categories/%E5%89%8D%E7%AB%AF">
+                    前端
+                </a>
+                <span class="category-list-count">13</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/categories/%E5%8D%9A%E5%AE%A2">
+                    博客
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE">
+                    大数据
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/categories/%E6%9D%82%E8%AE%B0">
+                    杂记
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/categories/%E7%AC%94%E8%AE%B0">
+                    笔记
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/categories/%E9%9D%A2%E8%AF%95">
+                    面试
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+        </ul>
+    </div>
+</div>
+
+
+
+
+    
+
+
+<div class="widget-wrap">
+    <h3 class="widget-title">
+        Tags
+    </h3>
+    <div class="widget">
+        <ul class="category-list">
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/arithmetic">
+                    arithmetic
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/bigdata">
+                    bigdata
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/css">
+                    css
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/electron">
+                    electron
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/git">
+                    git
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/hexo">
+                    hexo
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/html">
+                    html
+                </a>
+                <span class="category-list-count">2</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/javascript">
+                    javascript
+                </a>
+                <span class="category-list-count">5</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/js">
+                    js
+                </a>
+                <span class="category-list-count">3</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/vue">
+                    vue
+                </a>
+                <span class="category-list-count">5</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/webpack">
+                    webpack
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/web%E5%AE%89%E5%85%A8">
+                    web安全
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/windows">
+                    windows
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/%E5%89%91%E6%8C%87offer">
+                    剑指offer
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/%E7%A7%BB%E5%8A%A8%E7%AB%AF">
+                    移动端
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+        </ul>
+    </div>
+</div>
+
+
+
+
+    
+
+
+<div class="widget-wrap">
+    <h3 class="widget-title">
+        Tag cloud
+    </h3>
+    <div class="widget tagcloud">
+        
+        
+        <a href="https://shellming.com/tags/arithmetic" style="font-size: 12px;">arithmetic</a>
+        
+        
+        <a href="https://shellming.com/tags/bigdata" style="font-size: 12px;">bigdata</a>
+        
+        
+        <a href="https://shellming.com/tags/css" style="font-size: 12px;">css</a>
+        
+        
+        <a href="https://shellming.com/tags/electron" style="font-size: 12px;">electron</a>
+        
+        
+        <a href="https://shellming.com/tags/git" style="font-size: 12px;">git</a>
+        
+        
+        <a href="https://shellming.com/tags/hexo" style="font-size: 12px;">hexo</a>
+        
+        
+        <a href="https://shellming.com/tags/html" style="font-size: 12px;">html</a>
+        
+        
+        <a href="https://shellming.com/tags/javascript" style="font-size: 12px;">javascript</a>
+        
+        
+        <a href="https://shellming.com/tags/js" style="font-size: 12px;">js</a>
+        
+        
+        <a href="https://shellming.com/tags/vue" style="font-size: 12px;">vue</a>
+        
+        
+        <a href="https://shellming.com/tags/webpack" style="font-size: 12px;">webpack</a>
+        
+        
+        <a href="https://shellming.com/tags/web%E5%AE%89%E5%85%A8" style="font-size: 12px;">web安全</a>
+        
+        
+        <a href="https://shellming.com/tags/windows" style="font-size: 12px;">windows</a>
+        
+        
+        <a href="https://shellming.com/tags/%E5%89%91%E6%8C%87offer" style="font-size: 12px;">剑指offer</a>
+        
+        
+        <a href="https://shellming.com/tags/%E7%A7%BB%E5%8A%A8%E7%AB%AF" style="font-size: 12px;">移动端</a>
+        
+    </div>
+</div>
+
+
+
+
+
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+
+    
+	</div>
+</div>
+
+<footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020
+      Powered by <a href="//gohugo.io">Hugo</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://shellming.com/fancybox/jquery.fancybox.pack.js"></script>
+<script src="https://shellming.com/js/script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+
+
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']]}
+  });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+
+
+</body>
+</html>

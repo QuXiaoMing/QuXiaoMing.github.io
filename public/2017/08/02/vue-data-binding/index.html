@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>重复造轮子：从0开始实现Vue数据绑定 &middot; Shellming&#39;s Note</title>
+    <meta name="generator" content="Hugo 0.64.1" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Shellming">
+    
+      <meta name="description" content="技术无止境">
+    
+    
+    <link rel="canonical" href="https://shellming.com/2017/08/02/vue-data-binding/"/>
+    <link rel="icon" href="https://shellming.com/favicon.ico">
+    <link rel="apple-touch-icon" href="https://shellming.com/apple-touch-icon.png"/>
+    <link rel="stylesheet" href="https://shellming.com/css/style.css">
+    <link rel="stylesheet" href="https://shellming.com/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://shellming.com/css/monokai.css">
+    <link rel="stylesheet" href="https://shellming.com/fancybox/jquery.fancybox.css">
+    
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css'>
+    <meta property="og:title" content="重复造轮子：从0开始实现Vue数据绑定" />
+<meta property="og:description" content="随着前端模块化、工程化的进行，Vue, React, Angular 等框架越来越流行，MVC（MVVM）的设计模式也越来深入人心。这类框架将开发者从繁琐的 dom 操作中解放出来，推动了开发者去了解和使用抽象程度更高的领域。包括但不限于数据结构，设计模式，数据流，抽象数据类型，抽象过程等。
+那么这类框架是如何实现数据驱动的呢？ 以 Vue 为例。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://shellming.com/2017/08/02/vue-data-binding/" />
+<meta property="article:published_time" content="2017-08-02T03:08:36+00:00" />
+<meta property="article:modified_time" content="2017-08-02T03:08:36+00:00" />
+
+    
+    <meta itemprop="name" content="重复造轮子：从0开始实现Vue数据绑定">
+<meta itemprop="description" content="随着前端模块化、工程化的进行，Vue, React, Angular 等框架越来越流行，MVC（MVVM）的设计模式也越来深入人心。这类框架将开发者从繁琐的 dom 操作中解放出来，推动了开发者去了解和使用抽象程度更高的领域。包括但不限于数据结构，设计模式，数据流，抽象数据类型，抽象过程等。
+那么这类框架是如何实现数据驱动的呢？ 以 Vue 为例。">
+<meta itemprop="datePublished" content="2017-08-02T03:08:36&#43;00:00" />
+<meta itemprop="dateModified" content="2017-08-02T03:08:36&#43;00:00" />
+<meta itemprop="wordCount" content="841">
+
+
+
+<meta itemprop="keywords" content="javascript,vue," />
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="重复造轮子：从0开始实现Vue数据绑定"/>
+<meta name="twitter:description" content="随着前端模块化、工程化的进行，Vue, React, Angular 等框架越来越流行，MVC（MVVM）的设计模式也越来深入人心。这类框架将开发者从繁琐的 dom 操作中解放出来，推动了开发者去了解和使用抽象程度更高的领域。包括但不限于数据结构，设计模式，数据流，抽象数据类型，抽象过程等。
+那么这类框架是如何实现数据驱动的呢？ 以 Vue 为例。"/>
+
+    
+
+    
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+</head>
+<body>
+<div class="container">
+
+
+<div id="container">
+	<header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="https://shellming.com" id="logo">
+          
+          <i class="logo" style="background-image: url('https://shellming.com/css/images/logo.png')"></i>
+          
+          <span class="site-title">Shellming&#39;s Note</span>
+      </a>
+      <nav id="main-nav">
+          
+          
+          <a class="main-nav-link" href="https://shellming.com/">首页</a>
+          
+          
+          
+          <a class="main-nav-link" href="https://shellming.com/arithmetic/">算法</a>
+          
+          
+          
+          <a class="main-nav-link" href="https://shellming.com/archives/">归档</a>
+          
+          
+          
+          <a class="main-nav-link" href="https://shellming.com/patterns/">设计模式</a>
+          
+          
+
+          
+          <a class="main-nav-link" href="/about/">关于</a>
+          
+
+          
+          
+          
+          
+          
+          
+          
+          
+          
+      </nav>
+        <nav id="sub-nav">
+          <div class="profile" id="profile-nav">
+            <a id="profile-anchor" href="javascript:;"><img class="avatar" src="https://shellming.com/css/images/avatar.png"><i class="fa fa-caret-down"></i></a>
+          </div>
+        </nav>
+        <div id="search-form-wrap">
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form">
+              <input type="search" name="q" class="search-form-input" placeholder="Search">
+              <button type="submit" class="search-form-submit">
+              </button>
+              <input type="hidden" name="sitesearch" value="https://shellming.com" />
+         </form>
+        </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tbody>
+          <tr>
+          
+          
+          <td><a class="main-nav-link" href="https://shellming.com/">首页</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="https://shellming.com/arithmetic/">算法</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="https://shellming.com/archives/">归档</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="https://shellming.com/patterns/">设计模式</a></td>
+          
+          
+
+          
+          <td><a class="main-nav-link" href="/about/">关于</a></td>
+          
+
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <td>
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form">
+          <input type="search" name="q" class="search-form-input" placeholder="Search">
+          <input type="hidden" name="sitesearch" value="https://shellming.com" />
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</header>
+
+   	
+   	<div class="outer">
+	
+    	<aside id="profile">
+  <div class="inner profile-inner">
+    <div class="base-info profile-block">
+      
+      <img id="avatar" src="https://www.gravatar.com/avatar/3a363cc9096ed48e714938b526692a71?s=100&d=identicon"/>
+      
+      <h2 id="name">Shellming</h2>
+      <h3 id="title">Web Developer</h3>
+      <span id="location"><i class="fa fa-map-marker"></i>ChangSha</span>
+      
+          <a id="follow" href="https://github.com/quxiaoming">
+              Follow
+          </a>
+      
+    </div>
+    <div class="article-info profile-block">
+      <div class="article-info-block">
+        17
+        <span>Posts</span>
+      </div>
+      <div class="article-info-block">
+        
+          15
+        
+        <span>
+            Tags
+        </span>
+      </div>
+    </div>
+    <div class="profile-block social-links">
+      <table>
+        <tr>
+          
+<td><a href="//github.com/quxiaoming" target="_blank" title="GitHub"><i class="fa fa-github"></i></a></td>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          <td><a href="https://shellming.com/index.xml" target="_blank" title="RSS"><i class="fa fa-rss"></i></a></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</aside>
+
+    
+
+    <section id="main">
+    
+    <article id="page-undefined" class="article article-type-page" itemscope="" itemprop="blogPost">
+    <div class="article-inner">
+        
+
+        <header class="article-header">
+    <a href="https://shellming.com/2017/08/02/vue-data-binding/">
+    <h1 class="article-title" itemprop="name">
+        重复造轮子：从0开始实现Vue数据绑定
+    </h1>
+    </a>
+    <div class="article-meta">
+
+        
+        <div class="article-date">
+            <i class="fa fa-calendar"></i>
+            <time datetime="2017-08-02 03:08:36 &#43;0000 UTC" itemprop="datePublished">2017-08-02</time>
+            &middot;
+            841
+            words
+            &middot;
+            4
+            minute read
+        </div>
+        
+        
+            
+            
+            <div class="article-category">
+                <i class="fa fa-folder"></i>
+                
+                
+                <a class="article-category-link" href="https://shellming.com/categories/%E5%89%8D%E7%AB%AF">前端</a>
+                
+                
+            </div>
+            
+        
+
+        
+            
+            
+            <div class="article-category">
+                <i class="fa fa-tags"></i>
+                
+                
+                <a class="article-category-link" href="https://shellming.com/tags/javascript">javascript</a>
+                &middot;
+                
+                
+                <a class="article-category-link" href="https://shellming.com/tags/vue">vue</a>
+                
+                
+            </div>
+            
+        
+    </div>
+</header>
+
+        <div class="article-entry" itemprop="articleBody">
+            <p>随着前端模块化、工程化的进行，Vue, React, Angular 等框架越来越流行，MVC（MVVM）的设计模式也越来深入人心。这类框架将开发者从繁琐的 dom 操作中解放出来，推动了开发者去了解和使用抽象程度更高的领域。包括但不限于数据结构，设计模式，数据流，抽象数据类型，抽象过程等。</p>
+<p>那么这类框架是如何实现数据驱动的呢？ 以 Vue 为例。</p>
+<h2 id="1-objectdefineproperty">1 Object.defineProperty()</h2>
+<p>Vue 使用了 ES5 的<code>Object.defineProperty()</code>实现数据双向绑定</p>
+<blockquote>
+<p>Object.defineProperty() 方法会直接在一个对象上定义一个新属性，或者修改一个对象的现有属性， 并返回这个对象。</p>
+</blockquote>
+<p>语法：</p>
+<pre><code class="language-javacsript" data-lang="javacsript">/**
+ *   obj: 要在其上定义属性的对象。
+ *   prop: 要定义或修改的属性的名称。
+ *   descriptor: 将被定义或修改的属性的描述符。
+*/
+
+Object.defineProperty(obj, prop, descriptor)
+</code></pre><p>数据描述符(descriptor)和存取描述符均具有以下可选键值：</p>
+<ul>
+<li>
+<p><code>configurable</code>
+当且仅当该属性的 configurable 为 true 时，该属性描述符才能够被改变，同时该属性也能从对应的对象上被删除。默认为 false。</p>
+</li>
+<li>
+<p><code>enumerable</code>
+当且仅当该属性的 enumerable 为 true 时，该属性才能够出现在对象的枚举属性中。默认为 false。
+数据描述符同时具有以下可选键值：</p>
+</li>
+<li>
+<p><code>value</code>
+该属性对应的值。可以是任何有效的 JavaScript 值（数值，对象，函数等）。默认为 undefined。</p>
+</li>
+<li>
+<p><code>writable</code>
+当且仅当该属性的 writable 为 true 时，该属性才能被赋值运算符改变。默认为 false。
+存取描述符同时具有以下可选键值：</p>
+</li>
+<li>
+<p><code>get</code>
+一个给属性提供 getter 的方法，如果没有 getter 则为 undefined。该方法返回值被用作属性值。默认为 undefined。</p>
+</li>
+<li>
+<p><code>set</code>
+一个给属性提供 setter 的方法，如果没有 setter 则为 undefined。该方法将接受唯一参数，并将该参数的新值分配给该属性。默认为 undefined。</p>
+</li>
+</ul>
+<pre><code class="language-javacript" data-lang="javacript">function Archiver() {
+  var temperature = null;
+  var archive = [];
+
+  Object.defineProperty(this, 'temperature', {
+    get: function() {
+      console.log('get!');
+      return temperature;
+    },
+    set: function(value) {
+      console.log('set:', value);
+      temperature = value;
+      archive.push({ val: temperature });
+    }
+  });
+
+  this.getArchive = function() { return archive; };
+}
+
+var arc = new Archiver();
+arc.temperature; // 'get!'
+arc.temperature = 11; // 'set:11'
+arc.temperature = 13; // 'set:13'
+arc.getArchive(); // [{ val: 11 }, { val: 13 }]
+</code></pre><p>我们通过 <code>Object.defineProperty</code> 可以监听到对数据的访问以及修改，从而执行相应的方法。</p>
+<h2 id="2-数据绑定">2 数据绑定</h2>
+<p>熟悉 MVC（MVVM）框架的同学都知道，数据驱动是这类框架最大的特点。在 vuejs 中，所谓的数据驱动就是当数据发生变化的时候，用户界面发生相应的变化，开发者不需要手动的去修改 dom。</p>
+<p><img src="/img/vue-data-binding/1.png" alt="image"></p>
+<p>vuejs 是通过在实现一个观察者来实现的数据驱动。
+<img src="/img/vue-data-binding/2.png" alt="image">
+首先，vuejs 在实例化的过程中，会对遍历传给实例化对象选项中的 data 选项，遍历其所有属性并使用 Object.defineProperty 把这些属性全部转为 getter/setter。</p>
+<p>同时每一个实例对象都有一个 watcher 实例对象，他会在模板编译的过程中,用 getter 去访问 data 的属性，watcher 此时就会把用到的 data 属性记为依赖，这样就建立了视图与数据之间的联系。当之后我们渲染视图的数据依赖发生改变（即数据的 setter 被调用）的时候，watcher 会对比前后两个的数值是否发生变化，然后确定是否通知视图进行重新渲染。</p>
+<p>这样就实现了所谓的数据对于视图的驱动。</p>
+<p>接下来我们一步步实现一个简版的 Vue.js</p>
+<h3 id="21-数据驱动">2.1 数据驱动</h3>
+<p>首先我们需要一个 Vue 类，接收一个参数，声明式的将数据渲染为 DOM。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#75715e">// vue.js
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">Observer</span>, {<span style="color:#a6e22e">observe</span>} <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;./Observer&#39;</span>; <span style="color:#75715e">// 监听数据变化的方法（后面实现）
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">Watcher</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;./Watcher&#39;</span>; <span style="color:#75715e">// 观察者实例 （后面实现）
+</span><span style="color:#75715e"></span><span style="color:#75715e">// vue 实例，接收一个 option(Object) 参数
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Vue</span> {
+    <span style="color:#a6e22e">constructor</span>(<span style="color:#a6e22e">options</span> <span style="color:#f92672">=</span> {}) {
+        <span style="color:#75715e">// 简化了$options的处理
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">$options</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">options</span>;
+        <span style="color:#75715e">// 简化了对data的处理
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">data</span> <span style="color:#f92672">=</span> (<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">_data</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">$options</span>.<span style="color:#a6e22e">data</span>);
+        <span style="color:#75715e">// 遍历data, 将所有data最外层属性代理到Vue实例上
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// this.key 就能访问到 data 对象中的数据
+</span><span style="color:#75715e"></span>        Object.<span style="color:#a6e22e">keys</span>(<span style="color:#a6e22e">data</span>).<span style="color:#a6e22e">forEach</span>(<span style="color:#a6e22e">key</span> =&gt; <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">_proxy</span>(<span style="color:#a6e22e">key</span>));
+        <span style="color:#75715e">// 监听数据
+</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">observe</span>(<span style="color:#a6e22e">data</span>);
+        <span style="color:#75715e">// 渲染DOM
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">_randerDom</span>();
+    }
+    <span style="color:#a6e22e">_randerDom</span>(<span style="color:#a6e22e">val</span>) {
+        <span style="color:#75715e">// TODO 渲染dom
+</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#39;更新了dom&#39;</span>, <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">_data</span>);
+    }
+    <span style="color:#75715e">// 对外暴露调用订阅者的接口，内部主要在指令中使用订阅者
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">$watch</span>(<span style="color:#a6e22e">expOrFn</span>, <span style="color:#a6e22e">cb</span>) {
+        <span style="color:#75715e">// 当监听的value发生变化时， 促发 cb() 方法
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Watcher</span>(<span style="color:#66d9ef">this</span>, <span style="color:#a6e22e">expOrFn</span>, <span style="color:#a6e22e">cb</span>);
+    }
+    <span style="color:#a6e22e">_proxy</span>(<span style="color:#a6e22e">key</span>) {
+        <span style="color:#75715e">// 把这data属性全部转为 getter/setter。
+</span><span style="color:#75715e"></span>        Object.<span style="color:#a6e22e">defineProperty</span>(<span style="color:#66d9ef">this</span>, <span style="color:#a6e22e">key</span>, {
+            <span style="color:#a6e22e">configurable</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+            <span style="color:#a6e22e">enumerable</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+            <span style="color:#a6e22e">get</span><span style="color:#f92672">:</span> () =&gt; <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">_data</span>[<span style="color:#a6e22e">key</span>],
+            <span style="color:#a6e22e">set</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">val</span> =&gt; {
+                <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">_data</span>[<span style="color:#a6e22e">key</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">val</span>;
+            }
+        });
+    }
+}
+</code></pre></div><h3 id="22-监听数据变化">2.2 监听数据变化</h3>
+<p>我们需要一个 Observer 类，在调用 <code>observe</code> 方法的时候会实例化一个 Observer，将所有的 data 属性添加 set&amp;get 方法</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#75715e">// Observer.js
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Observer</span> {
+    <span style="color:#a6e22e">constructor</span>(<span style="color:#a6e22e">value</span>) {
+        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">value</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">value</span>;
+        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">walk</span>(<span style="color:#a6e22e">value</span>);
+    }
+    <span style="color:#a6e22e">walk</span>(<span style="color:#a6e22e">value</span>) {
+        <span style="color:#75715e">// 遍历传入的data, 将所有data的属性添加set&amp;get
+</span><span style="color:#75715e"></span>        Object.<span style="color:#a6e22e">keys</span>(<span style="color:#a6e22e">value</span>).<span style="color:#a6e22e">forEach</span>(<span style="color:#a6e22e">key</span> =&gt; <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">convert</span>(<span style="color:#a6e22e">key</span>, <span style="color:#a6e22e">value</span>[<span style="color:#a6e22e">key</span>]));
+    }
+    <span style="color:#a6e22e">convert</span>(<span style="color:#a6e22e">key</span>, <span style="color:#a6e22e">val</span>) {
+        <span style="color:#75715e">// 添加set&amp;get方法
+</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">defineReactive</span>(<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">value</span>, <span style="color:#a6e22e">key</span>, <span style="color:#a6e22e">val</span>);
+    }
+}
+<span style="color:#66d9ef">export</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">observe</span>(<span style="color:#a6e22e">value</span>) {
+    <span style="color:#75715e">// 当值不存在，或者不是复杂数据类型时，不再需要继续深入监听
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#a6e22e">value</span> <span style="color:#f92672">||</span> <span style="color:#66d9ef">typeof</span> <span style="color:#a6e22e">value</span> <span style="color:#f92672">!==</span> <span style="color:#e6db74">&#39;object&#39;</span>) {
+        <span style="color:#66d9ef">return</span>;
+    }
+    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Observer</span>(<span style="color:#a6e22e">value</span>);
+}
+</code></pre></div><p>给 data 属性添加 set&amp;get 方法的实现</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#75715e">// Observer.js
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">Dep</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;Dep&#39;</span>;
+<span style="color:#75715e">// Dep用于订阅者的存储和收集，将在后面实现
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">export</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">defineReactive</span>(<span style="color:#a6e22e">obj</span>, <span style="color:#a6e22e">key</span>, <span style="color:#a6e22e">val</span>) {
+    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">dep</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Dep</span>();
+    <span style="color:#75715e">// 给传入的data内部对象递归的调用observe，来实现深度监听
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// Vue.js 里需要显示的声明 deep 属性为true
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">chlidOb</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">observe</span>(<span style="color:#a6e22e">val</span>);
+
+    Object.<span style="color:#a6e22e">defineProperty</span>(<span style="color:#a6e22e">obj</span>, <span style="color:#a6e22e">key</span>, {
+        <span style="color:#a6e22e">enumerable</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>, <span style="color:#75715e">// 可枚举
+</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">configurable</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>, <span style="color:#75715e">// 可修改
+</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">get</span><span style="color:#f92672">:</span> () =&gt; {
+            <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#39;get value&#39;</span>);
+            <span style="color:#75715e">// Watcher实例在实例化过程中，会为Dep添加一个target属性，在读取data中的某个属性，会触发当前get方法。
+</span><span style="color:#75715e"></span>            <span style="color:#75715e">// 如果Dep类存在target属性，将订阅者添加到dep实例的subs数组中
+</span><span style="color:#75715e"></span>            <span style="color:#75715e">// 此处的问题是：并不是每次Dep.target有值时都需要添加到订阅者管理员中去管理，需要对订阅者去重，不影响整体思路，不去管它
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">Dep</span>.<span style="color:#a6e22e">target</span>) {
+                <span style="color:#a6e22e">dep</span>.<span style="color:#a6e22e">addSub</span>(<span style="color:#a6e22e">Dep</span>.<span style="color:#a6e22e">target</span>);
+            }
+            <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">val</span>;
+        },
+        <span style="color:#a6e22e">set</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">newVal</span> =&gt; {
+            <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#39;new value seted&#39;</span>);
+            <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">val</span> <span style="color:#f92672">===</span> <span style="color:#a6e22e">newVal</span>) <span style="color:#66d9ef">return</span>;
+            <span style="color:#a6e22e">val</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">newVal</span>;
+            <span style="color:#75715e">// 对新值进行监听
+</span><span style="color:#75715e"></span>            <span style="color:#a6e22e">chlidOb</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">observe</span>(<span style="color:#a6e22e">newVal</span>);
+            <span style="color:#75715e">// 通知所有订阅者，数值被改变了
+</span><span style="color:#75715e"></span>            <span style="color:#a6e22e">dep</span>.<span style="color:#a6e22e">notify</span>();
+        }
+    });
+}
+</code></pre></div><h3 id="23-管理订阅者">2.3 管理订阅者</h3>
+<p>对订阅者进行收集、存储和通知</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#75715e">// Dep.js
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Dep</span> {
+    <span style="color:#a6e22e">constructor</span>() {
+        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">subs</span> <span style="color:#f92672">=</span> []; <span style="color:#75715e">// 订阅者队列
+</span><span style="color:#75715e"></span>    }
+    <span style="color:#a6e22e">addSub</span>(<span style="color:#a6e22e">sub</span>) {
+        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">subs</span>.<span style="color:#a6e22e">push</span>(<span style="color:#a6e22e">sub</span>); <span style="color:#75715e">// 添加订阅者
+</span><span style="color:#75715e"></span>    }
+    <span style="color:#a6e22e">notify</span>() {
+        <span style="color:#75715e">// 通知所有的订阅者(Watcher)，触发订阅者的相应逻辑处理
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">subs</span>.<span style="color:#a6e22e">forEach</span>(<span style="color:#a6e22e">sub</span> =&gt; <span style="color:#a6e22e">sub</span>.<span style="color:#a6e22e">update</span>());
+    }
+}
+</code></pre></div><h3 id="24-订阅者">2.4 订阅者</h3>
+<p>此时已经完成了对数据的监听，我们需要订阅者来接收更新事件，执行数据更之后的逻辑。</p>
+<ul>
+<li>每个订阅者都是对某条数据的订阅</li>
+<li>订阅者维护着每一次更新之前的数据，将其和更新之后的数据进行对比，如果发生了变化，则执行相应的业务逻辑，并更新订阅者中维护的数据的值</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#75715e">// Watcher.js
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">Dep</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;./Dep&#39;</span>;
+<span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Watcher</span> {
+    <span style="color:#a6e22e">constructor</span>(<span style="color:#a6e22e">vm</span>, <span style="color:#a6e22e">expOrFn</span>, <span style="color:#a6e22e">cb</span>) {
+        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">vm</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">vm</span>; <span style="color:#75715e">// 被订阅的数据一定来自于当前Vue实例
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">cb</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">cb</span>; <span style="color:#75715e">// 当数据更新时需要执行的回调函数
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">expOrFn</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">expOrFn</span>; <span style="color:#75715e">// 被监听的数据（表达式或函数）
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">val</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">get</span>(); <span style="color:#75715e">// 维护更新之前的数据
+</span><span style="color:#75715e"></span>    }
+    <span style="color:#75715e">// 对外暴露的接口，用于在订阅的数据被更新时，由订阅者管理员(Dep)调用
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">update</span>() {
+        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">vm</span>.<span style="color:#a6e22e">_randerDom</span>(); <span style="color:#75715e">// 检测的数据变动后，更新dom （后面实现）
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">run</span>();
+    }
+    <span style="color:#a6e22e">run</span>() {
+        <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">val</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">get</span>();
+        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">val</span> <span style="color:#f92672">!==</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">val</span>) {
+            <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">val</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">val</span>;
+            <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">cb</span>.<span style="color:#a6e22e">call</span>(<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">vm</span>);
+        }
+    }
+    <span style="color:#a6e22e">get</span>() {
+        <span style="color:#75715e">// 当前订阅者(Watcher)读取被订阅数据的最新更新后的值时，通知订阅者管理员收集当前订阅者
+</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">Dep</span>.<span style="color:#a6e22e">target</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>;
+        <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">val</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">vm</span>.<span style="color:#a6e22e">_data</span>[<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">expOrFn</span>];
+        <span style="color:#75715e">// 置空，用于下一个Watcher使用
+</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">Dep</span>.<span style="color:#a6e22e">target</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span>;
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">val</span>;
+    }
+}
+</code></pre></div><h3 id="25-have-a-try">2.5 Have a Try</h3>
+<p>首先实例化 Vue 并赋值给变量 <code>dome</code>，获取 data 数据时，会触发 get 方法，打印出<code>get value</code>,修改 data 时，会触发 set 方法，打印出<code>new value seted</code>，当 set 的值与旧的值不同时，通知订阅者执行相应的事件。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">Vue</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;./Vue&#39;</span>;
+<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">demo</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Vue</span>({
+    <span style="color:#a6e22e">data</span><span style="color:#f92672">:</span> {
+        <span style="color:#a6e22e">a</span><span style="color:#f92672">:</span> {
+            <span style="color:#a6e22e">ab</span><span style="color:#f92672">:</span> {
+                <span style="color:#a6e22e">c</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;C&#39;</span>
+            }
+        },
+        <span style="color:#a6e22e">b</span><span style="color:#f92672">:</span> {
+            <span style="color:#a6e22e">bb</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;BB&#39;</span>
+        },
+        <span style="color:#a6e22e">c</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;C&#39;</span>
+    }
+});
+<span style="color:#75715e">// 监听c的变化
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">demo</span>.<span style="color:#a6e22e">$watch</span>(<span style="color:#e6db74">&#39;c&#39;</span>, () =&gt; <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#39;c is changed&#39;</span>));
+<span style="color:#75715e">// get value
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">demo</span>.<span style="color:#a6e22e">c</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;CCC&#39;</span>;
+<span style="color:#75715e">// 更新dom
+</span><span style="color:#75715e"></span><span style="color:#75715e">// new value seted
+</span><span style="color:#75715e"></span><span style="color:#75715e">// get value
+</span><span style="color:#75715e"></span><span style="color:#75715e">// c is changed
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">demo</span>.<span style="color:#a6e22e">c</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;DDD&#39;</span>;
+<span style="color:#75715e">// 更新dom
+</span><span style="color:#75715e"></span><span style="color:#75715e">// new value seted
+</span><span style="color:#75715e"></span><span style="color:#75715e">// get value
+</span><span style="color:#75715e"></span><span style="color:#75715e">// c is changed
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">demo</span>.<span style="color:#a6e22e">a</span>;
+<span style="color:#75715e">// get value
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">demo</span>.<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">ab</span> <span style="color:#f92672">=</span> {
+    <span style="color:#a6e22e">d</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;D&#39;</span>
+};
+<span style="color:#75715e">// 更新dom
+</span><span style="color:#75715e"></span><span style="color:#75715e">// get value
+</span><span style="color:#75715e"></span><span style="color:#75715e">// get value
+</span><span style="color:#75715e"></span><span style="color:#75715e">// new value seted
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">demo</span>.<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">ab</span>);
+<span style="color:#75715e">// get value
+</span><span style="color:#75715e"></span><span style="color:#75715e">// get value
+</span><span style="color:#75715e"></span><span style="color:#75715e">// {get d: (), set d: ()}
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">demo</span>.<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">ab</span>.<span style="color:#a6e22e">d</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;DD&#39;</span>;
+<span style="color:#75715e">// 更新dom
+</span><span style="color:#75715e"></span><span style="color:#75715e">// get value
+</span><span style="color:#75715e"></span><span style="color:#75715e">// get value
+</span><span style="color:#75715e"></span><span style="color:#75715e">// new value seted
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">demo</span>.<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">ab</span>);
+<span style="color:#75715e">// get value
+</span><span style="color:#75715e"></span><span style="color:#75715e">// get value
+</span><span style="color:#75715e"></span><span style="color:#75715e">// {get d: (), set d: ()}
+</span></code></pre></div><h2 id="3-模版渲染">3 模版渲染</h2>
+<p>Vuejs 模版的解析实现较复杂，暂不在这里赘述， 暂时使用 ES6 的模版字符串代替，便于理解。</p>
+<h3 id="31-渲染-dom">3.1 渲染 dom</h3>
+<p>将模版解析后挂载到 dom 元素（el）上</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#75715e">// vue.js
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Vue</span> {
+    <span style="color:#a6e22e">constructor</span>(<span style="color:#a6e22e">options</span> <span style="color:#f92672">=</span> {}) {
+        <span style="color:#75715e">// 重复已省略...
+</span><span style="color:#75715e"></span>
+        <span style="color:#75715e">// 获取dom节点
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">$el</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">querySelector</span>(<span style="color:#a6e22e">options</span>.<span style="color:#a6e22e">el</span>);
+    }
+    <span style="color:#a6e22e">_randerDom</span>() {
+        <span style="color:#75715e">// 解析字符串模版
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">$el</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">$options</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">$options</span>.<span style="color:#a6e22e">template</span>) {
+            <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">$el</span>.<span style="color:#a6e22e">innerHTML</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">$options</span>.<span style="color:#a6e22e">template</span>(<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">_data</span>);
+        }
+    }
+    <span style="color:#75715e">// 重复已省略...
+</span><span style="color:#75715e"></span>}
+</code></pre></div><h3 id="32-运行">3.2 运行</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#75715e">// index.js
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">Vue</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;./Vue&#39;</span>;
+<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">demo</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Vue</span>({
+    <span style="color:#a6e22e">el</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;#app&#39;</span>,
+    <span style="color:#75715e">// 这里简化了模版的处理
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">template</span>(<span style="color:#a6e22e">data</span>) {
+        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">`</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">        &lt;h1&gt;</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">title</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&lt;/h1&gt;
+</span><span style="color:#e6db74">        &lt;h2&gt;作者：&lt;strong&gt;</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">author</span>.<span style="color:#a6e22e">name</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&lt;/strong&gt;&lt;/h2&gt;
+</span><span style="color:#e6db74">        &lt;p&gt;</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">info</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&lt;/p&gt;
+</span><span style="color:#e6db74">        &lt;p&gt;</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">date</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&lt;/p&gt;</span><span style="color:#e6db74">`</span>;
+    },
+    <span style="color:#a6e22e">data</span><span style="color:#f92672">:</span> {
+        <span style="color:#a6e22e">title</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;Hello Vue&#39;</span>,
+        <span style="color:#a6e22e">info</span><span style="color:#f92672">:</span> <span style="color:#e6db74">`</span><span style="color:#e6db74"> 重复造轮子：从0开始实现Vue数据绑定</span><span style="color:#e6db74">`</span>,
+        <span style="color:#a6e22e">author</span><span style="color:#f92672">:</span> {
+            <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;Shellming&#39;</span>
+        },
+        <span style="color:#a6e22e">date</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">new</span> Date()
+    }
+});
+<span style="color:#a6e22e">setInterval</span>(() =&gt; {
+    <span style="color:#a6e22e">demo</span>.<span style="color:#a6e22e">date</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Date();
+}, <span style="color:#ae81ff">1000</span>);
+</code></pre></div><p>结果：
+<img src="/img/vue-data-binding/3.png" alt="image"></p>
+        </div>
+        <footer class="article-footer">
+    <a data-url="https://shellming.com/2017/08/02/vue-data-binding/" data-id="06c590c13adcadd7ae14ce4490ad89c9" class="article-share-link">
+        <i class="fa fa-share"></i>
+        Share
+    </a>
+    
+
+    <script>
+    (function ($) {
+        
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+    </script>
+</footer>
+
+    </div>
+
+    
+<nav id="article-nav">
+    
+    <a href="https://shellming.com/2017/07/23/new-component-communication-methods-in-vue2_40/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">
+          Older
+      </strong>
+      <div class="article-nav-title">Vue2.4组件间通信新姿势</div>
+    </a>
+    
+
+    
+    <a href="https://shellming.com/2018/07/22/json-format-validate/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">
+          Newer
+      </strong>
+      <div class="article-nav-title">JSON格式化校验的方法</div>
+    </a>
+    
+</nav>
+
+
+</article>
+
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<div id="vcomments"></div>
+<script>
+    new Valine({
+        el: '#vcomments',
+        appId: '10pTmVxVzTqI8OkoPFKCsDvx-9Nh9j0Va',
+        appKey: 'If1jPmGxr84EsmWbcCU1n50F',
+        notify: false,
+        verify: false,
+        placeholder: 'Just go go',
+        avatar: 'mm', 
+        pageSize: 10, 
+    })
+</script>
+
+    </section>
+
+   	
+    	<aside id="sidebar">
+    
+    
+
+
+<div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+        <ul class="category-list">
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/categories/%E5%89%8D%E7%AB%AF">
+                    前端
+                </a>
+                <span class="category-list-count">13</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/categories/%E5%8D%9A%E5%AE%A2">
+                    博客
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE">
+                    大数据
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/categories/%E6%9D%82%E8%AE%B0">
+                    杂记
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/categories/%E7%AC%94%E8%AE%B0">
+                    笔记
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/categories/%E9%9D%A2%E8%AF%95">
+                    面试
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+        </ul>
+    </div>
+</div>
+
+
+
+
+    
+
+
+<div class="widget-wrap">
+    <h3 class="widget-title">
+        Tags
+    </h3>
+    <div class="widget">
+        <ul class="category-list">
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/arithmetic">
+                    arithmetic
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/bigdata">
+                    bigdata
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/css">
+                    css
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/electron">
+                    electron
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/git">
+                    git
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/hexo">
+                    hexo
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/html">
+                    html
+                </a>
+                <span class="category-list-count">2</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/javascript">
+                    javascript
+                </a>
+                <span class="category-list-count">5</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/js">
+                    js
+                </a>
+                <span class="category-list-count">3</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/vue">
+                    vue
+                </a>
+                <span class="category-list-count">5</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/webpack">
+                    webpack
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/web%E5%AE%89%E5%85%A8">
+                    web安全
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/windows">
+                    windows
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/%E5%89%91%E6%8C%87offer">
+                    剑指offer
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="https://shellming.com/tags/%E7%A7%BB%E5%8A%A8%E7%AB%AF">
+                    移动端
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+        </ul>
+    </div>
+</div>
+
+
+
+
+    
+
+
+<div class="widget-wrap">
+    <h3 class="widget-title">
+        Tag cloud
+    </h3>
+    <div class="widget tagcloud">
+        
+        
+        <a href="https://shellming.com/tags/arithmetic" style="font-size: 12px;">arithmetic</a>
+        
+        
+        <a href="https://shellming.com/tags/bigdata" style="font-size: 12px;">bigdata</a>
+        
+        
+        <a href="https://shellming.com/tags/css" style="font-size: 12px;">css</a>
+        
+        
+        <a href="https://shellming.com/tags/electron" style="font-size: 12px;">electron</a>
+        
+        
+        <a href="https://shellming.com/tags/git" style="font-size: 12px;">git</a>
+        
+        
+        <a href="https://shellming.com/tags/hexo" style="font-size: 12px;">hexo</a>
+        
+        
+        <a href="https://shellming.com/tags/html" style="font-size: 12px;">html</a>
+        
+        
+        <a href="https://shellming.com/tags/javascript" style="font-size: 12px;">javascript</a>
+        
+        
+        <a href="https://shellming.com/tags/js" style="font-size: 12px;">js</a>
+        
+        
+        <a href="https://shellming.com/tags/vue" style="font-size: 12px;">vue</a>
+        
+        
+        <a href="https://shellming.com/tags/webpack" style="font-size: 12px;">webpack</a>
+        
+        
+        <a href="https://shellming.com/tags/web%E5%AE%89%E5%85%A8" style="font-size: 12px;">web安全</a>
+        
+        
+        <a href="https://shellming.com/tags/windows" style="font-size: 12px;">windows</a>
+        
+        
+        <a href="https://shellming.com/tags/%E5%89%91%E6%8C%87offer" style="font-size: 12px;">剑指offer</a>
+        
+        
+        <a href="https://shellming.com/tags/%E7%A7%BB%E5%8A%A8%E7%AB%AF" style="font-size: 12px;">移动端</a>
+        
+    </div>
+</div>
+
+
+
+
+
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+
+    
+	</div>
+</div>
+
+<footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020
+      Powered by <a href="//gohugo.io">Hugo</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://shellming.com/fancybox/jquery.fancybox.pack.js"></script>
+<script src="https://shellming.com/js/script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+
+
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']]}
+  });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+
+
+</body>
+</html>
