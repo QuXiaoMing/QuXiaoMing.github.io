@@ -31,7 +31,7 @@ themesDir = "./themes"
     logo = "css/images/logo.png"
     disable_mathjax = false # set to true to disable MathJax
     # define which types of pages should be shown. By default the type with the most regular pages
-    mainSections = ["post"]
+    mainSections = ["post", "arithmetic"]
     disable_profile = false
     disable_widgets = false
 
