@@ -1,12 +1,10 @@
 ---
 title: "[剑指offer] 空格替换"
-date: 2020-02-21 17:30:57
+date: 2020-02-22 20:58:44
 url: "arithmetic/ti-huan-kong-ge-lcof"
 ---
 
 **描述** 请实现一个函数，把字符串 s 中的每个空格替换成"%20"。
-
- 
 
 示例 1：
 ```bash
@@ -25,65 +23,22 @@ url: "arithmetic/ti-huan-kong-ge-lcof"
 <!--more-->
 
 
-## 解法1: 暴力解
+## 解法
 
 ```js
-var findNumberIn2DArray = function(matrix, target) {
-    for (let i = 0; i< matrix.length; i++) {
-        let row = matrix[i]
-        for (let j = 0; j < row.length; j++) {
-            if (row[j] === target) {
-                return true
-            }
-        }
-    }
-    return false
-};
-```
-
-执行用时 :
-88 ms
-, 在所有 JavaScript 提交中击败了
-18.78%
-的用户
-内存消耗 :
-37.4 MB
-, 在所有 JavaScript 提交中击败了
-100.00%
-的用户
-
-不推荐
-
-## 解法2：减而治之
-
-![剑指off](/images/er-wei-shu-zu-zhong-de-cha-zhao-lcof1.jpg)
-
-```js
-var findNumberIn2DArray = function(matrix, target) {
-    let i = matrix.length - 1;
-    let j = 0;
-    while (i >= 0 && j < matrix[0].length) {
-        let num = matrix[i][j]
-        if (target < num ) {
-            i--
-        } else if (target > num) {
-            j++
-        } else {
-            return true
-        }
-    }
-    return false
+var replaceSpace = function(s) {
+    return s.replace(/ /g, '%20')
 };
 ```
 
 执行用时 :
 60 ms
 , 在所有 JavaScript 提交中击败了
-96.13%
+76.30%
 的用户
 
 内存消耗 :
-36.4 MB
+33.9 MB
 , 在所有 JavaScript 提交中击败了
 100.00%
 的用户
