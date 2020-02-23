@@ -1,0 +1,143 @@
+{{ define "main" }}
+<style>
+    .link-page {
+        background: #fff;
+        margin: 40px 0;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        padding: 20px;
+    }
+    .link-page h2 {
+        font-size: 16px;
+        font-weight: 600;
+    }
+    .link-page .card {
+        display: flex;
+        box-sizing: border-box;
+        padding: 10px;
+        margin: 10px 0;
+    }
+
+    .link-page .links-container a {
+        color: inherit;
+    }
+
+    .links-container .card {
+        width: 49%;
+        display: inline-flex;
+    }
+
+    .link-page .card:hover {
+        background-color: rgba(230, 244, 250, .5);
+    }
+
+    .link-page .card .img {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: block;
+        flex: 0 0 60px;
+    }
+
+    .link-page .card .info {
+        flex: 1 1 auto;
+        overflow: hidden;
+        white-space: nowrap;
+        padding-left: 15px;
+    }
+
+    .link-page .card .name {
+        display: inline-block;
+        font-size: 1.5rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .link-page .card .desc {
+        font-size: 12px;
+        color: #999;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+</style>
+<div class="link-page article article-type-page">
+    <h2>本站信息</h2>
+    <div class="card">
+        <img class="img" src="/logo.png">
+        <div class="info">
+            <div class="name">Shellming's Note</div>
+            <div class="desc">Web Developer</div>
+        </div>
+    </div>
+    <h2 class="mt30">友情链接</h2>
+    <div class="links-container">
+
+    </div>
+
+    <div>
+        <h2 class="mt30">
+            申请友链格式如下：
+        </h2>
+        <pre>
+
+网站名称：Shellming's Note
+网站地址：<a href="https://shellming.com">https://shellming.com</a>
+头像地址：<a href="https://shellming.com/logo.png">https://shellming.com/logo.png</a>
+网站简介：Web Developer
+        </pre>
+申请友链请在本页下方留言，然后先添加本站，博主看到会第一时间添加，感谢。  
+    </div>
+
+
+</div>
+<div>
+    {{ partial "widgets/valine" . }}
+</div>
+<script>
+    $(function () {
+        let list = [
+            {
+                name: 'kiwenlau',
+                link: 'https://kiwenlau.com/',
+                avatar: 'https://avatars0.githubusercontent.com/u/10240841?s=460&v=4',
+                desc: "<a target='__blank' href='https://www.fundebug.com/'>Fundbug</a> 创始人"
+            },
+            {
+                name: '与梦城',
+                link: 'https://www.gqink.cn/',
+                avatar: 'https://cdn.gqink.cn/blog/favicon.ico',
+                desc: '与其羡慕别人，不如做好自己'
+            },
+            {
+                name: '爱极客',
+                link: 'https://www.aigeek.top',
+                avatar: 'https://cdn.v2ex.com/gravatar/8c361155a144223392e496edbf685cde?s=140',
+                desc: '极客需要的是原创和新奇，盲目的跟从和愚昧是不可原谅的!'
+            },
+            {
+                name: '水寒的博客',
+                link: 'https://dp2px.com',
+                avatar: 'https://dp2px.com/images/download_head.png',
+                desc: '物联网应用开发、Android应用开发、Web前端开发技术'
+            },
+            {
+                name: 'Sanarous',
+                link: 'https://bestzuo.cn',
+                avatar: 'https://site-1258928558.cos.ap-guangzhou.myqcloud.com/touxiang.jpg',
+                desc: '码农人生'
+            },
+        ]
+        let html = list.map(e => `
+        <a href="${e.link}" target="__blank" >
+            <div class="card" title="${e.desc || e.title}">
+                <img class="img" src='${e.avatar}'>
+                <div class="info">
+                    <div class="name">${e.name}</div>
+                    <div class="desc">${e.desc}</div>
+                </div>
+            </div>
+        </a>
+        `)
+        $('.links-container').html(html)
+    })
+</script>
+{{ end }}

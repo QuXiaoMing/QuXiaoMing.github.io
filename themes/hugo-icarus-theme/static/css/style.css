@@ -2151,3 +2151,12 @@ ol.toc {
 .highlight .code .selector-id {
   font-weight: bold;
 }
+.mb10 {
+  margin-bottom: 10px;
+}
+.mt10 {
+  margin-top: 10px;
+}
+.mt30 {
+  margin-top: 30px;
+}

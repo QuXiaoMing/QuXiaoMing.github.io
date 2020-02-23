@@ -13,18 +13,4 @@
 
     {{ partial "prev_next_post" . }}
 </article>
-
-<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
-<div id="vcomments"></div>
-<script>
-    new Valine({
-        el: '#vcomments',
-        appId: '10pTmVxVzTqI8OkoPFKCsDvx-9Nh9j0Va',
-        appKey: 'If1jPmGxr84EsmWbcCU1n50F',
-        notify: false,
-        verify: false,
-        placeholder: '来都来了，说点什么~',
-        avatar: 'mm', // gravatar style
-        pageSize: 10, // # pagination size
-    })
-</script>
+{{ partial "widgets/valine" . }}

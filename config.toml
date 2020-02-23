@@ -69,6 +69,12 @@ buildFuture = true
     label  = "设计模式"
     link   = "patterns/"
 
+[[params.menu]]
+    before = true
+    label  = "友链"
+    link   = "links/"
+
+
 # Enter a link for the follow button on the left
 [params.profile]
     follow_button = "https://github.com/quxiaoming"
