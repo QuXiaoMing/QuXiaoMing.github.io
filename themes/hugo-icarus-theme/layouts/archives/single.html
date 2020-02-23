@@ -3,7 +3,7 @@
 <article class="article article-type-post" itemscope="" itemprop="blogPost">
     <div class="article-inner">
         <div class="post-archive">
-            {{ range (where (where .Site.Pages "Type" "post") "Kind" "page").GroupByDate "2006" }}
+            {{ range (where (where .Site.Pages "Type" "in" site.Params.mainSections) "Kind" "page").GroupByDate "2006" }}
             <h2> {{ .Key }} </h2>
             <ul class="listing">
                 {{ range .Pages }}

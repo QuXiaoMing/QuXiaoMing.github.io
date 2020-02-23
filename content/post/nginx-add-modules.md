@@ -7,9 +7,10 @@ tags:
 categories:
     - 运维
 ---
-**报错** `./configure: error: invalid option "–with-http_ssl_module"`
 
 在 centOS 服务器为 `nginx` 添加 `SSL` 的时候，需要添加 ssl 模块。
+
+**报错** `./configure: error: invalid option "–with-http_ssl_module"`
 
 由于之前使用 `yum install nginx` 安装的 nginx, yum安装的是二进制文件，意思是已经编译好的nginx，它只有配置文件和二进制文件，没有源代码，所以你想加第三方模块，只能下载源码进行编译安装。
 

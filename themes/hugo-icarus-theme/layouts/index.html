@@ -9,7 +9,7 @@
             shellming's note
         </div>
         <div class="archives">
-            {{ $paginator := .Paginate (where (where .Site.Pages "Type" "in" site.Params.mainSections) "Kind" "page")  }}
+            {{ $paginator := .Paginate (where (where .Site.Pages "Type" "post") "Kind" "page")  }}
             {{ range $paginator.Pages}}
                 {{ .Render "summary" }} 
             {{ end }}
