@@ -1,6 +1,6 @@
 ---
 title: "[剑指offer] 青蛙跳台阶问题"
-date: 2020-02-28 17:32:05
+date: 2020-02-28 17:51:55
 url: "arithmetic/qing-wa-tiao-tai-jie-wen-ti-lcof"
 ---
 
@@ -27,7 +27,7 @@ url: "arithmetic/qing-wa-tiao-tai-jie-wen-ti-lcof"
 
 ## 解法: 动态规划
 
-思路同 [[剑指offer] 斐波那契数列](fei-bo-na-qi-shu-lie-lcof)
+思路同 [[剑指offer] 斐波那契数列](/arithmetic/fei-bo-na-qi-shu-lie-lcof/)
 
 ```js
 var numWays = function (n) {
