@@ -1,6 +1,6 @@
 ---
 title: "[剑指offer] 旋转数组的最小数字"
-date: 2020年03月02日12:00:22
+date: 2020-03-02 12:20:55
 url: "arithmetic/xuan-zhuan-shu-zu-de-zui-xiao-shu-zi-lcof/"
 ---
 

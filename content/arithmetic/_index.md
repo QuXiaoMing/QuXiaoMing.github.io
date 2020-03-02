@@ -16,7 +16,7 @@ tags:
  | 09 | [用两个栈实现队列](cong-wei-dao-tou-da-yin-lian-biao-lcof) | 简单 | 
  | 10- I | [斐波那契数列](fei-bo-na-qi-shu-lie-lcof) | 简单 | 
  | 10- II | [青蛙跳台阶问题](qing-wa-tiao-tai-jie-wen-ti-lcof) | 简单 | 
- | 11 | 旋转数组的最小数字 | 简单 | 
+ | 11 | [旋转数组的最小数字](xuan-zhuan-shu-zu-de-zui-xiao-shu-zi-lcof) | 简单 | 
  | 12 | 矩阵中的路径 | 中等 | 
  | 13 | 机器人的运动范围 | 中等 | 
  | 14- I | 剪绳子 | 中等 | 
